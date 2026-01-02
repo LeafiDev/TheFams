@@ -6,7 +6,7 @@ SMODS.Booster {
     text = { "Select {C:attention}1{} of {C:attention}3{}",
 	"{X:green,C:white}Geometric{} {X:green,C:white}Shapes{}" } 
 	},
-    atlas = "poly", -- or your custom atlas key
+    atlas = "boosters", -- or your custom atlas key
     pos = { x = 0, y = 0 },
 	draw_hand = true,
     cost = 4,
@@ -27,8 +27,8 @@ SMODS.Booster {
     text = { "Select {C:attention}2{} of {C:attention}6{}",
 	"{X:green,C:white}Geometric{} {X:green,C:white}Shapes{}" } 
 	},
-    atlas = "jpoly", -- or your custom atlas key
-    pos = { x = 0, y = 0 },
+    atlas = "boosters", -- or your custom atlas key
+    pos = { x = 1, y = 0 },
 	draw_hand = true,
     cost = 4,
     weight = 0.15,
@@ -48,8 +48,8 @@ SMODS.Booster {
     text = { "Select {C:attention}1{} of {C:attention}3{}",
 	"{C:attention}Useless cards.{}" } 
 	},
-    atlas = "stupid", -- or your custom atlas key
-    pos = { x = 0, y = 0 },
+    atlas = "boosters", -- or your custom atlas key
+    pos = { x = 3, y = 0 },
 	draw_hand = true,
     cost = 0,
     weight = 0.5,
@@ -78,8 +78,8 @@ SMODS.Booster {
     text = { "Select {C:attention}1{} of {C:attention}3{}",
 	"{C:attention}Mini Jokers.{}" } 
 	},
-    atlas = "minip", -- or your custom atlas key
-    pos = { x = 0, y = 0 },
+    atlas = "boosters", -- or your custom atlas key
+    pos = { x = 2, y = 0 },
 	draw_hand = true,
     cost = 2,
     weight = 1,
