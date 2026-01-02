@@ -1,3 +1,8 @@
+endcheck = false
+ritz_round_chips = 0
+jimadded = false
+
+
 SMODS.Joker {
 	key = 'earl',
 	loc_txt = {
@@ -41,6 +46,55 @@ calculate = function(self, card, context)
 				dollars = 1
 			end
 			return { xmult = 0.5 * dollars, message = "Munch", sound = "fams_dogeat" }
+		end
+	   	end
+	   return 0
+end
+}
+
+SMODS.Joker {
+	key = 'yogi',
+	loc_txt = {
+		name = 'Yogi',
+		text = {
+			"Gives {X:chips,C:white}X0.5{} chips for every {C:money}1${}. ",
+			"Every hand eats {C:attention}half{} or {C:attention}up to 10${}",
+			"{C:inactive}Currently{} {X:chips,C:white}X#1#{} {C:inactive}Mult{}",
+			"{C:inactive}Eats{} {C:money}#2#${} {C:inactive}this hand{}"
+		}
+	},
+	config = { extra = { xchips = 0.5 } },
+	rarity = 4,
+	atlas = 'yogi',
+	pos = { x = 0, y = 0 },
+	cost = 8,
+loc_vars = function(self, info_queue, card)
+	local dollars = G.GAME.dollars or 1
+	local to_eat = math.min(math.floor(dollars / 2), 10)
+	return { vars = { 0.5 * dollars, to_eat } }
+end,
+set_card_type_badge = function(self, card, badges)
+
+	badges[#badges+1] = create_badge("DAWG", {0.7, 0.4, 0.1, 1}, G.C.WHITE, 1.2)
+end,
+calculate = function(self, card, context)
+
+	   if context.joker_main then
+		if hasJoker("j_fams_pedigree") then
+			   local dollars = G.GAME.dollars
+			if not dollars or dollars < 1 then
+				dollars = 1
+			end
+			   return {	message = "blocked", colour = G.C.GREEN, xmult = 0.5 * dollars}
+		else
+			local current = G.GAME.dollars or 0
+			local to_eat = math.min(math.floor(current / 2), 10)
+			G.GAME.dollars = current - to_eat
+			local dollars = G.GAME.dollars
+			if not dollars or dollars < 1 then
+				dollars = 1
+			end
+			return { xchips = 0.5 * dollars, message = "Munch", sound = "fams_dogeat" }
 		end
 	   	end
 	   return 0
