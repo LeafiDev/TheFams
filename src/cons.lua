@@ -148,7 +148,8 @@ SMODS.Consumable {
         text = {"Takes 5$ to 15$ on {C:attention}Blind Selected{}",
 	"{C:inactive}Applies only to Small and Big blinds.{}"}
     },
-    atlas = "g-tax", 
+    atlas = "miniJokers", 
+    pos = { x = 0, y = 3 },
     cost = 0,
     pools = {
         ["gimmicks"] = true
@@ -192,7 +193,8 @@ SMODS.Consumable {
         name = "Joker",
         text = {"{C:red}+2{} mult"}
     },
-    atlas = "M-Joker", 
+    atlas = "miniJokers", 
+    pos = { x = 0, y = 0 },
     cost = 4,
     pools = {
         ["mini-joker"] = true
@@ -221,7 +223,8 @@ SMODS.Consumable {
             "{C:inactive}2, 3, 5, 7, Ace{}"
         }
     },
-    atlas = "m-pt", 
+    atlas = "miniJokers", 
+    pos = { x = 1, y = 0 },
     cost = 5,
     pools = {
         ["mini-joker"] = true
@@ -258,7 +261,8 @@ SMODS.Consumable {
         return {  }
     end,
 	config = {},
-    atlas = "tarotmini", 
+    atlas = "miniJokers", 
+    pos = { x = 2, y = 0 },
     cost = 5,
     pools = {
         ["mini-joker"] = true
@@ -303,7 +307,8 @@ SMODS.Consumable {
         return {  }
     end,
 	config = {},
-    atlas = "m-planet", 
+    atlas = "miniJokers", 
+    pos = { x = 3, y = 0 },
     cost = 5,
     pools = {
         ["mini-joker"] = true
@@ -349,7 +354,8 @@ SMODS.Consumable {
         return {  }
     end,
 	config = {},
-    atlas = "m-burg", 
+    atlas = "miniJokers", 
+    pos = { x = 4, y = 0 },
     cost = 5,
     pools = {
         ["mini-joker"] = true
@@ -386,7 +392,8 @@ SMODS.Consumable {
 	loc_vars = function(self, info_queue, card)
 		return { vars = {(get_total_joker_sell_value() / 2)} }
 	end,
-    atlas = "m-scallywag", 
+    atlas = "miniJokers", 
+    pos = { x = 0, y = 1 },
     cost = 5,
     pools = {
         ["mini-joker"] = true
@@ -419,7 +426,8 @@ SMODS.Consumable({
 		name = "Dice",
 		text = { "Rolls the dice", "{C:red}#1#X to 6X{} Mult based on roll." },
 	},
-	atlas = "dice",
+    atlas = "dice", 
+    pos = { x = 0, y = 0 },
 	cost = 4,
 	pools = {
 		["mini-joker"] = true,
@@ -464,7 +472,8 @@ SMODS.Consumable {
 		"{C:money}Rental Rate{} by {C:attention}1{}",
 		"{C:inactive}Rental Rate can be negative.{}"}
     },
-    atlas = "m-coup", 
+    atlas = "miniJokers", 
+    pos = { x = 1, y = 1 },
     cost = 8,
     pools = {
         ["mini-joker"] = true
@@ -501,7 +510,8 @@ SMODS.Consumable {
 		"Subtracts {C:money}3${} from end of round cashout.",
 	"{C:inactive}Currently +#1# joker slots{}"}
     },
-    atlas = "m-si", 
+    atlas = "miniJokers", 
+    pos = { x = 2, y = 1 },
     cost = 5,
     pools = {
         ["mini-joker"] = true
@@ -537,7 +547,8 @@ SMODS.Consumable {
         text = {"Gain {C:money}10${} if round is won on",
 	"{C:attention}First Hand{}"}
     },
-    atlas = "m-m", 
+    atlas = "miniJokers", 
+    pos = { x = 3, y = 1 },
     cost = 10,
     pools = {
         ["mini-joker"] = true
@@ -576,7 +587,8 @@ SMODS.Consumable {
         name = "WANTED!",
         text = {"All {C:green}numbered chances{} will always be {C:attention}100%{}"}
     },
-    atlas = "m-c", 
+    atlas = "miniJokers", 
+    pos = { x = 4, y = 1 },
     cost = 5,
     pools = {
         ["mini-joker"] = true
@@ -613,7 +625,8 @@ SMODS.Consumable {
 	"create {C:attention}1{} {C:chips}Common{} {C:attention}joker{}.",
 	"{C:inactive}(Must Have Room){}"}
     },
-    atlas = "m-b", 
+    atlas = "miniJokers", 
+    pos = { x = 0, y = 2 },
     cost = 4,
     pools = {
         ["mini-joker"] = true
@@ -662,7 +675,8 @@ SMODS.Consumable {
         text = {"when {C:attention}Blind{} is selected",
 	"{C:green}#1# in 4{} chance to create a {C:blue}Spectral{} card"}
     },
-    atlas = "m-g", 
+    atlas = "miniJokers", 
+    pos = { x = 1, y = 2 },
     cost = 4,
     pools = {
         ["mini-joker"] = true
@@ -721,7 +735,8 @@ SMODS.Consumable {
         text = {"Planet card rate is increased by 20",
 	"{C:inactive}Currently #1#{}"}
     },
-    atlas = "m-stargrab", 
+    atlas = "miniJokers", 
+    pos = { x = 2, y = 2 },
     cost = 6,
     pools = {
         ["mini-joker"] = true
@@ -757,7 +772,8 @@ SMODS.Consumable {
         text = {"{C:attention}+1 joker slot{}",
 	"{C:inactive}Currently #1#{}"}
     },
-    atlas = "m-scratch", 
+    atlas = "miniJokers", 
+    pos = { x = 3, y = 2 },
     cost = 6,
     pools = {
         ["mini-joker"] = true
@@ -795,7 +811,8 @@ SMODS.Consumable {
         name = "A single Robuck",
         text = {"It's a single robuck"}
     },
-    atlas = "m-robux", 
+    atlas = "miniJokers", 
+    pos = { x = 4, y = 2 },
     cost = 0.000865,
     pools = {
         ["mini-joker"] = true
@@ -979,12 +996,13 @@ end
 
 SMODS.Consumable {
     key = "dotcard",
-    set = "geometry", -- or another set if you prefer
+    set = "geometry",
     loc_txt = {
         name = "Dot",
         text = {"Adds a {C:green}Dot{} to {C:attention}1{} card."}
     },
-    atlas = "dotcard", -- Make sure you have a sprite named 'triangle'
+    atlas = "geometrics",
+    pos = { x = 0, y = 0 },
     cost = 1,
     pools = {
         ["geometry"] = true
@@ -1000,12 +1018,13 @@ end
 
 SMODS.Consumable {
     key = "line",
-    set = "geometry", -- or another set if you prefer
+    set = "geometry",
     loc_txt = {
         name = "Bilateral",
         text = {"Adds a {C:green}Bilateral{} to {C:attention}1{} card."}
     },
-    atlas = "bicard", -- Make sure you have a sprite named 'triangle'
+    atlas = "geometrics",
+    pos = { x = 1, y = 0 },
     cost = 2,
     pools = {
         ["geometry"] = true
@@ -1021,12 +1040,13 @@ end
 
 SMODS.Consumable {
     key = "triangle",
-    set = "geometry", -- or another set if you prefer
+    set = "geometry",
     loc_txt = {
         name = "Trilateral",
         text = {"Adds a {C:green}Triateral{} to {C:attention}1{} card."}
     },
-    atlas = "tricard", -- Make sure you have a sprite named 'triangle'
+    atlas = "geometrics",
+    pos = { x = 2, y = 0 },
     cost = 3,
     pools = {
         ["geometry"] = true
@@ -1042,12 +1062,13 @@ end
 
 SMODS.Consumable {
     key = "square",
-    set = "geometry", -- or another set if you prefer
+    set = "geometry",
     loc_txt = {
         name = "Quadrilateral",
         text = {"Adds a {C:green}Quadrilateral{} to {C:attention}1{} card."}
     },
-    atlas = "quadcard", -- Make sure you have a sprite named 'triangle'
+    atlas = "geometrics",
+    pos = { x = 3, y = 0 },
     cost = 4,
     pools = {
         ["geometry"] = true
@@ -1064,12 +1085,13 @@ end
 
 SMODS.Consumable {
     key = "pentcard",
-    set = "geometry", -- or another set if you prefer
+    set = "geometry",
     loc_txt = {
         name = "Pentagon",
         text = {"Adds a {C:green}Pentagon{} to {C:attention}1{} card."}
     },
-    atlas = "pent", -- Make sure you have a sprite named 'triangle'
+    atlas = "geometrics",
+    pos = { x = 4, y = 0 },
     cost = 5,
     pools = {
         ["geometry"] = true
@@ -1085,12 +1107,13 @@ end
 
 SMODS.Consumable {
     key = "hexcard",
-    set = "geometry", -- or another set if you prefer
+    set = "geometry",
     loc_txt = {
         name = "Hexagon",
         text = {"Adds a {C:green}Hexagon{} to {C:attention}1{} card."}
     },
-    atlas = "hexcard", -- Make sure you have a sprite named 'triangle'
+    atlas = "geometrics",
+    pos = { x = 5, y = 0 },
     cost = 6,
     pools = {
         ["geometry"] = true
