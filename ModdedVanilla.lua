@@ -1,5 +1,12 @@
 
 
+
+
+
+
+
+
+
 munching1 = {0, 0, 0.2, 1 }
 munching2 = {0.15, 0, 0.4, 1 }
 munching3 = {0.4, 0, 0.6, 1 }
@@ -109,7 +116,7 @@ SMODS.Atlas {
 title_variant = title_variant or 1
 title_screen_randomized = false
 
-function trigger_global_chip_decrease()
+trigger_global_chip_decrease = function()
 	if G and G.E_MANAGER and G.GAME then
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
@@ -121,7 +128,7 @@ function trigger_global_chip_decrease()
 		}))
 	end
 end
-function get_total_joker_sell_value(exclude_card)
+get_total_joker_sell_value = function(exclude_card)
     local total_sell = 0
     if G and G.jokers and G.jokers.cards then
         for _, j in ipairs(G.jokers.cards) do
@@ -133,17 +140,17 @@ function get_total_joker_sell_value(exclude_card)
     end
     return total_sell
 end
-function can_add_jokers(num)
+can_add_jokers = function(num)
     local owned = (G and G.jokers and G.jokers.cards) and #G.jokers.cards or 0
     local max = (G and G.GAME and G.GAME.starting_params and G.GAME.starting_params.joker_slots) or 0
     return (owned + num) <= max, owned, max
 end
 
-local function currentprobability()
+currentprobability = function()
 	return G.GAME.probabilities.normal
 end
 
-function hasplayedthisround(hand_type)
+hasplayedthisround = function(hand_type)
     local hands = G.GAME.current_round and G.GAME.current_round.hands
     if not hands then return false end
     local hand = hands[hand_type]
@@ -153,7 +160,7 @@ function hasplayedthisround(hand_type)
     return false
 end
 
-function atlas(key, path, px, py, disx, disy)
+atlas = function(key, path, px, py, disx, disy)
 SMODS.Atlas {
     key = key,
     path = path,
@@ -165,17 +172,17 @@ end
 
 
 
-function sine(intensity, speed, offset)
+sine = function(intensity, speed, offset)
    local t = (love and love.timer and love.timer.getTime and love.timer.getTime()) or os.clock() + (offset or 0)
     return math.sin(t * (speed or 1)) * (intensity or 1)
 end
 
-function cosine(intensity, speed, offset)
+cosine = function(intensity, speed, offset)
     local t = (love and love.timer and love.timer.getTime and love.timer.getTime()) or os.clock() + (offset or 0)
     return math.cos(t * (speed or 1)) * (intensity or 1)
 end
 
-function addCardsRandom(count, edition)
+addCardsRandom = function(count, edition)
     local suits = {"H", "S", "D", "C"}
         local num_to_add = count
         for i = 1, num_to_add do
@@ -200,7 +207,7 @@ function addCardsRandom(count, edition)
 		end
 	end
 
-function amountselected()
+amountselected = function()
     local selected = {}
     for i, card in ipairs(G.hand.cards) do
          if card.highlighted then
@@ -210,7 +217,7 @@ function amountselected()
     return #selected
 end
 
-function getJokerEdition(joker)
+getJokerEdition = function(joker)
     if joker and joker.edition then
         return joker.edition
     elseif joker and joker.ability and joker.ability.edition then
@@ -219,7 +226,7 @@ function getJokerEdition(joker)
     return nil
 end
 
-function getHighlighted(num)
+getHighlighted = function(num)
     local selected = {}
     for i, card in ipairs(G.hand.cards) do
          if card.highlighted then
@@ -229,7 +236,7 @@ function getHighlighted(num)
     return selected[num]
 end
 
-function juice_up_all_cards()
+juice_up_all_cards = function()
      if G.hand and G.hand.cards then
         for _, card in ipairs(G.hand.cards) do
             if card.juice_up then card:juice_up() end
@@ -253,7 +260,7 @@ function juice_up_all_cards()
 	SMODS.juice_up_blind()
 end
 
-function getLowestCardInHand()
+getLowestCardInHand = function()
     if not G.hand or not G.hand.cards or #G.hand.cards == 0 then return nil end
     local lowest = G.hand.cards[1]
     for _, card in ipairs(G.hand.cards) do
@@ -319,101 +326,101 @@ SMODS.current_mod.extra_tabs = function()
 end
 
 
-local function GetMoney()
+GetMoney = function()
 	return G.GAME.dollars or 0
 end
 
-local function handsLeft()
+handsLeft = function()
 	return G.GAME.current_round.hands_left
 end
 
-local function SetMoney(num)
+SetMoney = function(num)
 	G.GAME.dollars = num
 end
 
-function isPlayingBlind()
+isPlayingBlind = function()
 	return G and G.GAME and G.GAME.facing_blind
 end
 
-local function isChallenge(key)
+isChallenge = function(key)
 	return G.GAME.challenge == "c_" .. "fams_" .. key
 end
 
-local function isAnte(num)
+isAnte = function(num)
 	return G.GAME.round_resets.ante == num
 end
 
-local function getAnte()
+getAnte = function()
 	return G.GAME.round_resets.ante
 end
 
-local function setAnte(index)
+setAnte = function(index)
 	G.GAME.round_resets.ante = index
 end
 
-local function isBoss()
+isBoss = function()
 	return G and G.GAME and G.GAME.blind and G.GAME.blind.boss == true
 end
 
-local function getcurrentBlind()
+getcurrentBlind = function()
 	if (G.GAME.blind) then
 		return G.GAME.blind.name
 	end
 end
 
-local function SetWinningAnte(num)
+SetWinningAnte = function(num)
 	G.GAME.win_ante = num
 end
 
-local function GetWinningAnte()
+GetWinningAnte = function()
 	return G.GAME.win_ante or nil
 end
 
-local function GetStake()
+GetStake = function()
 	return G.GAME.stake or 0
 end
 
-local function isEternal(card)
+isEternal = function(card)
 	return card.ability.eternal
 end
 
-local function setEternal(card, bool)
+setEternal = function(card, bool)
 	card.ability.eternal = bool
 end
 
-local function getRoundNumber()
+getRoundNumber = function()
     return G.GAME.round or nil
 end
 
-local function getBlindRequirement()
+getBlindRequirement = function()
 	return G.GAME.blind.chipsr
 end
 
-local function isMainMenu()
+isMainMenu = function()
 	return G.STATE == 11
 end
 
-local function hasWon()
+hasWon = function()
 	return G.STATE == 7
 end
 
-local function hasLost()
+hasLost = function()
 	return G.STATE == 4
 end
 
-local function hasSeal(card, key)
+hasSeal = function(card, key)
 	return card and card.seal and card.seal == key
 end
 
-local function setseal(card, key)
+setseal = function(card, key)
 	card:set_seal("fams_"..key, nil, true)
 end
 
-local function createtag(key)
+createtag = function(key)
 add_tag(Tag(key, false, 'Small'))
 end
 
-function setseal_all_selected(seal_key)
+setseal_all_selected = function(seal_key)
     for _, card in ipairs(G.hand.cards) do
         if card.highlighted then
             card:set_seal("fams_" .. seal_key, nil, true)
@@ -421,7 +428,7 @@ function setseal_all_selected(seal_key)
     end
 end
 
-function mostPlayedHand()
+mostPlayedHand = function()
 	if not G.GAME or not G.GAME.hands then return "High Card" end
 	
 	local most_played_count = 0
@@ -437,7 +444,7 @@ function mostPlayedHand()
 	return most_played_name
 end
 
-function currentDeck()
+currentDeck = function()
     if G and G.GAME and G.GAME.selected_back 
         and G.GAME.selected_back.effect 
         and G.GAME.selected_back.effect.center 
@@ -447,18 +454,18 @@ function currentDeck()
     return nil
 end
 
-local function ForceLoss()
+ForceLoss = function()
 	if G.STATE ~= G.STATES.GAME_OVER then
 	G.STATE = G.STATES.GAME_OVER
 	G.STATE_COMPLETE = false
 	end
 end
 
-local function destroycard(card)
+destroycard = function(card)
 	card:remove(true)
 end
 
-function hasJoker(key)
+hasJoker = function(key)
 	if G and G.jokers and G.jokers.cards then
 		for _, joker in ipairs(G.jokers.cards) do
 			if joker.label == key then
@@ -469,7 +476,7 @@ function hasJoker(key)
 	return false
 end
 
-function getJokers()
+getJokers = function()
 	local jokerList = {}
 	if G and G.jokers and G.jokers.cards then
 		for _, joker in ipairs(G.jokers.cards) do
@@ -480,7 +487,7 @@ function getJokers()
 
 end
 
-local function removeCards(amount)
+removeCards = function(amount)
 				local removed = 0
 			   local sources = {G.deck, G.hand, G.discard}
 			   for _, area in ipairs(sources) do
@@ -500,7 +507,7 @@ local function removeCards(amount)
 					   if removed >= amount then break end
 			   end
 end
- function setMenuBG(colour1, colour2, colour3, contrast, spin_amount)
+ setMenuBG = function(colour1, colour2, colour3, contrast, spin_amount)
 	if G and G.SPLASH_BACK and G.SPLASH_BACK.draw_steps then
 		for _, step in ipairs(G.SPLASH_BACK.draw_steps) do
 			if step.shader == 'splash' and step.send then
@@ -532,7 +539,7 @@ end
 	end
 end
 
-function setrunBG(col1, col2, vort_speed)
+setrunBG = function(col1, col2, vort_speed)
 	if (G.SPLASH_BACK) then
     G.SANDBOX = G.SANDBOX or {}
     G.SANDBOX.vort_time = love.timer.getTime()
@@ -555,7 +562,7 @@ end
 end
 
 
-function resetrunBG()
+resetrunBG = function()
 	if (G.SPLASH_BACK) then
     G.SANDBOX = G.SANDBOX or {}
     G.SANDBOX.vort_time = love.timer.getTime()
@@ -576,7 +583,7 @@ function resetrunBG()
 end
 end
 
-local function extinctcards(rank)
+extinctcards = function(rank)
   	local sources = {G.deck, G.discard, G.hand}
 	for _, area in ipairs(sources) do
 		if area and area.cards then
@@ -606,11 +613,10 @@ random3 = math.random(0,1)
 random4 = math.random(0,1)
 random5 = math.random(0,1)
 random6 = math.random(0,1)
-thesteakisactive = false
 tick = false
 tick_once = false
  local DEFAULT_BPMMAX = 4
- local function getBPMMax()
+ getBPMMax = function()
 	if G and G.GAME then
  		if G.GAME.bpmmax == nil then
 			G.GAME.bpmmax = DEFAULT_BPMMAX
@@ -625,7 +631,7 @@ prev_BPM_tick_time = BPM_tick_start_time
 
 do
 	local prev_beat = 0
-	function getBPMTick()
+	getBPMTick = function()
 		local now = (love and love.timer and love.timer.getTime and love.timer.getTime() or os.clock())
 		local t = now - BPM_tick_start_time
 		local beats_per_second = BPM / 60
@@ -644,20 +650,16 @@ timeradd = false
 BPM = 117
 drums = 0
 triggeronce = false
-cooked1 = 0
-cooked2 = 0
-steakside = 0
-cooklimit = 15
 
-local function setBPM(num)
+setBPM = function(num)
 	BPM = num
 end
 
-local function triggeronce()
+triggeronce = function()
 	triggeronce = false
 end
 
-function check_wyr_joker_on_run()
+check_wyr_joker_on_run = function()
 	if G and G.GAME and G.jokers and G.jokers.cards then
 		for _, joker in ipairs(G.jokers.cards) do
 			if joker.key == 'wouldyourather' then
@@ -678,13 +680,13 @@ local superease = 1
 wyrnames = {}
 wyreffects = {}
 
-function addWYR(name, effect_func)
+addWYR = function(name, effect_func)
 	table.insert(wyrnames, name)
 	table.insert(wyreffects, effect_func)
 end
 
 G.customtext = G.customtext or {}
-function showFloatingText(text, colour, scale, offset, id)
+showFloatingText = function(text, colour, scale, offset, id)
 	G.customtext = G.customtext or {}
 	id = id or "newnode"
 	if G.customtext[id] and not G.customtext[id].removed then
@@ -707,7 +709,7 @@ function showFloatingText(text, colour, scale, offset, id)
 end
 
 local timer_text_node = nil
-function showUItimer(newtime)
+showUItimer = function(newtime)
 	if G and G.GAME and (G.GAME.challenge == "c_fams_bomb" or GetStake() == 9) and type(G.GAME.bomb_timer) == "number" and G.GAME.bomb_timer > 0 then
 		timer = G.GAME.bomb_timer
 	else
@@ -754,7 +756,7 @@ function showUItimer(newtime)
 	timeropened = true
 end
 
-function update_timer_text()
+update_timer_text = function()
 	if timer_text_node then
 		timer_text_node.config.text = tostring(math.floor(timer)) .. " Seconds"
 	end
@@ -774,7 +776,7 @@ function update_timer_text()
 	end
 end
 
-function update_blind_select_UI()
+update_blind_select_UI = function()
     if G.blind_select and G.blind_select.children then
         for _, blind_card in ipairs(G.blind_select.children) do
             if blind_card and blind_card.config and blind_card.config.blind then
@@ -793,7 +795,7 @@ end
 
 
 musicpower = 1
-function musicPower(new)
+musicPower = function(new)
 	musicpower = new
 end
 
@@ -1328,13 +1330,6 @@ SMODS.Rank {
 }
 
 SMODS.Atlas {
-	key = "steak",
-	path = "steak.png",
-	px = 29,
-	py = 29
-}
-
-SMODS.Atlas {
 	key = "timestake",
 	path = "timestake.png",
 	px = 29,
@@ -1484,12 +1479,12 @@ SMODS.Keybind{
     end,
 }
 
-function addtime(amount)
+addtime = function(amount)
 	timer = timer + (amount or 0)
 	update_timer_text()
 end
 
-function addJokersByRarity(rarity, amount)
+addJokersByRarity = function(rarity, amount)
 	local count = 0
 	for _, joker in ipairs(SMODS.Jokers) do
 		if joker.rarity == rarity then
@@ -1500,13 +1495,13 @@ function addJokersByRarity(rarity, amount)
 	end
 end
 
-function updateBlindChips()
+updateBlindChips = function()
 	if G and G.GAME.blind and G.GAME.blind.chip_text then
 		G.GAME.blind.chip_text = G.GAME.blind.chips
 	end
 end
 
-function removeUItimer()
+removeUItimer = function()
 if G.TIMER_OVERLAY and not G.TIMER_OVERLAY.removed then
 	G.TIMER_OVERLAY:remove()
 end
@@ -1893,54 +1888,6 @@ SMODS.Consumable{
     discovered = true,
 }
 
-SMODS.Joker {
-	key = 'earl',
-	loc_txt = {
-		name = 'Earl Joe',
-		text = {
-			"Gives {X:mult,C:white}X0.5{} Mult for every {C:money}1${}. ",
-			"Every hand eats {C:attention}half{} or {C:attention}up to 10${}",
-			"{C:inactive}Currently{} {X:mult,C:white}X#1#{} {C:inactive}Mult{}",
-			"{C:inactive}Eats{} {C:money}#2#${} {C:inactive}this hand{}"
-		}
-	},
-	config = { extra = { xmult = 0.5 } },
-	rarity = 4,
-	atlas = 'Earl',
-	pos = { x = 0, y = 0 },
-	cost = 8,
-loc_vars = function(self, info_queue, card)
-	local dollars = G.GAME.dollars or 1
-	local to_eat = math.min(math.floor(dollars / 2), 10)
-	return { vars = { 0.5 * dollars, to_eat } }
-end,
-set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("DAWG", {0.7, 0.4, 0.1, 1}, G.C.WHITE, 1.2)
-end,
-calculate = function(self, card, context)
-
-	   if context.joker_main then
-		if hasJoker("j_fams_pedigree") then
-			local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			   return {	message = "blocked", colour = G.C.GREEN, xmult = 0.5 * dollars}
-		else
-			local current = G.GAME.dollars or 0
-			local to_eat = math.min(math.floor(current / 2), 10)
-			G.GAME.dollars = current - to_eat
-			local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			return { xmult = 0.5 * dollars, message = "Munch", sound = "fams_dogeat" }
-		end
-	   	end
-	   return 0
-end
-}
 
 local original_card_click = Card.click
 function Card:click()
@@ -1953,17 +1900,6 @@ function Card:click()
      self.area and self.area == G.jokers then
 
     play_sound('fams_dogbarkevil', 1, 1)
-  end
-  if self.config and self.config.center and self.config.center.key == "j_fams_steak" and
-     self.area and self.area == G.jokers then
-        self:flip()
-    if steakside == 0 then
-        self.flipped = true
-        steakside = 1
-    else
-        self.flipped = false
-        steakside = 0
-    end
   end
    if self.config and self.config.center and self.config.center.key == "j_fams_spawn" and
      self.area and self.area == G.jokers then
@@ -1999,555 +1935,20 @@ end
 
 atlas("yogi", "yogi.png", 71, 95)
 
-SMODS.Joker {
-	key = 'yogi',
-	loc_txt = {
-		name = 'Yogi',
-		text = {
-			"Gives {X:chips,C:white}X0.5{} chips for every {C:money}1${}. ",
-			"Every hand eats {C:attention}half{} or {C:attention}up to 10${}",
-			"{C:inactive}Currently{} {X:chips,C:white}X#1#{} {C:inactive}Mult{}",
-			"{C:inactive}Eats{} {C:money}#2#${} {C:inactive}this hand{}"
-		}
-	},
-	config = { extra = { xchips = 0.5 } },
-	rarity = 4,
-	atlas = 'yogi',
-	pos = { x = 0, y = 0 },
-	cost = 8,
-loc_vars = function(self, info_queue, card)
-	local dollars = G.GAME.dollars or 1
-	local to_eat = math.min(math.floor(dollars / 2), 10)
-	return { vars = { 0.5 * dollars, to_eat } }
-end,
-set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("DAWG", {0.7, 0.4, 0.1, 1}, G.C.WHITE, 1.2)
-end,
-calculate = function(self, card, context)
-
-	   if context.joker_main then
-		if hasJoker("j_fams_pedigree") then
-			   local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			   return {	message = "blocked", colour = G.C.GREEN, xmult = 0.5 * dollars}
-		else
-			local current = G.GAME.dollars or 0
-			local to_eat = math.min(math.floor(current / 2), 10)
-			G.GAME.dollars = current - to_eat
-			local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			return { xchips = 0.5 * dollars, message = "Munch", sound = "fams_dogeat" }
-		end
-	   	end
-	   return 0
-end
-}
-
 atlas("bear", "bear.png", 71, 95)
-
-SMODS.Joker {
-	key = 'bear',
-	loc_txt = {
-		name = 'Bear',
-		text = {
-			"Gives {C:chips}+5{} chips for every {C:money}1${}. ",
-			"Every hand eats {C:attention}half{} or {C:attention}up to 5${}",
-			"{C:inactive}Currently{} {C:chips}+#1#{} {C:inactive}chips{}",
-			"{C:inactive}Eats{} {C:money}#2#${} {C:inactive}this hand{}"
-		}
-	},
-	config = { extra = { xchips = 0.5 } },
-	rarity = 4,
-	atlas = 'bear',
-	pos = { x = 0, y = 0 },
-	cost = 8,
-loc_vars = function(self, info_queue, card)
-	local dollars = G.GAME.dollars or 1
-	local to_eat = math.min(math.floor(dollars / 2), 5)
-	return { vars = { 5 * dollars, to_eat } }
-end,
-set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("DAWG", {0.7, 0.4, 0.1, 1}, G.C.WHITE, 1.2)
-end,
-calculate = function(self, card, context)
-
-	   if context.joker_main then
-		if hasJoker("j_fams_pedigree") then
-			   local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			   return {	message = "blocked", colour = G.C.GREEN, xmult = 0.5 * dollars}
-		else
-			local current = G.GAME.dollars or 0
-			local to_eat = math.min(math.floor(current / 2), 5)
-			G.GAME.dollars = current - to_eat
-			local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			return { chips = 5 * dollars, message = "Munch", sound = "fams_dogeat" }
-		end
-	   	end
-	   return 0
-end
-}
-
-SMODS.Joker {
-	key = 'radiation',
-	loc_txt = {
-		name = 'Toby Radiation Fox',
-		text = {
-			'You\'re carrying too much dog.',
-			'{C:inactive}destroys 5 playing cards{}',
-			'{C:red}Runs away{}'
-		}
-	},
-	config = {},
-	rarity = 1,
-	cost = 2,
-	atlas = 'tobyradiationfox',
-	pos = { x = 0, y = 0 },
-calculate = function(self, card, context)
-	   if context.joker_main then
-
-			   removeCards(5)
-			
-				if card.ability and isEternal(card) then
-
-					return {message = "absorbed", sound = "fams_dogres"}
-				else
-					card:remove(true)
-					return {message = "see ya!", sound = "fams_dogres"}
-				end
-	   end
-end,
-	set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("DAWG", {0.7, 0.4, 0.1, 1}, G.C.WHITE, 1.2)
-end,
-}
 
 atlas("butterdog", "butterdog.png", 71, 95)
 
-SMODS.Joker {
-	key = 'butterdog', 
-	atlas = 'butterdog', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = 'ButterDog, The dog with da buttah on em', 
-		text = {
-			"Gains {C:red}+1{} mult for each {C:diamonds}Diamond{} card",
-			"{C:attention}Resets at the end of the round{}",
-			"{C:inactive}currently +#1# Mult{}"
-		}
-	},
-	loc_vars = function(self, info_queue, card)
-		return { vars = { self.config.mult or 0 } }
-	end,
-	config = { mult = 0 }, 
-	rarity = 1,
-	cost = 0, 
 
-	calculate = function(self, card, context)
- 		if context.individual and context.cardarea == G.play then
- 			if context.other_card.base.suit == 'Diamonds' then
- 				self.config.mult = (self.config.mult or 0) + 1
- 				return {
-					message = localize('k_upgrade_ex'),
-					card = card
-				}
-			end
-		end
- 		if context.joker_main then
-			if self.config.mult and self.config.mult > 0 then
-				return { mult = self.config.mult }
-			end
-			return {}
-		end
- 		if context.end_of_round and context.cardarea == G.jokers then
-			self.config.mult = 0
-			return { message = "Reset" }
-		end
-
-		return {}
-	end,
-	set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("DAWG", {0.7, 0.4, 0.1, 1}, G.C.WHITE, 1.2)
-end,
-}
 
 atlas("pedigree", "pedigree.png", 71, 95)
 
-SMODS.Joker {
-	key = 'pedigree',
-	loc_txt = {
-		name = 'pedigree',
-		text = {
-			"Blocks DAWGs from eating your money"
-		}
-	},
-	config = { bitesleft = 0 },
-	rarity = 4,
-	atlas = 'pedigree',
-	pos = { x = 0, y = 0 },
-	cost = 8,
-loc_vars = function(self, info_queue, card)
-	bites = self.config.bitesleft
-	return { vars = { bites} }
-end,
-add_to_deck = function(self, card, from_debuff)
-	self.config.bitesleft = 5
-end,
-set_card_type_badge = function(self, card, badges)
 
-	badges[#badges+1] = create_badge("DAWG", {0.7, 0.4, 0.1, 1}, G.C.WHITE, 1.2)
-end,
-calculate = function(self, card, context)
-
-	   if context.joker_main then
-		if hasJoker("j_fams_Earl") or hasJoker("j_fams_bear") or hasJoker("j_fams_yogi") then
-			return { message = "Success", colour = G.C.GREEN }
-	   end
-	   end
-end
-}
-
-SMODS.Joker {
-	key = 'radiationevil',
-	loc_txt = {
-		name = 'Tony Bronx',
-		text = {
-			"He needs to repay",
-			"He's been mean >:<"
-		}
-	},
-	config = {},
-	rarity = 2,
-	cost = 5,
-	atlas = 'tonybronxreal',
-	pos = { x = 0, y = 0 },
-calc_dollar_bonus = function(self, card)
-		play_sound("fams_dogresevil", 1, 1)
-        return 5
-    end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("EVIL DAWG", {1, 0, 0, 1}, G.C.WHITE, 1.2)
-end,
-}
-
-
-SMODS.Joker {
-	key = 'penny',
-	loc_txt = {
-		name = 'Big Ass Penny',
-		text = {
-			'Yep, That is a penny alright.'
-		}
-	},
-	config = {},
-	rarity = 1,
-	cost = 0.05,
-	atlas = 'penny',
-	pos = { x = 0, y = 0 },
-	calculate = function(self, card, context)
-		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 0.01
-		end
-		return 0
-	end,
-	set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("Money", {0.5, 0.5, 0.5, 1}, G.C.WHITE, 1.2)
-end
-}
-
-SMODS.Joker {
-	key = 'nickel',
-	loc_txt = {
-		name = 'Big Ass Nickel',
-		text = {
-			'Yep, That is a nickel alright.'
-		}
-	},
-	config = {},
-	rarity = 1,
-	cost = 0,
-	atlas = 'nickel',
-	pos = { x = 0, y = 0 },
-	calculate = function(self, card, context)
-		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 0.05
-		end
-		return 0
-	end,
-	set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("Money", {0.5, 0.5, 0.5, 1}, G.C.WHITE, 1.2)
-end
-}
-
-SMODS.Joker {
-	key = 'dime',
-	loc_txt = {
-		name = 'Big Ass Dime',
-		text = {
-			'Yep, That is a dime alright.'
-		}
-	},
-	config = {},
-	rarity = 1,
-	cost = 0,
-	atlas = 'dime',
-	pos = { x = 0, y = 0 },
-	calculate = function(self, card, context)
-		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 0.10
-		end
-		return 0
-	end,
-	set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("Money", {0.5, 0.5, 0.5, 1}, G.C.WHITE, 1.2)
-end
-}
-
-SMODS.Joker {
-	key = 'quarter',
-	loc_txt = {
-		name = 'Big Ass Quarter',
-		text = {
-			'Yep, That is a quarter alright.'
-		}
-	},
-	config = {},
-	rarity = 1,
-	cost = 0,
-	atlas = 'quarter',
-	pos = { x = 0, y = 0 },
-	calculate = function(self, card, context)
-		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 0.25
-		end
-		return 0
-	end,
-set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("Money", {0.5, 0.5, 0.5, 1}, G.C.WHITE, 1.2)
-end,
-}
-
-SMODS.Joker {
-	key = 'doller',
-	loc_txt = {
-		name = 'Big Ass Dollar',
-		text = {
-			'Yep, That is {C:money}1${} alright.'
-		}
-	},
-	config = {},
-	rarity = 3,
-	cost = 0,
-	atlas = 'doller',
-	pos = { x = 0, y = 0 },
-	calculate = function(self, card, context)
-		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 1
-		end
-		return 0
-	end,
-	set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("Money", {0.5, 0.5, 0.5, 1}, G.C.WHITE, 1.2)
-end
-}
-
-SMODS.Joker {
-	key = 'penny',
-	loc_txt = {
-		name = 'Big Ass Penny',
-		text = {
-			'Yep, That is a penny alright.'
-		}
-	},
-	config = {},
-	rarity = 1,
-	cost = 0,
-	atlas = 'penny',
-	pos = { x = 0, y = 0 },
-	calculate = function(self, card, context)
-		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 0.01
-		end
-		return 0
-	end,
-	set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("Money", {0.5, 0.5, 0.5, 1}, G.C.WHITE, 1.2)
-end
-}
-
-SMODS.Joker {
-	key = 'jenkins',
-	atlas = 'jenkins',
-	pos = { x = 0, y = 0 },
-	loc_txt = {
-		name = 'Ol\' Jenkins Music Machine',
-		text = {
-			'Gives {X:mult,C:white}X{} mult',
-			'based on {C:filter}Music Power{}',
-			'{C:inactive}Currently{} {X:mult,C:white}X#1#{}'
-		}
-	},
-	config = {},
-	rarity = 1,
-	cost = 1,
-	loc_vars = function(self, info_queue, card)
-		return { vars = {musicpower} }
-	end,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return { xmult = musicpower }
-		end
-		return 0
-	end,
-	set_card_type_badge = function(self, card, badges)
-
-	end
-}
 
 endcheck = false
 ritz_round_chips = 0
 
-SMODS.Joker {
-	key = 'ritz',
-	atlas = 'ritz',
-	pos = { x = 0, y = 0 },
-	loc_txt = {
-		name = 'Ritz Box',
-		text = {
-			'Gains 2 {C:attention}crackers{} at the end of each round based on remaining {C:chips}hands{}',
-			'gained {C:attention}crackers{} are added to {C:chips}round score{}',
-			'{C:inactive}Currently: {C:attention}#1# Crackers{}{}'
-		}
-	},
-	config = {},
-	rarity = 1,
-	cost = 1,
-loc_vars = function(self, info_queue, card)
-	G.GAME.ritz_crackers = G.GAME.ritz_crackers or 0
-	return { vars = {G.GAME.ritz_crackers} }
-end,
-calculate = function(self, card, context)
-	G.GAME.ritz_crackers = G.GAME.ritz_crackers or 0
-	G.GAME.ritz_round = G.GAME.ritz_round or 0
-	G.GAME.ritz_cracker_incremented_this_round = G.GAME.ritz_cracker_incremented_this_round or false
-	if context.end_of_round then
-		if not G.GAME.ritz_cracker_incremented_this_round then
-			G.GAME.ritz_crackers = G.GAME.ritz_crackers + handsLeft()
-			G.GAME.ritz_cracker_incremented_this_round = true
-			G.GAME.ritz_round = G.GAME.ritz_round + handsLeft()
-			return {message = "+"..handsLeft(), repetitions = 1}
-		end
-		return 0
-	end
-	if context.final_scoring_step then
-		G.GAME.ritz_cracker_incremented_this_round = false
-		G.GAME.chips = G.GAME.chips + G.GAME.ritz_crackers
-		return {message = "+"..G.GAME.ritz_crackers, repetitions = 1}
-	end
-	return 0
-end,
-	set_card_type_badge = function(self, card, badges)
-		badges[#badges+1] = create_badge("Food", {1, 0.8, 0.6, 1}, G.C.WHITE, 1.2)
-	end
-}
 
-SMODS.Joker {
-    key = 'coke',
-    atlas = 'othercola',
-    pos = { x = 0, y = 0 },
-    loc_txt = {
-        name = 'Coke Cola',
-        text = {
-            "Starts at {X:mult,C:white}X5{} mult.",
-            "Every hand decreases mult by {X:mult,C:white}X1{}.",
-            "Refills when shop is rerolled",
-			"{C:inactive}Currently{} {X:mult,C:white}X#1#{} {C:inactive}Mult{}"
-        }
-    },
-    config = { extra = {} },
-    rarity = 2,
-    cost = 5,
-
-    loc_vars = function(self, info_queue, card)
-        card.ability.extra = card.ability.extra or {}
-        card.ability.extra.coke_mult = card.ability.extra.coke_mult or 5
-        return { vars = { card.ability.extra.coke_mult } }
-    end,
-
-    add_to_deck = function(self, card, from_debuff)
-        card.ability.extra = card.ability.extra or {}
-        card.ability.extra.coke_mult = 5
-        card.ability.extra._decremented = false
-    end,
-
-	calculate = function(self, card, context)
-		card.ability.extra = card.ability.extra or {}
-		local extra = card.ability.extra
-
-		if context.reroll_shop then
-			extra.coke_mult = 5
-			return { message = "Reset", colour = G.C.GREEN }
-		end
-
-		if context.joker_main then
- 			extra.coke_mult = (extra.coke_mult or 5) - 1
-			return { xmult = extra.coke_mult or 5, message = "-1" }
-		end
- 		return 0
-	end,
-
-	set_card_type_badge = function(self, card, badges)
-		badges[#badges+1] = create_badge("Food", {1, 0, 0, 1}, G.C.WHITE, 1.2)
-	end,
-
-}
-
-SMODS.Joker {
-	key = 'bigboobs',
-	atlas = 'bigboobs',
-	pos = { x = 0, y = 0 },
-	loc_txt = {
-		name = 'Big Boobs',
-		text = {
-			'{C:red}Search him up on google{}',
-			'{}'
-		}
-	},
-	config = {},
-	rarity = 1,
-	cost = 1,
-	loc_vars = function(self, info_queue, card)
-		return { vars = {musicpower} }
-	end,
-	calculate = function(self, card, context)
-		if context.setting_blind then
-			love.system.openURL("https://pbs.twimg.com/media/GB7qCDnbYAAKPPe.jpg:large")
-			if card.destroy then
-				card:destroy(true)
-			end
-		return 0
-	end
-end
-}
 
 SMODS.Sound {
   key = "music_jimb",
@@ -2687,7 +2088,7 @@ SMODS.Sound {
 
 jimadded = false
 
-function clearCustomTextAfterDraw()
+clearCustomTextAfterDraw = function()
     if G.customtext then
         for id, box in pairs(G.customtext) do
             if box and not box.removed then
@@ -2701,7 +2102,7 @@ end
 
 blind_timer_bonus_given = blind_timer_bonus_given or false
 
-function create_single_image_ui_node(image_path, w, h, scale)
+create_single_image_ui_node = function(image_path, w, h, scale)
      local atlas = {
         px = w or 32,
         py = h or 32,
@@ -2712,7 +2113,7 @@ function create_single_image_ui_node(image_path, w, h, scale)
     return { n = G.UIT.O, config = { object = sprite } }
 end
 
-function updateHandAndDiscardsUI()
+updateHandAndDiscardsUI = function()
     if G and G.hand_text_area then
          if G.hand_text_area.handname and G.GAME and G.GAME.current_round and G.GAME.current_round.hands_left then
             G.hand_text_area.handname.config.text = "Hands: " .. tostring(G.GAME.current_round.hands_left)
@@ -2723,7 +2124,7 @@ function updateHandAndDiscardsUI()
     end
 end
 
-function trigger_next_frame(func)
+trigger_next_frame = function(func)
     G.E_MANAGER:add_event(Event({
         func = function()
             func()
@@ -2787,12 +2188,6 @@ SMODS.Sound {
 		end
 	end
 	timeradd = false
-end
-
-if hasJoker("j_fams_steak") then
-	thesteakisactive = true
-else
-	thesteakisactive = false
 end
 
 if isPlayingBlind() then
@@ -2972,8 +2367,6 @@ SMODS.Sound {
 		if hasWon() or hasLost() then
 			cooked1 = 0
 			cooked2 = 0
-			thesteakisactive = false
-			steakside = 0
  			triggered_antes_music_update2 = {}
 		end
  		last_checked_ante = last_checked_ante or 0
@@ -2998,7 +2391,7 @@ SMODS.Sound {
 		end
 }
 
-function flip_all_cards(cards)
+flip_all_cards = function(cards)
 	if G and G.hand and G.hand.cards then
     for _, card in ipairs(G.hand.cards) do
     if card.flip then
@@ -3941,14 +3334,14 @@ current_wyr_idx1 = nil
 current_wyr_idx2 = nil
 active_wyr_menu = nil
 
-function apply_wyr_entry(idx)
+apply_wyr_entry = function(idx)
 	local entry = wyrnames[idx]
 	if type(entry) == "function" then
 		entry()
 	end
 end
 
-function apply_wyr_effect(idx)
+apply_wyr_effect = function(idx)
 	local effect = wyreffects[idx]
 	if type(effect) == "function" then
 		effect()
@@ -3972,7 +3365,7 @@ G.FUNCS.print_world = function(e)
 end
 
 
-function my_menu_function()
+my_menu_function = function()
 	play_sound('cancel', 1, 1)
 	local name1 = current_wyr_idx1 and (type(wyrnames[current_wyr_idx1]) == "string" and wyrnames[current_wyr_idx1] or "Option 1") or "Option 1"
 	local name2 = current_wyr_idx2 and (type(wyrnames[current_wyr_idx2]) == "string" and wyrnames[current_wyr_idx2] or "Option 2") or "Option 2"
@@ -4002,7 +3395,7 @@ function my_menu_function()
 	}
 end
 
-function wyr()
+wyr = function()
 	local n = #wyrnames
 	if n < 2 then return end
 	local idx1 = math.random(1, n)
@@ -4028,34 +3421,6 @@ function wyr()
 	active_wyr_menu:align_to_major()
 end
 
-SMODS.Joker {
-	key = 'wouldyourather', 
-	atlas = 'wyrj', 
-	pos = { x = 0, y = 0 }, 
-	soul_pos = { x = 1, y = 0 }, 
-	loc_txt = {
-		name = 'Would You Rather?', 
-		text = {
-			'On {C:attention}Blind Start{}',
-			'you are forced to pick one condition',
-			'or the other.',
-			'{C:attention}Effective on selection{}'
-		}
-	},
-	config = {}, 
-	rarity = 3, 
-	cost = 5, 
-
-calculate = function(self, card, context)
-
-	if context.setting_blind then
-		card:juice_up()
-		wyr()
-	end
-	return 0
-end,
-	
-}
 
 local picky_hand_types = {
     "Pair", "Two Pair", "Three of a Kind", "Straight", "Flush",
@@ -4177,7 +3542,7 @@ SMODS.Blind {
 
 local card_overlay = nil
 
-function showUICardOverlay(card_table)
+showUICardOverlay = function(card_table)
      if G.CARD_OVERLAY and not G.CARD_OVERLAY.removed then
         G.CARD_OVERLAY:remove()
     end
@@ -4439,7 +3804,7 @@ SMODS.Voucher {
 }
 
 
-local function add_joker_by_key(joker_key, bool)
+add_joker_by_key = function(joker_key, bool)
     G.E_MANAGER:add_event(Event({
         func = function()
 				SMODS.add_card{
@@ -4718,212 +4083,16 @@ SMODS.Stake {
 	end
 }
 
-SMODS.Stake {
-	key = 'steak',
-	prefix_config = {
-	applied_stakes = false
-    },
-	applied_stakes = {
-        "stake_white",
-        "stake_red",
-        "stake_green",
-        "stake_black",
-        "stake_blue",
-        "stake_purple",
-        "stake_orange",
-        "stake_gold",
-		"stake_fams_walmert",
-		"stake_fams_poor"
-    },
-	loc_txt = {
-		name = 'Steak',
-		text = {
-			"Keep the steak cooked (don't burn or sell it.)",
-			'{C:inactive}Click the steak to flip it{}',
-			"{s:0.8,C:inactive}Time Stake not included{}"
-		},
-		sticker = {
-			name = 'Steak Cooker',
-			text = {'Win a run with the Steak Stake active.'}
-		}
-	},
-	atlas = 'steak',
-	pos = { x = 0, y = 0 },
-	sticker_pos = { x = 0, y = 0 },
-	unlocked = false,
-	colour = {0.50, 0.19, 0.07, 1}, 
-	above_stake = nil, 
-	modifiers = function(self)
-		G.E_MANAGER:add_event(Event({
-                trigger = "immediate",
-                func = function()
-                    SMODS.add_card{
-        			set = "Joker",                -- Card type: 'Joker', 'Tarot', 'Spectral', etc.
-        			legendary = false,            -- Legendary rarity (true/false)
-					key = "j_fams_steak",
-        			skip_materialize = false,     -- Skip animation
-    				}
-
-                    return true
-                end
-            }))
-		
-	end
-}
 
 
-SMODS.Joker {
-	key = 'steve', 
-	atlas = 'steve', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = '{C:edition,E:1,s:1.5}S T E V E{}', 
-		text = {
-			"pikmin"
-		}
-	},
-	pools = {
-        ["Pikmin"] = true
-    },
-	config = {}, 
-	rarity = 1, 
-	cost = 0, 
 
-calculate = function(self, card, context)
-	if context.joker_main then
-	if math.random(1, 4) == 1 then
-		destroycard(card)
-	end
-	return {message = "pikmin_startup_sfx.ogg", sound = "fams_pikmin"}
-	end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("Pikmin", {1, 0, 0, 1}, G.C.WHITE, 1.2)
-	end
-}
 
-SMODS.Joker {
-	key = 'bob', 
-	atlas = 'bob', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = '{C:edition,E:1,s:1.5}B O B{}', 
-		text = {
-			"pikmin",
-			"{C:green}1 in 8{} he trips like a fucking idiot and you lose {C:blue}50{} chips."
-		}
-	},
-	pools = {
-        ["Pikmin"] = true
-    },
-	config = {}, 
-	rarity = 1, 
-	cost = 0, 
 
-calculate = function(self, card, context)
-	if context.joker_main then
-	if math.random(1, 8) == 1 then
-		G.GAME.chips = G.GAME.chips - 50
-		return {message = "tripped (fucking idiot)", sound = "fams_idiotyellow"}
-	end
-	return {message = "pikmin_startup_sfx.ogg", sound = "fams_pikmin"}
-	end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("Pikmin", {1, 1, 0, 1}, G.C.WHITE, 1.2)
-	end
-}
 
-SMODS.Joker {
-	key = 'joe', 
-	atlas = 'joe', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = '{C:edition,E:1,s:1.5}J O E{}', 
-		text = {
-			"pikmin",
-			""
-		}
-	},
-	pools = {
-        ["Pikmin"] = true
-    },
-	config = {}, 
-	rarity = 1, 
-	cost = 0, 
 
-calculate = function(self, card, context)
-	if context.setting_blind then
-	love.system.openURL("https://youtu.be/HCSwYhd9yto?list=PL023F0FE11F69F931&t=491")
-	end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("Pikmin", {0, 0, 1, 1}, G.C.WHITE, 1.2)
-	end
-}
 
-SMODS.Joker {
-	key = 'tidywhitey', 
-	atlas = 'tidywhitey', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = '{C:edition,E:1,s:1.5}T I G H T Y  W H I T E Y{}', 
-		text = {
-			"pikmin"
-		}
-	},
-	pools = {
-        ["Pikmin"] = true
-    },
-	config = {}, 
-	rarity = 1, 
-	cost = 0, 
 
-calculate = function(self, card, context)
-     if context.end_of_round and context.cardarea == G.jokers then
-         local kill = G.jokers.cards[1]
-        if kill and kill ~= card and kill.remove and not isEternal(kill) then
-            kill:remove()
-			card:remove()
-            return {message = "Poisoned", sound = "fams_pikmin", repetitions = 1}
-        end
-    end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("Pikmin", {1, 1, 1, 1}, G.C.RED, 1.2)
-	end
-}
 
-SMODS.Joker {
-	key = 'purple', 
-	atlas = 'purple', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = '{C:edition,E:1,s:1.5}P U R P L E{}', 
-		text = {
-			"pikmin"
-		}
-	},
-	pools = {
-        ["Pikmin"] = true
-    },
-	config = {}, 
-	rarity = 1, 
-	cost = 0, 
-
-calculate = function(self, card, context)
-     if context.joker_main then
-	if math.random(1, 8) == 1 then
-		destroycard(card)
-		return {message = "tongued", colour = G.C.WHITE}
-	end
-	return {message = "pikmin_startup_sfx.ogg", sound = "fams_pikmin"}
-	end
-end,
-	set_card_type_badge = function(self, card, badges)
-		badges[#badges+1] = create_badge("Pikmin", {0.6, 0, 0.6, 1}, G.C.WHITE, 1.2)
-	end
-}
 
 SMODS.Challenge {
   key = 'tax2',
@@ -5024,212 +4193,20 @@ SMODS.Challenge {
   vouchers = {}
 }
 
-SMODS.Joker {
-	key = 'halo', 
-	atlas = 'halo', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = 'The Halo Rule', 
-		text = {
-			"{C:green}1 in 10000{} chance to",
-			"{C:red}kill your run{} on hand played",
-			"{C:inactive}lmao{}"
-		}
-	},
-	config = {}, 
-	rarity = 1,
-	cost = 0,
 
-	
-calculate = function(self, card, context)
-    if context.joker_main then
-	if math.random(1, 10000) == 1 then
-		ForceLoss()
-	else
-		return {message = "Safe"}
-	end
-	end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge('"Speedrunner"', {0, 0.5, 0, 1}, G.C.GREEN, 1.2)
-	end
-}
 
-SMODS.Joker {
-	key = 'coolj', 
-	atlas = 'coolj', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = 'Thumbs up emoji', 
-		text = {
-			"Gives {X:mult,C:white}2x{} mult for each",
-			"card that is {C:edition,E:2}cool{}",
-			"{C:inactive}currently{} {X:mult,C:white}#1#x{}"
-		}
-	},
-	loc_vars = function(self, info_queue, card)
-    local cool_count = 0
-        if G and G.deck and G.deck.cards then
-            for _, c in ipairs(G.deck.cards) do
-                if hasSeal(c, "fams_cool_seal") then
-                    cool_count = cool_count + 1
 
-                end
-            end
-        end
-        local xmult = 1
-        if cool_count > 0 then
-            xmult = 2 * cool_count
-        end
-    return { vars = { xmult, cool_count } }
-end,
-	config = {}, 
-	rarity = 1,
-	cost = 0, 
 
-calculate = function(self, card, context)
-    if context.joker_main then
-        local cool_count = 0
-        if G and G.deck and G.deck.cards then
-            for _, c in ipairs(G.deck.cards) do
-                if hasSeal(c, "fams_cool_seal") then
-                    cool_count = cool_count + 1
 
-                end
-            end
-        end
-        local xmult = 1
-        if cool_count > 0 then
-            xmult = 1.5 * cool_count
-        end
-		if cool_count > 0 then
-			return {xmult = xmult, message = "Certified!"}
-		end
-        return {message = "Not cool"}
-    end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge('Cool', {1, 1, 0, 0.8}, G.C.white, 1.2)
-	end
-}
-
-SMODS.Joker {
-	key = 'kitchgun', 
-	atlas = 'kitchengun', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = '{C:edition,E:1,s:1.2}Kitchen Gun{}',
-		text = {
-			"defeats blinds instantly {C:attention}3 times{}",
-			"{C:red}Lose 5 cards each shot{}"
-		}
-	},
-	config = {}, 
-	rarity = 1,
-	cost = 0, 
-
-calculate = function(self, card, context)
-    if context.joker_main then
-		if card.ability.times then
-			card.ability.times = card.ability.times + 1
-			if card.ability.times >= 3 then
-				destroycard(card)
-			end
-		else
-			card.ability.times = 1
-		end
-		
-		removeCards(5)
-		return {chips = G.GAME.blind.chips, sound = "fams_bang", message = tostring(3 - card.ability.times) .. " left"}
-	end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge('"All new!"', {0.3, 0.3, 0.3, 1}, G.C.WHITE, 1.2)
-	end
-}
 
 atlas("gernade", "gernade.png", 71, 95)
 
-SMODS.Joker {
-	key = 'gernade', 
-	atlas = 'gernade', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = '{C:edition,E:1,s:1.2}Toilet Grenade{}',
-		text = {
-			"defeats blinds instantly {C:attention}1 times{}",
-			"{C:red}Lose 28 cards on trigger{}"
-		}
-	},
-	config = {}, 
-	rarity = 2,
-	cost = 0, 
 
-calculate = function(self, card, context)
-    if context.joker_main then
-		card:juice_up()
-		removeCards(28)
-		destroycard(card)
-		return {chips = G.GAME.blind.chips * 2, sound = "fams_bang", message = "Bang"}
-	end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge('"New!"', {0.8, 0.8, 0.8, 1}, G.C.WHITE, 1.4)
-	end
-}
 
 atlas("ramsay", "ramsay.png", 71, 95)
- SMODS.Joker {
-	key = 'ramsay',
-	atlas = "ramsay",
-	loc_txt = {
-		name = 'Gordon Ramsay',
-		text = {
-			'on {C:attention}Boss Blind{} start, Tells one random joker to {C:red}"FUCK OFF!"{}',
-			'Gains {X:mult,C:white}X1{} Mult for each.',
-			'{C:inactive}Currently {X:mult,C:white}X#1#{} {C:inactive}Mult{}'
-		}
-	},
-	loc_vars = function(self, info_queue, card)
-		return { vars = {card.ability.swearmult or 0} }
-	end,
-	config = { swearmult = 1 },
-	rarity = 2,
-	cost = 4,
-	pos = { x = 0, y = 0 },
-    calculate = function(self, card, context)
-	if card.ability.swearmult then
-		
-	else
-		card.ability.swearmult = 1
-	end
 
-    if context.setting_blind and isBoss() then
-        card.ability.swearmult = card.ability.swearmult + 1
-         if G and G.jokers and G.jokers.cards and #G.jokers.cards > 1 then
-            local candidates = {}
-            for _, j in ipairs(G.jokers.cards) do
-                if j ~= card and j.remove then
-                    table.insert(candidates, j)
-                end
-            end
-            if #candidates > 0 then
-                local idx = math.random(1, #candidates)
-                candidates[idx]:remove(true)
-            end
-        end
-        return { message = "FUCK OFF!", colour = G.C.RED }
-    end
-    if context.joker_main then
-         return {xmult = card.ability.swearmult}
-    end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("Master Chef", {1.0, 0.84, 0.0, 1.0}, G.C.WHITE, 1.4)
-end
-}
 
-function currentmult()
+currentmult = function()
 return G.GAME.current_round.current_hand.mult
 end
 
@@ -5379,7 +4356,7 @@ SMODS.Tag {
 	end
 }
 
-local function GiftBox()
+GiftBox = function()
 	local events = {
 		function()
 			SMODS.add_card{
@@ -5654,178 +4631,20 @@ SMODS.Tag {
 	end
 }
 
-SMODS.Joker {
-	key = 'smurf',
-	loc_txt = {
-		name = 'Smurf',
-		text = {
-			"He's blue",
-			"{C:inactive}gives itself as a chip{}"
-		}
-	},
-	config = { extra = { xmult = 0.5 } },
-	rarity = 1,
-	atlas = 'littleshit',
-	pos = { x = 0, y = 0 },
-	cost = 1,
-loc_vars = function(self, info_queue, card)
-	
-end,
-set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("little shit", {0, 0, 1, 1}, G.C.WHITE, 1.2)
-end,
-calculate = function(self, card, context)
-	if context.joker_main then
-		destroycard(card)
-		return {chips = 1, message = "smurfed up", colour = G.C.BLUE}
-	end
-end,
-update = function(self, card, dt)
-	
-end
-}
+
 
 atlas("toegore", "toegore.png", 71, 95)
 
-SMODS.Joker {
-	key = 'toegore',
-	loc_txt = {
-		name = 'TOGORE DREMURR',
-		text = {
-			"does anybody remember this undertale character? his name is togore dreemurr the middle child of asgore and toriel dreemurr and brother to asriel and chara dreemurr. he is the only child of the dreemurrs that survived and is still alive in undertale and can be seen in mettaton resort. he doesn't have much plot significance but that doesn't stop him from chilling. the weird thing is when anyone tries to mention togore to toby henry fox he freaks out. don't know what his deal is."
-		}
-	},
-	config = {},
-	rarity = 1,
-	cost = 1,
-	atlas = 'toegore',
-	pos = { x = 0, y = 0 },
-	soul_pos = { x = 1, y = 0 },
-	calculate = function(self, card, context)
-	
-	end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("Middle Child", {0, 0, 0, 1}, G.C.BLUE, 1.2)
-	end,
-}
+
 
 local startingHand = 4
 local labelset = "???"
 
-SMODS.Joker {
-	key = 'stressed',
-	loc_txt = {
-		name = 'Stressed Joker',
-		text = {
-			"gives {X:mult,C:white}0.25x{} mult for the less hands you have",
-			"{C:inactive}Relative to your starting hands{}",
-			"starting from {C:attention}#2# hands:{} {X:mult,C:white}#1#X{}"
-		}
-	},
-	config = { extra = { } },
-	rarity = 2,
-	atlas = 'stressed',
-	pos = { x = 0, y = 0 },
-	cost = 6,
-loc_vars = function(self, info_queue, card)
-	local handlef = handsLeft()
-	labelset = math.abs(1 + (1 - (handlef / startingHand)))
-	return { vars = {labelset, startingHand} }
-end,
-calculate = function(self, card, context)
-	local handlef = handsLeft()
-	if context.setting_blind then
-		startingHand = handsLeft()
-		return {message = "Reset"}
-	end
-	if context.joker_main then
-		local handlef = handsLeft()
-		local final = math.abs(1 + (1 - (handlef / startingHand)))
-		labelset = math.abs(1 + (1 - (handlef / startingHand)))
-		return {xmult = final}
-	end
 
-end
-}
 
 atlas("divorce", "divorce.png", 1700, 2200)
- SMODS.Joker {
-	key = 'divorce', 
-	atlas = 'divorce', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = 'Divorce Paper', 
-		text = {
-			"{C:green}#1# in 2{} chance to give",
-			"{X:chips,C:white}5X{} chips or {X:mult,C:white}-5X{} chips",
-			"{C:red}Self Destructs{}"
-		}
-	},
-	loc_vars = function(self, info_queue, card)
-		return { vars = {currentprobability()}}
-	end,
-	config = {}, 
-	rarity = 2, 
-	cost = 5, 
-
-calculate = function(self, card, context)
-	if context.joker_main then
-		if math.random(currentprobability(), 2) == 2 then
-			card:remove(true)
-			return { xchips = 5, destroy_card = card }
-		else
-			card:remove(true)
-			return { xchips = -5, destroy_card = card }
-		end
-	end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("Wood", {1, 1, 1, 1}, G.C.BLACK, 1.2)
-	end
-}
 
 
-atlas("I-hit-a-wall-my-fucking-penis-is-small", "I-hit-a-wall-my-fucking-penis-is-small.png", 71, 95)
- SMODS.Joker {
-	key = 'I-hit-a-wall-my-fucking-penis-is-small', 
-	atlas = 'I-hit-a-wall-my-fucking-penis-is-small', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = 'Ballad of a DELTARUNE speedrunner', 
-		text = {
-			"{C:green}#1# in 10{} chance to hit a wall",
-			"Hitting a wall results in loss of {C:red}-3 mult{}, {C:red}-5 mult{} or {X:mult,C:white}-X5{} Mult",
-			"otherwise gain {X:mult,C:white}X2.5{} Mult"
-		}
-	},
-	loc_vars = function(self, info_queue, card)
-		return { vars = {2 + currentprobability() - 1}}
-	end,
-	config = {}, 
-	rarity = 2, 
-	cost = 5, 
-
-calculate = function(self, card, context)
-	if context.joker_main then
-		if math.random(2 + currentprobability() - 1, 10) == 2 then
-			local gambling = math.random(1, 3)
-			if gambling == 1 then
-				return { mult = -3, message = '"OH MY GOOOODDD I HIT A WALLLL MY FUCKING PENIS IS SMALLLLL"' }
-			else if gambling == 2 then
-				return { mult = -5, message = '"OH MY GOOOODDD I HIT A WALLLL MY FUCKING PENIS IS SMALLLLL"'}
-			else
-				return { xmult = -5, message = '"OH MY GOOOODDD I HIT A WALLLL MY FUCKING PENIS IS SMALLLLL"' }
-			end
-			end
-		else
-			return { message = "Run Saved", xmult = 2.5 }
-		end
-	end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("Actual Speedrunner", {1, 1, 1, 1}, G.C.BLACK, 1.5)
-	end
-}
 
 SMODS.ConsumableType{
     key = "gimmicks",
@@ -5845,338 +4664,25 @@ SMODS.ConsumableType{
 
 atlas("spawn", "spawn.png", 71, 95)
 
-SMODS.Joker {
-    key = "spawn",
-    loc_txt = {
-        name = "TITAN SPAWN",
-        text = {"{C:red}takes 2 chips every 2 seconds{}",
-	"{X:mult,C:white}Click{}{X:mult,C:white} it.{}",
-	"{C:inactive}Currently spawns every #1# seconds{}"}
-    },
-    atlas = "spawn", 
-    cost = -5,
-	rarity = 1,
-	pools = {
-    	["gimmicks"] = true
-    },
-	config = { chip_timer = 0 },
-	loc_vars = function()
-		return { vars = {(4 / (getAnte() / 4)) or 8} }
-	end,
-
-	add_to_deck = function(self, card, from_debuff)
-		self.config.chip_timer = 0
-	end,
-
-	remove_from_deck = function(self, card, from_debuff)
-		
-	end,
-
-	update = function(self, card, dt)
-         self.config.chip_timer = (self.config.chip_timer or 0) + (dt or 0)
-        if self.config.chip_timer >= 20 then
-            self.config.chip_timer = 0
-            G.GAME.chips = (G.GAME.chips or 0) - 2
-            if card.juice_up then card:juice_up() end
-        end
-    end,
-
-	in_pool = function()
-		return false
-	end,
-
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("Gimmick", {1, 0.5, 0, 1}, G.C.WHITE, 1.2)
-	end
-}
-
-atlas("jsteak", "jsteak.png", 71, 95)
 
 
-SMODS.Joker {
-	key = 'mus',
-	atlas = 'metro',
-	pos = { x = 0, y = 0 },
-	loc_vars = function(self, info_queue, card)
-	return { vars = {getBPMTick(), G.GAME.bpmmax}, colours = { HEX('#c1a1d3ff') } }
-end,
-	loc_txt = {
-		name = 'Metronome',
-		text = {
-			'Gives {X:mult,C:white}X#1#{} mult based on {C:timesignature}Time Signature{}',
-		}
-	},
-	config = {},
-	rarity = 3,
-	cost = 8,
-	calculate = function(self, card, context)
-		if context.joker_main then
-			return {xmult = getBPMTick()}
-		end
-	end,
-}
+
+
+
 
 atlas("evilfuckingskeletonfromgoogleimages", "evilfuckingskeletonfromgoogleimages.png", 71, 95)
 
-SMODS.Joker {
-	key = 'skeleton', 
-	atlas = 'evilfuckingskeletonfromgoogleimages', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = 'evil fucking skeleton from google images', 
-		text = {
-			"{C:red}+66{} Mult if a {C:attention}Jack{} is in played hand.",
-			"{C:red}No exceptions.{}"
-		}
-	},
-	loc_vars = function(self, info_queue, card)
-	return { vars = { } }
-end,
-	config = {  }, 
-	rarity = 2,
-	cost = 0, 
 
-	set_sprites = function(self, card, front)
-		play_sound("fams_skull", 1, 1)
-	end,
-calculate = function(self, card, context)
-	if context.individual and context.cardarea == G.play and context.full_hand then
-			for _, card in ipairs(context.full_hand) do
-				if card.base and card.base.value == "Jack" then
-					
-					return { mult = 66, sound = "fams_skull", message = 'Bad to the bone - Sound Effect HD.mp3'}
-				end
-			end
-	end
-end,
-}
 
 atlas("gayster", "gayster.png", 71, 95)
 
-SMODS.Joker {
-	key = 'gayster', 
-	atlas = 'gayster', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = 'Mystery Man', 
-		text = {
-			""
-		}
-	},
-	no_collection = true,
-	pools = {
-        ["Jokers"] = true
-    },
-	config = {}, 
-	rarity = 4, 
-	cost = 0, 
 
-calculate = function(self, card, context)
-	if context.joker_main then
-	
-	end
-end,
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge(". . .", {1, 1, 1, 1}, G.C.BLACK, 1.2)
-	end
-}
 
 atlas("webster", "webster.png", 71, 95)
 
-SMODS.Joker {
-	key = 'webster',
-	atlas = 'webster',
-	pos = { x = 0, y = 0 },
-	loc_vars = function(self, info_queue, card)
-		local words_found = card.ability.extra.words_found or {}
-		return { vars = { card.ability.extra.mult, #words_found } }
-	end,
-	loc_txt = {
-		name = 'Webster Dictionary',
-		text = {
-			'all jokers in {C:attention}Jokers or Booster Packs{} with a {C:attention}new word{}, Gain {C:red}+mult{} equal to the',
-			'length of each {C:attention}new word{} found in card names',
-			'{C:inactive}(Currently {C:red}+#1#{C:inactive} mult from {C:attention}#2#{C:inactive} words)'
-		}
-	},
-	config = { extra = {mult = 0, words_found = {}} },
-	rarity = 2,
-	cost = 15,
- 	extract_words = function(text)
-		if not text or type(text) ~= "string" then 
-			return {} 
-		end
-		local words = {}
- 		local clean_text = string.lower(text)
-		for word in string.gmatch(clean_text, "%a+") do
-			if #word > 1 then -- Only consider words with more than 1 letter
-				table.insert(words, word)
-			else
-			end
-		end
-		return words
-	end,
- 	is_new_word = function(self, word, found_words)
-		for _, found_word in ipairs(found_words) do
-			if found_word == word then
-				return false
-			end
-		end
-		return true
-	end,
-	
-	calculate = function(self, card, context)
- 		if (context.buying_card or context.open_booster or context.using_consumeable or context.add_to_deck) and context.card then
-			local bought_card = context.card
-			local card_name = ""
- 			if bought_card.config and bought_card.config.center then
-				if bought_card.config.center.name then
-					card_name = bought_card.config.center.name
-				elseif bought_card.config.center.loc_txt and bought_card.config.center.loc_txt.name then
-					card_name = bought_card.config.center.loc_txt.name
-				elseif bought_card.config.center.key then
-					card_name = bought_card.config.center.key
-				end
-			elseif bought_card.ability and bought_card.ability.name then
-				card_name = bought_card.ability.name
-			elseif bought_card.name then
-				card_name = bought_card.name
-			end
-  		if card_name and type(card_name) == "string" and card_name ~= "" then
-			local words_in_name = extract_words_from_text(card_name)
-			local found_words = card.ability.extra.words_found or {}
-			local new_words = {}
-			local total_new_mult = 0
- 			for _, word in ipairs(words_in_name) do
 
-				if is_word_new(word, found_words) then
-					table.insert(found_words, word)
-					table.insert(new_words, word)
-					total_new_mult = total_new_mult + #word
 
-				else
-
-				end
-			end				-- Update the joker's stored words and mult
-				card.ability.extra.words_found = found_words
-				card.ability.extra.mult = card.ability.extra.mult + total_new_mult
- 				if #new_words > 0 then
-					local message = "+" .. total_new_mult .. " from " .. #new_words .. " new word"
-					if #new_words > 1 then message = message .. "s" end
-
-					return {
-						message = message,
-						colour = G.C.RED
-					}
-				else
-
-				end
-			end
-		end
- 		if context.joker_main then
-			if card.ability.extra.mult > 0 then
-				return {
-					mult = card.ability.extra.mult,
-				}
-			end
-		end
-	end,
- 	add_to_deck = function(self, card, from_debuff)
- 		local is_webster = false
-		if card.config and card.config.center and card.config.center.name == "Webster Dictionary" then
-			is_webster = true
-		end
- 		if G and G.jokers and G.jokers.cards then
-			for _, joker in ipairs(G.jokers.cards) do
- 				local joker_name = ""
-				if joker.config and joker.config.center and joker.config.center.name then
-					joker_name = joker.config.center.name
-				end
-				
-				if joker_name == "Webster Dictionary" then
-					if is_webster and joker == card then
- 						self:scan_all_cards_for_webster(joker)
-					elseif not is_webster then
- 						self:check_card_for_webster(joker, card)
-					end
-				end
-			end
-		end
-	end,
- 	scan_all_cards_for_webster = function(self, webster_card)
-		local all_cards = {}
- 		if G and G.jokers and G.jokers.cards then
-			for _, joker_card in ipairs(G.jokers.cards) do
-				if joker_card ~= webster_card then
-					table.insert(all_cards, joker_card)
-				end
-			end
-		end
- 		if G and G.consumeables and G.consumeables.cards then
-			for _, consumable_card in ipairs(G.consumeables.cards) do
-				table.insert(all_cards, consumable_card)
-			end
-		end
- 		for _, target_card in ipairs(all_cards) do
-			self:check_card_for_webster(webster_card, target_card)
-		end
-	end,
- 	check_card_for_webster = function(self, webster_card, target_card)
-		local card_name = ""
- 		if target_card.config and target_card.config.center then
-    if target_card.config.center.name then
-        card_name = target_card.config.center.name
-    elseif target_card.config.center.loc_txt and target_card.config.center.loc_txt.name then
-        card_name = target_card.config.center.loc_txt.name
-    elseif target_card.config.center.key then
-        card_name = target_card.config.center.key
-    end
-elseif target_card.ability and target_card.ability.name then
-    card_name = target_card.ability.name
-elseif target_card.name then
-    card_name = target_card.name
-end
-		
-		if card_name and type(card_name) == "string" and card_name ~= "" then
-			local words_in_name = extract_words_from_text(card_name)
-			local found_words = webster_card.ability.extra.words_found or {}
-			local new_words = {}
-			local total_new_mult = 0
- 			for _, word in ipairs(words_in_name) do
-				if is_word_new(word, found_words) then
-					table.insert(found_words, word)
-					table.insert(new_words, word)
-					total_new_mult = total_new_mult + #word
-				else
-				end
-			end
- 			webster_card.ability.extra.words_found = found_words
-			webster_card.ability.extra.mult = webster_card.ability.extra.mult + total_new_mult
- 			if #new_words > 0 then
-				local message = "+" .. total_new_mult .. " from " .. #new_words .. " new word"
-				if #new_words > 1 then message = message .. "s" end
- 				if webster_card.juice_up then
-					webster_card:juice_up()
-				end
-			end
-		end
-	end,
-}
- function extract_words_from_text(text)
-	if not text or type(text) ~= "string" then 
-		return {} 
-	end
-	local words = {}
- 	local clean_text = string.lower(text)
-	for word in string.gmatch(clean_text, "%a+") do
-		if #word > 1 then -- Only consider words with more than 1 letter
-			table.insert(words, word)
-		end
-	end
-	return words
-end
-
-function is_word_new(word, found_words)
+is_word_new = function(word, found_words)
 	for _, found_word in ipairs(found_words) do
 		if found_word == word then
 			return false
@@ -6187,98 +4693,8 @@ end
 
 atlas("Searl", "Searl.png", 71, 95)
 
-atlas("jsteak", "jsteak.png", 71, 95)
-
-SMODS.Joker {
-    key = "steak",
-    loc_txt = {
-        name = "Steak",
-        text = {"Click to flip the steak",
-	"{C:inactive}Don't leave it on one side too long.{}",
-	"{C:attention}Recommended is less than 50%{}",
-	"Front: #1#% : Back: #2#%"}
-    },
-    atlas = "jsteak", 
-    cost = 0,
-	rarity = 1,
-	pools = {
-    	["gimmicks"] = true
-    },
-	loc_vars = function()
-		return { vars = {cooked1 / cooklimit * 100, cooked2 / cooklimit * 100 } }
-	end,
-
-	add_to_deck = function(self, card, from_debuff)
-		thesteakisactive = true
-	end,
-
-	remove_from_deck = function(self, card, from_debuff)
-		ForceLoss()
-	end,
-
-	update = function(self, card, dt)
-		if thesteakisactive then
-		if cooked1 > cooklimit or cooked2 > cooklimit then
-				ForceLoss()
-				card:remove(true)
-				cooked1 = 0
-				cooked2 = 0
-				thesteakisactive = false
-				steakside = 0
-		end
-		if steakside == 0 then
-			cooked1 = cooked1 + 0.015
-			cooked2 = cooked2 - 0.015
-			if cooked2 < 0 then
-				cooked2 = 0
-			end
-		end
-		if steakside == 1 then
-			cooked2 = cooked2 + 0.015
-			cooked1 = cooked1 - 0.015
-			if cooked1 < 0 then
-				cooked1 = 0
-			end
-		end
-	end
-	end,
-
-	in_pool = function()
-		return false
-	end,
-
-	set_card_type_badge = function(self, card, badges)
-	badges[#badges+1] = create_badge("Gimmick", {1, 0.5, 0, 1}, G.C.WHITE, 1.2)
-	end
-}
 
 atlas("pencil", "pencil.png", 71, 95)
-
-SMODS.Joker {
-	key = 'pencil', 
-	atlas = 'pencil', 
-	pos = { x = 0, y = 0 }, 
-	loc_txt = {
-		name = 'Pencil', 
-		text = {
-			"Takes the value of all {C:attention}numbered cards{} and adds them to Mult."
-		}
-	},
-	pools = {
-
-    },
-	config = { }, 
-	rarity = 2, 
-	cost = 0, 
-
-	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play then
-        local value = context.other_card.base and context.other_card.base.value or false
-        return {mult = tonumber(context.other_card.base.value)}
-    end
-	end,
-}
-
 
 
 atlas("g-tax", "g-tax.png", 71, 95)
@@ -7980,131 +6396,7 @@ SMODS.Sticker{
         card.ability[self.key] = val
     end,
 }
-  local original_main_menu = Game.main_menu
-Game.main_menu = function(self, change_context)
-     if not title_screen_randomized then
-         title_variant = 1
-        title_screen_randomized = true
-    else
-          local variants_list = {1, 2, 3, 4, 5, 6}
-        math.randomseed(os.time())
-        math.random(); math.random(); math.random() -- warm up
-        
-        local random_index = math.random(#variants_list)
-        local random_num = variants_list[random_index]
-        
-        title_variant = random_num
-    end
-     local title_logos = {
-        [1] = {atlas = "balatro", pos = {x = 0, y = 0}}, -- Default Balatro
-        [2] = {atlas = "balatro2", pos = {x = 0, y = 0}}, -- Variant 2
-		[3] = {atlas = "balatro3", pos = {x = 0, y = 0}}, -- Variant 2
-		[4] = {atlas = "balatro4", pos = {x = 0, y = 0}}, -- Variant 2
-		[5] = {atlas = "balatro5", pos = {x = 0, y = 0}}, -- Variant 2
-		[6] = {atlas = "balatro6", pos = {x = 0, y = 0}}, -- Variant 2
-    }
-    
-    local selected_logo = title_logos[title_variant] or title_logos[1]
-    if G.ASSET_ATLAS[selected_logo.atlas] then
-         G.ASSET_ATLAS["balatro"] = G.ASSET_ATLAS[selected_logo.atlas]
-    else
-    end
-     original_main_menu(self, change_context)
-      if G.title_top then
-        G.title_top.config.card_limit = 8  -- Allow up to 4 cards
-         local original_width = G.title_top.T.w
-         G.title_top.T.w = G.title_top.T.w * 8
-         G.title_top.T.x = G.title_top.T.x - (G.title_top.T.w - original_width) / 2
-        G.title_top:hard_set_T()  -- Apply the changes
-    end
-     G.E_MANAGER:add_event(Event({
-        trigger = 'before',
-        delay = 0,
-        func = function()
-            if G.title_top and G.title_top.cards then
-                 for i = #G.title_top.cards, 1, -1 do
-                    local card = G.title_top.cards[i]
-                    if card then
-                        card:remove()
-                    end
-                end
-                G.title_top.cards = {}
-                 local variants = {
-                     {
-						{key = "j_fams_butterdog", x = 1.5, y = 0},
-                        {key = "j_fams_yogi", x = -1.5, y = 0},
-                        {key = "j_fams_earl", x = 0, y = -1.5},
-                        {key = "j_fams_bear", x = 1.5, y = 0},
-						{key = "j_fams_radiation", x = 1.5, y = 0}
-                    },
-                    {
-                        {key = "j_fams_steve", x = -1.5, y = 0},
-                        {key = "j_fams_bob", x = -0.5, y = 0},
-                        {key = "j_fams_joe", x = 0.5, y = 0},
-						{key = "j_fams_tidywhitey", x = 1.5, y = 0},
-						{key = "j_fams_purple", x = 1.5, y = 0}
-                        
-                    },
-					{
-                        {key = "j_even_steven", x = -1.5, y = 0},
-                        {key = "j_fams_divorce", x = -0.5, y = 0},
-                        {key = "j_odd_todd", x = 0.5, y = 0},
-                    },
-					{
-                        {key = "j_fams_wouldyourather", x = 0.5, y = 0},
-                    },
-					{
-                        {key = "j_fams_skeleton", x = 0.5, y = 0},
-                    },
-					{
-                        {key = "j_fams_ritz", x = 0.5, y = 0},
-                    }
-                }
-                 local selected_variant = variants[title_variant] or variants[1]
-                 for i, card_info in ipairs(selected_variant) do
-                    local joker_card = Card(
-                        G.title_top.T.x + card_info.x * G.CARD_W, 
-                        G.title_top.T.y + card_info.y * G.CARD_H, 
-                        1.2 * G.CARD_W, 
-                        1.2 * G.CARD_H, 
-                        nil, 
-                        G.P_CENTERS[card_info.key]
-                    )
-                    G.title_top:emplace(joker_card)
-                    joker_card.states.visible = true
-                    joker_card.no_ui = true
-                    joker_card.ambient_tilt = 0.0
-                     joker_card.title_card_index = i
-                end
-                 G.E_MANAGER:add_event(Event({
-                    trigger = 'immediate',
-                    delay = 0.1, -- Change sprites every 2 seconds
-                    repeatable = true,
-                    func = function()
-                        if G.title_top and G.title_top.cards and G.STATE == G.STATES.MAIN_MENU then
-                            for _, card in ipairs(G.title_top.cards) do
-                                if card.title_card_index then
-                                     local joker_keys = {"j_fams_earl", "j_fams_stressed", "j_fams_mus", "j_fams_yogi", "j_fams_bear"}
-                                    local current_time = math.floor(G.TIMERS.REAL / 2) -- Change every 2 seconds
-                                    local sprite_index = ((current_time + card.title_card_index) % #joker_keys) + 1
-                                    local new_center = G.P_CENTERS[joker_keys[sprite_index]]
-                                    
-                                    if new_center and card.config.center ~= new_center then
-                                         card.config.center = new_center
-                                        card:set_sprites(card.config.center, card.config.card)
-                                        card:juice_up(0.1, 0.1) -- Add a small juice effect when changing
-                                    end
-                                end
-                            end
-                        end
-                        return G.STATE == G.STATES.MAIN_MENU -- Continue only if still in main menu
-                    end
-                }))
-            end
-            return true
-        end
-    }))
-end
+
 
 SMODS.Consumable {
     key = "basketball",
@@ -8142,3 +6434,6 @@ SMODS.Consumable {
         return false
     end
 }
+
+assert(SMODS.load_file('src/jokers.lua'))()
+-- assert(SMODS.load_file('src/mainmenu.lua'))()
