@@ -16,7 +16,7 @@ SMODS.Joker {
 	},
 	config = { extra = { xmult = 0.5 } },
 	rarity = 4,
-	atlas = 'Earl',
+	atlas = 'jokers',
 	pos = { x = 0, y = 0 },
 	cost = 8,
 loc_vars = function(self, info_queue, card)
@@ -65,8 +65,8 @@ SMODS.Joker {
 	},
 	config = { extra = { xchips = 0.5 } },
 	rarity = 4,
-	atlas = 'yogi',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 1, y = 0 },
 	cost = 8,
 loc_vars = function(self, info_queue, card)
 	local dollars = G.GAME.dollars or 1
@@ -114,8 +114,8 @@ SMODS.Joker {
 	},
 	config = { extra = { xchips = 0.5 } },
 	rarity = 4,
-	atlas = 'bear',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 2, y = 0 },
 	cost = 8,
 loc_vars = function(self, info_queue, card)
 	local dollars = G.GAME.dollars or 1
@@ -163,8 +163,8 @@ SMODS.Joker {
 	config = {},
 	rarity = 1,
 	cost = 2,
-	atlas = 'tobyradiationfox',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 3, y = 0 },
 calculate = function(self, card, context)
 	   if context.joker_main then
 
@@ -187,8 +187,8 @@ end,
 
 SMODS.Joker {
 	key = 'butterdog', 
-	atlas = 'butterdog', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 4, y = 0 },
 	loc_txt = {
 		name = 'ButterDog, The dog with da buttah on em', 
 		text = {
@@ -243,8 +243,8 @@ SMODS.Joker {
 	},
 	config = { bitesleft = 0 },
 	rarity = 4,
-	atlas = 'pedigree',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 5, y = 0 },
 	cost = 8,
 loc_vars = function(self, info_queue, card)
 	bites = self.config.bitesleft
@@ -279,8 +279,8 @@ SMODS.Joker {
 	config = {},
 	rarity = 2,
 	cost = 5,
-	atlas = 'tonybronxreal',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 6, y = 0 },
 calc_dollar_bonus = function(self, card)
 		play_sound("fams_dogresevil", 1, 1)
         return 5
@@ -301,8 +301,8 @@ SMODS.Joker {
 	config = {},
 	rarity = 1,
 	cost = 0.05,
-	atlas = 'penny',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 7, y = 0 },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.cardarea == G.jokers then
 			G.GAME.dollars = (G.GAME.dollars or 0) + 0.01
@@ -326,8 +326,8 @@ SMODS.Joker {
 	config = {},
 	rarity = 1,
 	cost = 0,
-	atlas = 'nickel',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 8, y = 0 },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.cardarea == G.jokers then
 			G.GAME.dollars = (G.GAME.dollars or 0) + 0.05
@@ -351,8 +351,8 @@ SMODS.Joker {
 	config = {},
 	rarity = 1,
 	cost = 0,
-	atlas = 'dime',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 9, y = 0 },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.cardarea == G.jokers then
 			G.GAME.dollars = (G.GAME.dollars or 0) + 0.10
@@ -376,8 +376,8 @@ SMODS.Joker {
 	config = {},
 	rarity = 1,
 	cost = 0,
-	atlas = 'quarter',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 0, y = 1 },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.cardarea == G.jokers then
 			G.GAME.dollars = (G.GAME.dollars or 0) + 0.25
@@ -401,8 +401,8 @@ SMODS.Joker {
 	config = {},
 	rarity = 3,
 	cost = 0,
-	atlas = 'doller',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 1, y = 1 },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.cardarea == G.jokers then
 			G.GAME.dollars = (G.GAME.dollars or 0) + 1
@@ -426,8 +426,8 @@ SMODS.Joker {
 	config = {},
 	rarity = 1,
 	cost = 0,
-	atlas = 'penny',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 2, y = 1 },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.cardarea == G.jokers then
 			G.GAME.dollars = (G.GAME.dollars or 0) + 0.01
@@ -442,8 +442,8 @@ end
 
 SMODS.Joker {
 	key = 'jenkins',
-	atlas = 'jenkins',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 2, y = 1 },
 	loc_txt = {
 		name = 'Ol\' Jenkins Music Machine',
 		text = {
@@ -471,8 +471,8 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'ritz',
-	atlas = 'ritz',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 3, y = 1 },
 	loc_txt = {
 		name = 'Ritz Box',
 		text = {
@@ -515,8 +515,8 @@ end,
 
 SMODS.Joker {
     key = 'coke',
-    atlas = 'othercola',
-    pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 4, y = 1 },
     loc_txt = {
         name = 'Coke Cola',
         text = {
@@ -566,8 +566,8 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'bigboobs',
-	atlas = 'bigboobs',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 5, y = 1 },
 	loc_txt = {
 		name = 'Big Boobs',
 		text = {
@@ -594,9 +594,9 @@ end
 
 SMODS.Joker {
 	key = 'wouldyourather', 
-	atlas = 'wyrj', 
-	pos = { x = 0, y = 0 }, 
-	soul_pos = { x = 1, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 6, y = 1 },
+	soul_pos = { x = 7, y = 1 }, 
 	loc_txt = {
 		name = 'Would You Rather?', 
 		text = {
@@ -623,8 +623,8 @@ end,
 
 SMODS.Joker {
 	key = 'steve', 
-	atlas = 'steve', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 8, y = 1 },
 	loc_txt = {
 		name = '{C:edition,E:1,s:1.5}S T E V E{}', 
 		text = {
@@ -653,8 +653,8 @@ end,
 
 SMODS.Joker {
 	key = 'bob', 
-	atlas = 'bob', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 9, y = 1 },
 	loc_txt = {
 		name = '{C:edition,E:1,s:1.5}B O B{}', 
 		text = {
@@ -685,8 +685,8 @@ end,
 
 SMODS.Joker {
 	key = 'joe', 
-	atlas = 'joe', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 0, y = 2 },
 	loc_txt = {
 		name = '{C:edition,E:1,s:1.5}J O E{}', 
 		text = {
@@ -713,8 +713,8 @@ end,
 
 SMODS.Joker {
 	key = 'tidywhitey', 
-	atlas = 'tidywhitey', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 1, y = 2 },
 	loc_txt = {
 		name = '{C:edition,E:1,s:1.5}T I G H T Y  W H I T E Y{}', 
 		text = {
@@ -745,8 +745,8 @@ end,
 
 SMODS.Joker {
 	key = 'purple', 
-	atlas = 'purple', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 2, y = 2 },
 	loc_txt = {
 		name = '{C:edition,E:1,s:1.5}P U R P L E{}', 
 		text = {
@@ -776,8 +776,8 @@ end,
 
 SMODS.Joker {
 	key = 'halo', 
-	atlas = 'halo', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 3, y = 2 },
 	loc_txt = {
 		name = 'The Halo Rule', 
 		text = {
@@ -807,8 +807,8 @@ end,
 
 SMODS.Joker {
 	key = 'coolj', 
-	atlas = 'coolj', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 4, y = 2 },
 	loc_txt = {
 		name = 'Thumbs up emoji', 
 		text = {
@@ -865,8 +865,8 @@ end,
 
 SMODS.Joker {
 	key = 'kitchgun', 
-	atlas = 'kitchengun', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 5, y = 2 },
 	loc_txt = {
 		name = '{C:edition,E:1,s:1.2}Kitchen Gun{}',
 		text = {
@@ -900,8 +900,8 @@ end,
 
 SMODS.Joker {
 	key = 'gernade', 
-	atlas = 'gernade', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 6, y = 2 },
 	loc_txt = {
 		name = '{C:edition,E:1,s:1.2}Toilet Grenade{}',
 		text = {
@@ -928,7 +928,8 @@ end,
 
  SMODS.Joker {
 	key = 'ramsay',
-	atlas = "ramsay",
+	atlas = 'jokers',
+	pos = { x = 7, y = 2 },
 	loc_txt = {
 		name = 'Gordon Ramsay',
 		text = {
@@ -943,7 +944,6 @@ end,
 	config = { swearmult = 1 },
 	rarity = 2,
 	cost = 4,
-	pos = { x = 0, y = 0 },
     calculate = function(self, card, context)
 	if card.ability.swearmult then
 		
@@ -987,8 +987,8 @@ SMODS.Joker {
 	},
 	config = { extra = { xmult = 0.5 } },
 	rarity = 1,
-	atlas = 'littleshit',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 8, y = 2 },
 	cost = 1,
 loc_vars = function(self, info_queue, card)
 	
@@ -1018,9 +1018,9 @@ SMODS.Joker {
 	config = {},
 	rarity = 1,
 	cost = 1,
-	atlas = 'toegore',
-	pos = { x = 0, y = 0 },
-	soul_pos = { x = 1, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 9, y = 2 },
+	soul_pos = { x = 0, y = 3 },
 	calculate = function(self, card, context)
 	
 	end,
@@ -1041,8 +1041,8 @@ SMODS.Joker {
 	},
 	config = { extra = { } },
 	rarity = 2,
-	atlas = 'stressed',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 1, y = 3 },
 	cost = 6,
 loc_vars = function(self, info_queue, card)
 	local handlef = handsLeft() or 0
@@ -1108,7 +1108,8 @@ SMODS.Joker {
 	"{X:mult,C:white}Click{}{X:mult,C:white} it.{}",
 	"{C:inactive}Currently spawns every #1# seconds{}"}
     },
-    atlas = "spawn", 
+	atlas = 'jokers',
+	pos = { x = 2, y = 3 },
     cost = -5,
 	rarity = 1,
 	pools = {
@@ -1147,8 +1148,8 @@ SMODS.Joker {
 
 SMODS.Joker {
 	key = 'mus',
-	atlas = 'metro',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 3, y = 3 },
 	loc_vars = function(self, info_queue, card)
 	return { vars = {getBPMTick(), G.GAME.bpmmax}, colours = { HEX('#c1a1d3ff') } }
 end,
@@ -1170,8 +1171,8 @@ end,
 
 SMODS.Joker {
 	key = 'skeleton', 
-	atlas = 'evilfuckingskeletonfromgoogleimages', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 4, y = 3 },
 	loc_txt = {
 		name = 'evil fucking skeleton from google images', 
 		text = {
@@ -1232,8 +1233,8 @@ end,
 
 SMODS.Joker {
 	key = 'webster',
-	atlas = 'webster',
-	pos = { x = 0, y = 0 },
+	atlas = 'jokers',
+	pos = { x = 5, y = 3 },
 	loc_vars = function(self, info_queue, card)
 		local words_found = card.ability.extra.words_found or {}
 		return { vars = { card.ability.extra.mult, #words_found } }
@@ -1409,204 +1410,11 @@ end
 		end
 	end,
 }
-
-SMODS.Joker {
-	key = 'webster',
-	atlas = 'webster',
-	pos = { x = 0, y = 0 },
-	loc_vars = function(self, info_queue, card)
-		local words_found = card.ability.extra.words_found or {}
-		return { vars = { card.ability.extra.mult, #words_found } }
-	end,
-	loc_txt = {
-		name = 'Webster Dictionary',
-		text = {
-			'all jokers in {C:attention}Jokers or Booster Packs{} with a {C:attention}new word{}, Gain {C:red}+mult{} equal to the',
-			'length of each {C:attention}new word{} found in card names',
-			'{C:inactive}(Currently {C:red}+#1#{C:inactive} mult from {C:attention}#2#{C:inactive} words)'
-		}
-	},
-	config = { extra = {mult = 0, words_found = {}} },
-	rarity = 2,
-	cost = 15,
- 	extract_words = function(text)
-		if not text or type(text) ~= "string" then 
-			return {} 
-		end
-		local words = {}
- 		local clean_text = string.lower(text)
-		for word in string.gmatch(clean_text, "%a+") do
-			if #word > 1 then -- Only consider words with more than 1 letter
-				table.insert(words, word)
-			else
-			end
-		end
-		return words
-	end,
- 	is_new_word = function(self, word, found_words)
-		for _, found_word in ipairs(found_words) do
-			if found_word == word then
-				return false
-			end
-		end
-		return true
-	end,
-	
-	calculate = function(self, card, context)
- 		if (context.buying_card or context.open_booster or context.using_consumeable or context.add_to_deck) and context.card then
-			local bought_card = context.card
-			local card_name = ""
- 			if bought_card.config and bought_card.config.center then
-				if bought_card.config.center.name then
-					card_name = bought_card.config.center.name
-				elseif bought_card.config.center.loc_txt and bought_card.config.center.loc_txt.name then
-					card_name = bought_card.config.center.loc_txt.name
-				elseif bought_card.config.center.key then
-					card_name = bought_card.config.center.key
-				end
-			elseif bought_card.ability and bought_card.ability.name then
-				card_name = bought_card.ability.name
-			elseif bought_card.name then
-				card_name = bought_card.name
-			end
-  		if card_name and type(card_name) == "string" and card_name ~= "" then
-			local words_in_name = extract_words_from_text(card_name)
-			local found_words = card.ability.extra.words_found or {}
-			local new_words = {}
-			local total_new_mult = 0
- 			for _, word in ipairs(words_in_name) do
-
-				if is_word_new(word, found_words) then
-					table.insert(found_words, word)
-					table.insert(new_words, word)
-					total_new_mult = total_new_mult + #word
-
-				else
-
-				end
-			end				-- Update the joker's stored words and mult
-				card.ability.extra.words_found = found_words
-				card.ability.extra.mult = card.ability.extra.mult + total_new_mult
- 				if #new_words > 0 then
-					local message = "+" .. total_new_mult .. " from " .. #new_words .. " new word"
-					if #new_words > 1 then message = message .. "s" end
-
-					return {
-						message = message,
-						colour = G.C.RED
-					}
-				else
-
-				end
-			end
-		end
- 		if context.joker_main then
-			if card.ability.extra.mult > 0 then
-				return {
-					mult = card.ability.extra.mult,
-				}
-			end
-		end
-	end,
- 	add_to_deck = function(self, card, from_debuff)
- 		local is_webster = false
-		if card.config and card.config.center and card.config.center.name == "Webster Dictionary" then
-			is_webster = true
-		end
- 		if G and G.jokers and G.jokers.cards then
-			for _, joker in ipairs(G.jokers.cards) do
- 				local joker_name = ""
-				if joker.config and joker.config.center and joker.config.center.name then
-					joker_name = joker.config.center.name
-				end
-				
-				if joker_name == "Webster Dictionary" then
-					if is_webster and joker == card then
- 						self:scan_all_cards_for_webster(joker)
-					elseif not is_webster then
- 						self:check_card_for_webster(joker, card)
-					end
-				end
-			end
-		end
-	end,
- 	scan_all_cards_for_webster = function(self, webster_card)
-		local all_cards = {}
- 		if G and G.jokers and G.jokers.cards then
-			for _, joker_card in ipairs(G.jokers.cards) do
-				if joker_card ~= webster_card then
-					table.insert(all_cards, joker_card)
-				end
-			end
-		end
- 		if G and G.consumeables and G.consumeables.cards then
-			for _, consumable_card in ipairs(G.consumeables.cards) do
-				table.insert(all_cards, consumable_card)
-			end
-		end
- 		for _, target_card in ipairs(all_cards) do
-			self:check_card_for_webster(webster_card, target_card)
-		end
-	end,
- 	check_card_for_webster = function(self, webster_card, target_card)
-		local card_name = ""
- 		if target_card.config and target_card.config.center then
-    if target_card.config.center.name then
-        card_name = target_card.config.center.name
-    elseif target_card.config.center.loc_txt and target_card.config.center.loc_txt.name then
-        card_name = target_card.config.center.loc_txt.name
-    elseif target_card.config.center.key then
-        card_name = target_card.config.center.key
-    end
-elseif target_card.ability and target_card.ability.name then
-    card_name = target_card.ability.name
-elseif target_card.name then
-    card_name = target_card.name
-end
-		
-		if card_name and type(card_name) == "string" and card_name ~= "" then
-			local words_in_name = extract_words_from_text(card_name)
-			local found_words = webster_card.ability.extra.words_found or {}
-			local new_words = {}
-			local total_new_mult = 0
- 			for _, word in ipairs(words_in_name) do
-				if is_word_new(word, found_words) then
-					table.insert(found_words, word)
-					table.insert(new_words, word)
-					total_new_mult = total_new_mult + #word
-				else
-				end
-			end
- 			webster_card.ability.extra.words_found = found_words
-			webster_card.ability.extra.mult = webster_card.ability.extra.mult + total_new_mult
- 			if #new_words > 0 then
-				local message = "+" .. total_new_mult .. " from " .. #new_words .. " new word"
-				if #new_words > 1 then message = message .. "s" end
- 				if webster_card.juice_up then
-					webster_card:juice_up()
-				end
-			end
-		end
-	end,
-}
- function extract_words_from_text(text)
-	if not text or type(text) ~= "string" then 
-		return {} 
-	end
-	local words = {}
- 	local clean_text = string.lower(text)
-	for word in string.gmatch(clean_text, "%a+") do
-		if #word > 1 then -- Only consider words with more than 1 letter
-			table.insert(words, word)
-		end
-	end
-	return words
-end
 
 SMODS.Joker {
 	key = 'pencil', 
-	atlas = 'pencil', 
-	pos = { x = 0, y = 0 }, 
+	atlas = 'jokers',
+	pos = { x = 6, y = 3 },
 	loc_txt = {
 		name = 'Pencil', 
 		text = {

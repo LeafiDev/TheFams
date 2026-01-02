@@ -99,8 +99,8 @@ SMODS.Consumable{
             "Was a good boy smiling for his joker sprite!"
         }
     },
-    atlas = "Earl",
-    pos = {x = 0, y = 0},
+	atlas = 'jokers',
+	pos = { x = 0, y = 0 },
     cost = 3,
     unlocked = true,
     discovered = true,
@@ -115,8 +115,8 @@ SMODS.Consumable{
             "Was ALSO a good boy posing with {C:attention}Bear{} for his joker sprit"
         }
     },
-    atlas = "yogi",
-    pos = {x = 0, y = 0},
+	atlas = 'jokers',
+	pos = { x = 1, y = 0 },
     cost = 3,
     unlocked = true,
     discovered = true,
@@ -131,8 +131,8 @@ SMODS.Consumable{
             "Was ALSO ALSO a good boy posing with {C:attention}Yogi{} for his joker sprite"
         }
     },
-    atlas = "bear",
-    pos = {x = 0, y = 0},
+	atlas = 'jokers',
+	pos = { x = 2, y = 0 },
     cost = 3,
     unlocked = true,
     discovered = true,
