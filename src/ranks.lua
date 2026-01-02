@@ -8,7 +8,7 @@ SMODS.Rank {
   loc_txt = {name = '1'},
   shorthand = '1',
   face = false,
-  next = {"2", "Ace"},
+  next = {"2"},
   strength_effect = { fixed = 1 },
   straight_edge = true,
 }
