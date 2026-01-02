@@ -21,7 +21,9 @@ SMODS.Consumable{
     loc_txt = {
         name = "ObviousAlexC",
         text = {
-            "Helped me understand advanced lua code.",
+            "Worked on more than half of the entire refactor lol",
+            "redrew the piano voucher, FL studio, Jynx's card sprite",
+            "added shine to all boss blinds",
 			"{C:inactive}S l e e p y  f e l l a{}"
         }
     },
