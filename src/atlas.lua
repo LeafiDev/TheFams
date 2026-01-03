@@ -196,8 +196,8 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
-	key = "basketball",
-	path = "basketball.png",
+	key = "planets",
+	path = "planets.png",
 	px = 71,
 	py = 95
 }

@@ -1119,7 +1119,6 @@ SMODS.Challenge {
 	},
 	modifiers = {
 		{id = "joker_slots", value = 5},
-		{id = "dollars", value = 50},
 	}
   },
   restrictions = {
@@ -1127,7 +1126,94 @@ SMODS.Challenge {
 	banned_tags = {},
 	banned_other = {}
   },
-  button_colour = G.C.BLUE,
+  button_colour = G.C.FILTER,
+  consumeables = {},
+  vouchers = {}
+}
+
+SMODS.Challenge {
+  key = 'geye',
+  loc_txt = {
+	name = "Eye for a golden eye",
+  },
+  jokers = {
+	{id = "j_golden"},
+  },
+  deck = {
+	type = 'Challenge Deck',
+	cards = (function()
+	local cards = {}
+	for i = 1, 4 do
+	table.insert(cards, {r = "J", s = 'S'})
+	table.insert(cards, {r = "K", s = 'S'})
+	table.insert(cards, {r = "Q", s = 'S'})
+	table.insert(cards, {r = "J", s = 'D'})
+	table.insert(cards, {r = "K", s = 'D'})
+	table.insert(cards, {r = "Q", s = 'D'})
+	table.insert(cards, {r = "J", s = 'H'})
+	table.insert(cards, {r = "K", s = 'H'})
+	table.insert(cards, {r = "Q", s = 'H'})
+	table.insert(cards, {r = "J", s = 'C'})
+	table.insert(cards, {r = "K", s = 'C'})
+	table.insert(cards, {r = "Q", s = 'C'})
+	end
+	return cards
+  end)()
+  },
+  rules = {
+	custom = {
+
+	},
+	modifiers = {
+		{id = "hands", value = 1},
+		{id = "discards", value = 3},
+	}
+  },
+  restrictions = {
+	banned_cards = {{id = "j_fams_earl"}, {id = "j_fams_yogi"}, {id = "j_fams_bear"}},
+	banned_tags = {},
+	banned_other = {}
+  },
+  button_colour = G.C.MONEY,
+  consumeables = {{ id = "c_fams_m-m"}},
+  vouchers = {}
+}
+
+SMODS.Challenge {
+  key = '',
+  loc_txt = {
+	name = "I\'m jacking it",
+  },
+  jokers = {
+
+  },
+  deck = {
+	type = 'Challenge Deck',
+	cards = (function()
+	local cards = {}
+	for i = 1, 4 do
+	table.insert(cards, {r = "J", s = 'H'})
+	table.insert(cards, {r = "J", s = 'D'})
+	table.insert(cards, {r = "J", s = 'S'})
+	table.insert(cards, {r = "J", s = 'C'})
+	end
+	return cards
+  end)()
+  },
+  rules = {
+	custom = {
+
+	},
+	modifiers = {
+
+	}
+  },
+  restrictions = {
+	banned_cards = {{id = "c_planet_x"}},
+	banned_tags = {},
+	banned_other = {}
+  },
+  button_colour = G.C.BLACK,
   consumeables = {},
   vouchers = {}
 }

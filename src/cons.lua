@@ -1208,20 +1208,21 @@ SMODS.Consumable {
     loc_txt = {
         name = "Basketball",
         text = {
-            "Level up your most",
-            "played {C:attention}poker hand{} thrice",
-            "{C:inactive}(Currently {C:attention}#1#{C:inactive}){}"
+            "level up", "{}most played hand{}", ""
         }
     },
-    atlas = "basketball",
+    atlas = "planets",
+    soul_rate = 0.005,
+    soul_set = 'Planet',
     pos = {x = 0, y = 0},
     cost = 3,
     unlocked = true,
     discovered = true,
+    hidden = true,
     
     loc_vars = function(self, info_queue, card)
         local most_played = mostPlayedHand() or "High Card"
-        return { vars = { most_played } }
+        return { vars = { most_played} }
     end,
     
     can_use = function(self, card)
@@ -1236,7 +1237,67 @@ SMODS.Consumable {
             return true
         end
         return false
-    end
+    end,
+}
+
+SMODS.Consumable {
+    key = "flushofdog",
+    set = "Planet",
+    loc_txt = {
+        name = "DAWG",
+        text = {
+            "(lvl.#1#) level up", "{C:attention}Flush Of Dog{}", "{C:red}+2{} Mult", "{C:blue}+50{} Chips"
+        }
+    },
+    atlas = "planets",
+    pos = {x = 1, y = 0},
+    cost = 3,
+    unlocked = true,
+    discovered = true,
+    
+    loc_vars = function(self, info_queue, card)
+        local most_played = G.GAME.hands.fams_flushofdog.level
+        return { vars = { most_played } }
+    end,
+    
+    can_use = function(self, card)
+        return true
+    end,
+    
+    use = function(self, card, area, copier)
+        SMODS.smart_level_up_hand(card, "fams_flushofdog", false, 1)
+        return false
+    end,
+}
+
+SMODS.Consumable {
+    key = "flushtwopair",
+    set = "Planet",
+    loc_txt = {
+        name = "Jupanus",
+        text = {
+            "(lvl.#1#) level up", "{C:attention}Flush Two Pair{}", "{C:red}+2{} Mult", "{C:blue}+35{} Chips"
+        }
+    },
+    atlas = "planets",
+    pos = {x = 2, y = 0},
+    cost = 3,
+    unlocked = true,
+    discovered = true,
+    
+    loc_vars = function(self, info_queue, card)
+        local most_played = G.GAME.hands.fams_flushofdog.level
+        return { vars = { most_played } }
+    end,
+    
+    can_use = function(self, card)
+        return true
+    end,
+    
+    use = function(self, card, area, copier)
+        SMODS.smart_level_up_hand(card, "fams_Flush Two Pair", false, 1)
+        return false
+    end,
 }
 
 

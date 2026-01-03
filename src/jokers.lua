@@ -30,7 +30,7 @@ set_card_type_badge = function(self, card, badges)
 end,
 calculate = function(self, card, context)
 
-	   if context.joker_main then
+	   if context.joker_main and not context.blueprint then
 		if hasJoker("j_fams_pedigree") then
 			local dollars = G.GAME.dollars
 			if not dollars or dollars < 1 then
@@ -79,7 +79,7 @@ set_card_type_badge = function(self, card, badges)
 end,
 calculate = function(self, card, context)
 
-	   if context.joker_main then
+	   if context.joker_main and not context.blueprint then
 		if hasJoker("j_fams_pedigree") then
 			   local dollars = G.GAME.dollars
 			if not dollars or dollars < 1 then
@@ -128,7 +128,7 @@ set_card_type_badge = function(self, card, badges)
 end,
 calculate = function(self, card, context)
 
-	   if context.joker_main then
+	   if context.joker_main and not context.blueprint then
 		if hasJoker("j_fams_pedigree") then
 			   local dollars = G.GAME.dollars
 			if not dollars or dollars < 1 then
@@ -1176,7 +1176,7 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'evil fucking skeleton from google images', 
 		text = {
-			"{C:red}+66{} Mult if a {C:attention}Jack{} is in played hand.",
+			"{C:red}+15{} Mult if a {C:attention}Jack{} is in played hand.",
 			"{C:red}No exceptions.{}"
 		}
 	},
@@ -1195,7 +1195,7 @@ calculate = function(self, card, context)
 			for _, card in ipairs(context.full_hand) do
 				if card.base and card.base.value == "Jack" then
 					
-					return { mult = 66, sound = "fams_skull", message = 'Bad to the bone - Sound Effect HD.mp3'}
+					return { mult = 15, sound = "fams_skull", message = 'Bad to the bone - Sound Effect HD.mp3'}
 				end
 			end
 	end
