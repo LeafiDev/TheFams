@@ -679,11 +679,11 @@ SMODS.Consumable {
 	end,
 
 	add_to_deck = function(self, card, from_debuff)
-		G.GAME.probabilities.normal = G.GAME.probabilities.normal + 999999
+		G.GAME.probabilities.normal = G.GAME.probabilities.normal + 9999
 	end,
 
 	remove_from_deck = function(self, card, from_debuff)
-		G.GAME.probabilities.normal = G.GAME.probabilities.normal - 999999
+		G.GAME.probabilities.normal = G.GAME.probabilities.normal - 9999
 	end,
 }
 
