@@ -458,7 +458,7 @@ SMODS.Consumable({
 	update = function(self, card, dt)
         if (card.rolling) then
             card.children.center.sprite_pos = { x = math.floor(card.rollAnim % 6), y = 1 };
-			card.rollAnim = card.rollAnim - dt * 12 * math.max(2, G.SETTINGS.GAMESPEED);
+			card.rollAnim = card.rollAnim - dt * 12 * math.max(2, G.SPEEDFACTOR);
 			card:set_sprites();
 
             if (card.rollAnim <= 0) then
