@@ -15,10 +15,12 @@ assert(SMODS.load_file('src/challenge.lua'))()
 assert(SMODS.load_file('src/backs.lua'))()
 assert(SMODS.load_file('src/mainmenu.lua'))()
 assert(SMODS.load_file('src/cardsleeves.lua'))()
+assert(SMODS.load_file('src/timers.lua'))()
 
 
 title_variant = title_variant or 1
 title_screen_randomized = false
+timer_active = false
 
 trigger_global_chip_decrease = function()
 	if G and G.E_MANAGER and G.GAME then
@@ -280,7 +282,7 @@ GetWinningAnte = function()
 end
 
 GetStake = function()
-	return G.GAME.stake or 0
+	return G.GAME.stake or nil
 end
 
 isEternal = function(card)
@@ -613,7 +615,7 @@ end
 
 local timer_text_node = nil
 showUItimer = function(newtime)
-	if G and G.GAME and (G.GAME.challenge == "c_fams_bomb" or GetStake() == 9) and type(G.GAME.bomb_timer) == "number" and G.GAME.bomb_timer > 0 then
+	if G and G.GAME and timer_active and type(G.GAME.bomb_timer) == "number" and G.GAME.bomb_timer > 0 then
 		timer = G.GAME.bomb_timer
 	else
 		timer = newtime
@@ -1095,7 +1097,7 @@ end
  
 
 triggered_antes_music_update2 = triggered_antes_music_update2 or {}
- local dogtrials_jokers = {
+dogtrials_jokers = {
 	[2] = "j_fams_earl",
 	[4] = "j_fams_yogi",
 	[6] = "j_fams_bear",

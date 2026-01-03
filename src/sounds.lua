@@ -312,45 +312,91 @@ SMODS.Sound {
   path = "music_wind.ogg",
   select_music_track = function(self)
 	clearCustomTextAfterDraw()
+	
+	-- Reset to default timer settings first
+	local DEFAULT_TIMER_LENGTH = 60
+	local DEFAULT_USE_TIMERS = false
+	local previous_timer_length = TIMER_LENGTH or DEFAULT_TIMER_LENGTH
+	TIMER_LENGTH = DEFAULT_TIMER_LENGTH
+	USE_TIMERS = DEFAULT_USE_TIMERS
+	
+	if isChallenge("Dogtrials") then
+		SetWinningAnte(12)
+		TIMER_LENGTH = 600
+		USE_TIMERS = true
+	elseif isChallenge("bomb") then
+		TIMER_LENGTH = 30
+		USE_TIMERS = true
+		TIMER_ADD_BONUS = true
+	elseif GetStake() == 9 then
+		TIMER_LENGTH = 60
+		USE_TIMERS = true
+		TIMER_ADD_BONUS = true
+	end
+	
 	if G.STATE == G.STATES.WIN then
 
-		if isChallenge("bomb") and not blind_timer_bonus_given and G.GAME and G.GAME.current_round and type(G.GAME.current_round.hands_left) == "number" and G.GAME.current_round.hands_left > 0 then
+		if timer_active and not blind_timer_bonus_given and G.GAME and G.GAME.current_round and type(G.GAME.current_round.hands_left) == "number" and G.GAME.current_round.hands_left > 0 then
 			update_timer_text()
 			blind_timer_bonus_given = true
 		end
 		removeUItimer()
 	else
 		blind_timer_bonus_given = false
-		if G.STATE ~= G.STATES.MAIN_MENU and (isChallenge("bomb") or isChallenge("finale") or GetStake() == 9) then
-			if isChallenge("bomb") then
-				showUItimer(30)
-			else
-				if GetStake() == 9 then
-					showUItimer(60)
-				else
-					showUItimer(600)
-				end
-				
-			end
+		
+		-- Check if timer system is enabled (not on main menu or title screen)
+		if USE_TIMERS and G.STATE ~= G.STATES.MAIN_MENU and G.STATE ~= 11 and G.GAME then
+			-- Track the current game seed to detect new runs
+			local current_seed = G.GAME.pseudorandom and G.GAME.pseudorandom.seed or 0
+			
 
-			if G.GAME and G.GAME.facing_blind and not G.OVERLAY_MENU and G.STATE ~= 4 then
-				timer = timer - 0.015
+			local is_new_run = false
+			if not timer_last_seed or timer_last_seed ~= current_seed then
+				is_new_run = true
+				timer_last_seed = current_seed
+			end
+			
+
+			if is_new_run or not G.GAME.timer then
+				-- New run, initialize timer
+				timer = TIMER_LENGTH
+				timer_active = true
+				timeradd = false
+			elseif G.GAME.timer and type(G.GAME.timer) == "number" then
+				-- Continue from save
+				timer = G.GAME.timer
+				if not timer_active then
+					timer_active = true
+					timeradd = false
+				end
+			end
+			
+			G.GAME.timer = timer
+			
+			showUItimer(timer)
+			
+			if G.GAME.facing_blind and not G.OVERLAY_MENU and G.STATE ~= 4 then
+				local speed = math.min(G.SPEEDFACTOR, 1)
+				timer = timer - (0.008 * speed)
+				G.GAME.timer = timer
 				timeradd = true
 			end
 			update_timer_text()
 		else
+			-- Always reset timer when leaving a run
+			timer = TIMER_LENGTH
+			if G.GAME then
+				G.GAME.timer = nil
+			end
+			timer_active = false
+			timeradd = false  
 			removeUItimer()
 		end
 	end
-
-	if (G.STATE == 4 or G.STATE == 7 or G.STATE == 1) and not isPlayingBlind() and G.GAME.current_round ~= 0 then
-		
-	end
 	
-	if not isPlayingBlind() and timeradd == true then
-	if G.STATE ~= 0 and G.STATE ~= 2 and G.STATE ~= 3 then
-		if G.GAME and G.GAME.current_round and G.GAME.current_round.hands_left and G.GAME.current_round ~= 0 then
- 			if not isChallenge("finale") then
+	if USE_TIMERS and TIMER_ADD_BONUS and not isPlayingBlind() and timeradd == true then
+		if G.STATE ~= 0 and G.STATE ~= 2 and G.STATE ~= 3 then
+			if G.GAME and G.GAME.current_round and G.GAME.current_round.hands_left and G.GAME.current_round ~= 0 then
 				if G.GAME.current_round.hands_left > 0 then
 					addtime(10 * G.GAME.current_round.hands_left)
 				else
@@ -359,18 +405,16 @@ SMODS.Sound {
 			end
 		end
 	end
-	timeradd = false
-end
+	
+	if not isPlayingBlind() and timeradd == true then
+		timeradd = false
+	end
 
 if isPlayingBlind() then
 	
 else
 	triggeronce = true
 end
-
-	if (isChallenge('cor')) and G.hand and G.hand_text_area and G.hand_text_area.ante and G.hand_text_area.ante.config then
-		
-	end
 	
 	if G.STATE == 11 then
 		if title_variant == 1 then
@@ -416,20 +460,7 @@ end
 		end
 	end
 
-	timerdisplay = timerdisplay + ((timer - timerdisplay) / 10)
-
-	if getcurrentBlind() == "bl_fams_Drum" and tick_once then
-		flip_all_cards()
-		if (getBPMTick() == 1) then
-			play_sound('fams_tick1', 1, 1.1)
-		else
-			play_sound('fams_tick2', 1, 1)
-		end
-	end
-
-	if isChallenge("finale") then
-		SetWinningAnte(12)
-	end
+	timerdisplay = timerdisplay + ((timer - timerdisplay) / 15)
 
 	if isChallenge("choice") and getRoundNumber() ~= 0 then
 		SetMoney(0)
@@ -485,10 +516,6 @@ SMODS.Sound {
 			G.GAME.inflation = G.GAME.inflation + 5
 		end
 
-		if isChallenge("tiar") and G.STATE ~= 10 then
-   			
-		end
-
 		if isChallenge("bstreet") and G.STATE ~= 10 then
 			G.GAME.planet_rate = 0
 			G.GAME.tarot_rate = 0
@@ -526,8 +553,6 @@ SMODS.Sound {
 		end
 
 		if hasWon() or hasLost() then
-			cooked1 = 0
-			cooked2 = 0
  			triggered_antes_music_update2 = {}
 		end
  		last_checked_ante = last_checked_ante or 0
