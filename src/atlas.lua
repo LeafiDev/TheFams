@@ -229,3 +229,17 @@ SMODS.Atlas {
 	px = 29,
 	py = 29
 }
+
+SMODS.Atlas {
+	key = "rank1",
+	path = "rank1.png",
+	px = 71,
+	py = 95
+}
+
+SMODS.Atlas {
+	key = "hcrank1",
+	path = "hcrank1.png",
+	px = 71,
+	py = 95
+}

@@ -263,3 +263,26 @@ end,
         return isChallenge("Dogtrials")
     end
 }
+
+SMODS.Blind {
+    key = "trueend",
+	atlas = "bossBlinds",
+    pos = { x = 0, y = 10 },
+    loc_txt = {
+        name = "The Vortex",
+        text = {"Too far out..."}
+    },
+   	boss = { min = 8, showdown = true },
+    dollars = 10,
+    mult = 10,
+    boss_colour = HEX('4f6367'), 
+    set_blind = function(self)
+		
+    end,
+	press_play = function(self)
+		
+	end,
+	in_pool = function(self)
+		return isChallenge("dlcend")
+	end
+}

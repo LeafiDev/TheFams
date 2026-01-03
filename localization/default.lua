@@ -85,8 +85,17 @@ return {
             ch_c_beat1 = {
                 "Time signature reduced to {C:attention}3{}",
             },
-            ch_c_beat2 = {
-                "all cards debuffed only on beat {C:attention}4{}",
+            ch_c_flavor1 = {
+                "Get the couple together again!",
+            },
+            ch_c_dlcend1 = {
+                "{E:1}Just {C:attention}you{} and {C:fams}the fams{} to the end of reality{}",
+            },
+            ch_c_goodluck = {
+                "{E:1}Good Luck{}",
+            },
+            ch_c_finaledlc = {
+                "{C:edition,E:2}Winning Ante up to 38{}",
             },
         },
     },

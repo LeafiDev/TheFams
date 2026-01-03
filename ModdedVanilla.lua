@@ -16,6 +16,7 @@ assert(SMODS.load_file('src/backs.lua'))()
 assert(SMODS.load_file('src/mainmenu.lua'))()
 assert(SMODS.load_file('src/cardsleeves.lua'))()
 assert(SMODS.load_file('src/timers.lua'))()
+-- assert(SMODS.load_file('src/achievements.lua'))()
 
 
 title_variant = title_variant or 1

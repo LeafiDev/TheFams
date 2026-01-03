@@ -500,6 +500,11 @@ SMODS.Sound {
 			SetWinningAnte(10)
 		end
 
+		if isChallenge("dlcend") then
+			setrunBG({ 0.063, 0.098, 0.149, 1 }, {0, 0, 0, 0}, 1)
+			SetWinningAnte(38)
+		end
+
 		if isChallenge("ghost") then
 			setrunBG({0.25, 0.25, 0.25, 1}, {0.45, 0.45, 0.45, 0.45}, 1)
 		end
@@ -575,4 +580,119 @@ SMODS.Sound {
 			end
 			last_checked_ante = ante
 		end
+}
+
+
+
+thetimer = 0
+colrandom = math.random(0, 0.1)
+colrandom2 = math.random(0, 0.1)
+colrandom3 = math.random(0, 0.1)
+-- dlc finale
+
+SMODS.Sound {
+  key = "music_dlcf",
+  pitch = 1,
+  volume = 0.8,
+  path = "music_dlcf.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() <= 9 then
+	musicPower(2)
+	setBPM(130)
+	return 1000
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_stopit ",
+  pitch = 1,
+  volume = 0.7,
+  path = "music_stopit.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 25 and getAnte() < 30 then
+	musicPower(math.random(1, 8))
+	setBPM(math.random(90, 200))
+	thetimer = thetimer + 1 or 0
+	setrunBG({colrandom, colrandom2, colrandom3, 1}, {0, 0, 0, 0}, superease)
+	if thetimer >= math.random(35, 75) then
+		colrandom = math.random(0, 0.1)
+		colrandom2 = math.random(0, 0.1)
+		colrandom3 = math.random(0, 0.1)
+		thetimer = 0
+		superease = math.random(1, 4)
+	end
+	return 99440024
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_outer",
+  pitch = 1,
+  volume = 1,
+  path = "music_outer.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 20 and getAnte() < 25 then
+	musicPower(3)
+	setBPM(139)
+	return 999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_beyond",
+  pitch = 1,
+  volume = 1,
+  path = "music_beyond.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 10 and getAnte() < 20 then
+	musicPower(2.5)
+	setBPM(130)
+	return 999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_ender",
+  pitch = 1,
+  volume = 0,
+  path = "music_thankyou.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 39 then
+	musicPower(3)
+	setBPM(135)
+	return 9999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_thankyou",
+  pitch = 1,
+  volume = 1,
+  path = "music_thankyou.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 37 then
+	musicPower(3)
+	setBPM(135)
+	return 999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_vortex",
+  pitch = 1,
+  volume = 0.7,
+  path = "music_wind.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 30 and getAnte() < 37 then
+	musicPower(1)
+	setBPM(1)
+	return 999
+	end
+  end
 }

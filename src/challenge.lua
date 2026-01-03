@@ -9,6 +9,8 @@ Cghost = {0.6, 0.6, 0.6, 0.6 }
 glass = {0.6, 0.6, 0.6, 0.3 }
 darkglass = {0, 0, 0, 0.3 }
 timesignature = {0.902, 0.902, 0.980, 1.0 }
+edge = { 0.063, 0.098, 0.149, 1 }
+fams = { 0.545, 0.271, 0.075, 1 }
 
 
 SMODS.Challenge {
@@ -819,7 +821,7 @@ SMODS.Challenge {
   },
   rules = {
 	custom = {
-	
+		{id = "flavor1"}
 	},
 	modifiers = {
 	}
@@ -1036,4 +1038,39 @@ SMODS.Challenge {
   },
   consumeables = {},
   vouchers = {}
+}
+
+SMODS.Challenge {
+  key = 'dlcend',
+  loc_txt = {
+	name = "To the edge of the universe",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = edge,
+  rules = {
+	custom = {
+		{id = "finaledlc"},
+		{id = "goodluck"},
+	},
+	modifiers = {
+		{id = "joker_slots", value = 5},
+		{id = "consumable_slots", value = 6},
+		{id = "dollars", value = 10},
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+  unlocked = function(self)
+	return false
+  end
 }
