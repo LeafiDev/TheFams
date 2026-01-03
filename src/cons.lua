@@ -444,7 +444,7 @@ SMODS.Consumable({
 		end
 
 		if context.joker_main then
-			card.roll = math.random(currentprobability(), 6);
+			card.roll = math.floor(pseudorandom('dice') * 6) + 1;
 			card:juice_up()
 
 			return { xmult = card.roll }
@@ -463,7 +463,7 @@ SMODS.Consumable({
 
             if (card.rollAnim <= 0) then
                 card.rolling = false;
-                card.children.center.sprite_pos = { x = card.roll - 1, y = 0 };
+                card.children.center.sprite_pos = { x = (card.roll or 1) - 1, y = 0 };
                 card:set_sprites();
             end
         end
@@ -499,7 +499,7 @@ SMODS.Consumable({
 		end
 
 		if context.joker_main then
-			card.roll = math.random(currentprobability(), 6);
+			card.roll = math.floor(pseudorandom('dice') * 6) + 1;
 			card:juice_up()
 
             local expoMult = 1;
@@ -523,7 +523,7 @@ SMODS.Consumable({
 
             if (card.rollAnim <= 0) then
                 card.rolling = false;
-                card.children.center.sprite_pos = { x = card.roll - 1, y = 2 };
+                card.children.center.sprite_pos = { x = (card.roll or 1) - 1, y = 2 };
                 card:set_sprites();
             end
         end
@@ -532,6 +532,10 @@ SMODS.Consumable({
 			kill();
 		end
 	end,
+
+    in_pool = function(self)
+		return (pseudorandom('dice') < G.GAME.probabilities.normal / 8);
+    end
 })
 
 SMODS.Consumable {
