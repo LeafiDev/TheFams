@@ -437,18 +437,19 @@ SMODS.Consumable({
 	end,
 	use = function(self, card) end,
 	calculate = function(self, card, context)
-		if context.joker_main then
-			card.roll = math.random(currentprobability(), 6)
-			card:juice_up()
-			if card.roll > 6 then
-				card.roll = 6
-			end
+        if context.before then
+            print("Squakity")
+			card.rollAnim = 30;
+            card.rolling = true;
+            return;
+		end
 
-			if (card.roll) then card.children.center.sprite_pos = { x = card.roll - 1, y = 0 }; end
-			card:set_sprites()
+		if context.joker_main then
+			card.roll = math.random(currentprobability(), 6);
+			card:juice_up()
 
 			return { xmult = card.roll }
-		end
+        end
 	end,
 
 	can_use = function(self, card)
@@ -456,8 +457,19 @@ SMODS.Consumable({
 	end,
 
 	update = function(self, card, dt)
+        if (card.rolling) then
+            card.children.center.sprite_pos = { x = math.floor(card.rollAnim % 6), y = 1 };
+			card.rollAnim = card.rollAnim - dt * 12 * math.max(2, G.SETTINGS.GAMESPEED);
+			card:set_sprites();
+
+            if (card.rollAnim <= 0) then
+                card.rolling = false;
+                card.children.center.sprite_pos = { x = card.roll - 1, y = 0 };
+                card:set_sprites();
+            end
+        end
+
 		if (card.center) then
-			print(card.center);
 			kill();
 		end
 	end,
