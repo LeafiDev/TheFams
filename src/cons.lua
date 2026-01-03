@@ -438,7 +438,6 @@ SMODS.Consumable({
 	use = function(self, card) end,
 	calculate = function(self, card, context)
         if context.before then
-            print("Squakity")
 			card.rollAnim = 30;
             card.rolling = true;
             return;
