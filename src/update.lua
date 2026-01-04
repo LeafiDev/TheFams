@@ -226,11 +226,6 @@ G.fams_update = function(dt)
 		SetWinningAnte(10)
 	end
 
-	if isChallenge("dlcend") then
-		setrunBG({ 0.063, 0.098, 0.149, 1 }, { 0, 0, 0, 0 }, 1)
-		SetWinningAnte(38)
-	end
-
 	if isChallenge("ghost") then
 		setrunBG({ 0.25, 0.25, 0.25, 1 }, { 0.45, 0.45, 0.45, 0.45 }, 1)
 	end

@@ -330,16 +330,16 @@ SMODS.Sound {
   volume = 0.7,
   path = "music_stopit.ogg",
   select_music_track = function(self)
-	if isChallenge("dlcend") and getAnte() >= 25 and getAnte() < 30 then
+	if isChallenge("dlcend") and getAnte() >= 70 and getAnte() < 80 then
 	musicPower(math.random(1, 8))
 	setBPM(math.random(90, 200))
 	G.GAME.dollars = math.random(-10, 10)
 	thetimer = thetimer + 1 or 0
 	setrunBG({colrandom, colrandom2, colrandom3, 1}, {0, 0, 0, 0}, superease)
 	if thetimer >= math.random(35, 75) then
-		colrandom = math.random(0, 0.1)
-		colrandom2 = math.random(0, 0.1)
-		colrandom3 = math.random(0, 0.1)
+		colrandom = math.random(0, 0.5)
+		colrandom2 = math.random(0, 0.5)
+		colrandom3 = math.random(0, 0.5)
 		thetimer = 0
 	end
 	return 99440024
@@ -354,6 +354,22 @@ SMODS.Sound {
   path = "music_outer.ogg",
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 20 and getAnte() < 25 then
+  setrunBG({ 0, 0, 0, 1 }, { 0, 0, 0, 0 }, 1)
+	musicPower(3)
+	setBPM(139)
+	return 999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_outer",
+  pitch = 1,
+  volume = 1,
+  path = "music_outer.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 20 and getAnte() < 25 then
+  setrunBG({ 0, 0, 0, 1 }, { 0, 0, 0, 0 }, 1)
 	musicPower(3)
 	setBPM(139)
 	return 999
@@ -369,8 +385,84 @@ SMODS.Sound {
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 10 and getAnte() < 20 then
 	musicPower(2.5)
+  setrunBG({ 0.063, 0.098, 0.149, 1 }, { 0, 0, 0, 0 }, 1)
 	setBPM(130)
 	return 999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_yourlimit",
+  pitch = 1,
+  volume = 1,
+  path = "music_yourlimit.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 100 then
+  setrunBG({ 0.063, 0.098, 0.149, 1 }, { 0, 0, 0, 0 }, 1)
+	musicPower(10)
+	setBPM(130)
+	return 9999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_nolimit3",
+  pitch = 1,
+  volume = 0.5,
+  path = "music_nolimit3.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 70 and getAnte() < 100 then
+  setrunBG({ 1, 0.73, 0.54, 1 }, { 0.851, 0.557, 0.7, 1 }, 1)
+	musicPower(5)
+	setBPM(130)
+	return 9999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_nolimit2",
+  pitch = 1,
+  volume = 0.5,
+  path = "music_nolimit2.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 50 and getAnte() < 70 then
+    setrunBG({ 0.529, 0.725, 0.922, 1 }, { 0.698, 0.792, 0.89, 1 }, 1)
+	musicPower(5)
+	setBPM(130)
+	return 9999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_nolimit1",
+  pitch = 1,
+  volume = 0.5,
+  path = "music_nolimit1.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 40 and getAnte() < 50 then
+  setrunBG({ 0.545, 0.51, 0.78, 1 }, { 0.357, 0.325, 0.549, 1 }, 1)
+	musicPower(4)
+	setBPM(120)
+	return 9999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_nolimit",
+  pitch = 1,
+  volume = 0,
+  path = "music_nolimit1.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() >= 39 and getAnte() < 40 then
+  setrunBG({ 0, 0, 0, 1 }, { 0, 0, 0, 0 }, 1)
+	musicPower(4)
+	setBPM(120)
+	return 9999
 	end
   end
 }
@@ -381,7 +473,7 @@ SMODS.Sound {
   volume = 0,
   path = "music_thankyou.ogg",
   select_music_track = function(self)
-	if isChallenge("dlcend") and getAnte() >= 39 then
+	if isChallenge("dlcend") and getAnte() >= 39 and getAnte() < 45 then
 	musicPower(3)
 	setBPM(135)
 	return 9999
@@ -395,7 +487,7 @@ SMODS.Sound {
   volume = 1,
   path = "music_thankyou.ogg",
   select_music_track = function(self)
-	if isChallenge("dlcend") and getAnte() >= 37 then
+	if isChallenge("dlcend") and getAnte() >= 37 and getAnte() < 39 then
 	musicPower(3)
 	setBPM(135)
 	return 999
@@ -409,7 +501,7 @@ SMODS.Sound {
   volume = 0.7,
   path = "music_wind.ogg",
   select_music_track = function(self)
-	if isChallenge("dlcend") and getAnte() >= 30 and getAnte() < 37 then
+	if isChallenge("dlcend") and getAnte() >= 20 and getAnte() < 37 then
 	musicPower(1)
 	setBPM(1)
 	return 999
