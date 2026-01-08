@@ -1210,7 +1210,7 @@ SMODS.Consumable {
     loc_txt = {
         name = "Basketball",
         text = {
-            "level up", "{}most played hand{}", ""
+            "level up", "{}most played hand{}", "thrice"
         }
     },
     atlas = "planets",
