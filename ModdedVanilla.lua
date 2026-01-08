@@ -1424,3 +1424,33 @@ is_word_new = function(word, found_words)
 	end
 	return true
 end
+
+force_number = function(amount)
+	if (type(amount) ~= "number") then
+		return amount:to_number()
+	end
+
+	return amount;
+end
+
+calculate_div_dollars = function(divider, minimum, maximum)
+	minimum = minimum or 0;
+	maximum = maximum or 1e+30;
+	divider = divider or 0;
+	
+	local dollars = force_number(G.GAME.dollars);
+	local loss = 0;
+	if (divider > 0) then 
+		loss = math.floor(dollars / (divider)); 
+	end;
+	
+	if (loss > maximum) then
+		loss = maximum;
+	end
+
+	if (dollars - loss < minimum) then
+		loss = minimum - (dollars-loss);
+	end
+
+	return -loss;
+end
