@@ -34,10 +34,14 @@ G.fams_update = function(dt)
 	end
 
 	if isChallenge("dlcend") and getAnte() >= 50 and getAnte() < 70 then
-    setrunBG({ 0.529, 0.725, 0.922, 1 }, { 0.698, 0.792, 0.89, 1 }, 1)
+    setrunBG({ 0.529, 0.725, 0.922, 1 }, { 0.698, 0.792, 0.89, 1 }, 3)
 	musicPower(5)
 	setBPM(130)
 	return 9999
+	end
+
+	if isChallenge("mtn") then
+		SetWinningAnte(7)
 	end
 
 	if isChallenge("dlcend") and getAnte() >= 70 and getAnte() < 80 then
@@ -57,7 +61,6 @@ G.fams_update = function(dt)
 	end
 
 	if isChallenge("fj") then
-		print(G.STATE)
 		if hasJoker("Joker") and G.GAME.won == false then
 			win_game()
 		end

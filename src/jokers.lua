@@ -896,16 +896,17 @@ end,
          if G and G.jokers and G.jokers.cards and #G.jokers.cards > 1 then
             local candidates = {}
             for _, j in ipairs(G.jokers.cards) do
-                if j ~= card and j.remove then
+                if j ~= card and j.remove and not isEternal(j) then
                     table.insert(candidates, j)
                 end
             end
             if #candidates > 0 then
                 local idx = math.random(1, #candidates)
                 candidates[idx]:remove(true)
+				return { message = "FUCK OFF!", colour = G.C.RED }
             end
         end
-        return { message = "FUCK OFF!", colour = G.C.RED }
+        
     end
     if context.joker_main then
          return {xmult = card.ability.swearmult}
