@@ -157,6 +157,7 @@ G.fams_update = function(dt)
 
 	if G.STATE == 11 then
 		if title_variant == 1 then
+			showFloatingImage("balatro", {x = 0, y = -2.5}, 450, 216, 2, {x = 0, y = 0}, "example1")
 			setMenuBG({ 0.85, 0.55, 0.25, 1 }, { 1, 0.9, 0.5, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
 		end
 		if title_variant == 2 then
@@ -176,6 +177,20 @@ G.fams_update = function(dt)
 		end
 		if title_variant == 7 then
 			setMenuBG({ 0.698, 0.949, 1, 1 }, { 1, 1, 1, 1 }, { 1, 0, 0, 1 }, 0, math.abs(sine(0.6, 1)))
+		end
+		if title_variant == 8 then
+			setMenuBG({ 0.85, 0.55, 0.25, 1 }, { 1, 0.9, 0.5, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
+		end
+		if title_variant == 9 then
+			setMenuBG({ 0.85, 0.35, 0.25, 1 }, { 1, 0.6, 0.3, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
+		end
+		if title_variant == 10 then
+			setMenuBG({ 0.2, 0.2, 0.2, 1 }, { 0.2, 0.2, 0.2, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
+		end
+		if title_variant == 11 then
+			if love.timer.getTime() % 4 >= 3.96 then
+			setMenuBG({ 0, math.random(0.01, 0.99), 0, 1 }, { 0, math.random(0.01, 0.99), 0, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
+			end
 		end
 
 		showFloatingText("BPM: " .. tostring(BPM), G.C.WHITE, 0.29, { x = 999999, y = 3.1 }, "bpmcounter")

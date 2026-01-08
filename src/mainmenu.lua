@@ -6,16 +6,20 @@ Game.main_menu = function(self, change_context)
     else
         math.randomseed(os.time())
         
-        title_variant = math.random(1, 7)
+        title_variant = math.random(11, 11)
     end
      local title_logos = {
-        [1] = {atlas = "balatro", pos = {x = 0, y = 0}}, -- Default Balatro
-        [2] = {atlas = "balatro2", pos = {x = 0, y = 0}}, -- Variant 2
-		[3] = {atlas = "balatro3", pos = {x = 0, y = 0}}, -- Variant 2
-		[4] = {atlas = "balatro4", pos = {x = 0, y = 0}}, -- Variant 2
-		[5] = {atlas = "balatro5", pos = {x = 0, y = 0}}, -- Variant 2
-		[6] = {atlas = "balatro6", pos = {x = 0, y = 0}}, -- Variant 2
-        [7] = {atlas = "balatro7", pos = {x = 0, y = 0}}, -- Variant 2
+        [1] = {atlas = "balatro", pos = {x = 0, y = 0}}, 
+        [2] = {atlas = "balatro2", pos = {x = 0, y = 0}}, 
+		[3] = {atlas = "balatro3", pos = {x = 0, y = 0}}, 
+		[4] = {atlas = "balatro4", pos = {x = 0, y = 0}}, 
+		[5] = {atlas = "balatro5", pos = {x = 0, y = 0}}, 
+		[6] = {atlas = "balatro6", pos = {x = 0, y = 0}}, 
+        [7] = {atlas = "balatro13", pos = {x = 0, y = 0}}, 
+        [8] = {atlas = "balatro8", pos = {x = 0, y = 0}}, 
+        [9] = {atlas = "balatro", pos = {x = 0, y = 0}}, 
+        [10] = {atlas = "balatro12", pos = {x = 0, y = 0}}, 
+        [11] = {atlas = "balatro14", pos = {x = 0, y = 0}}, 
     }
     
     local selected_logo = title_logos[title_variant] or title_logos[1]
@@ -25,7 +29,7 @@ Game.main_menu = function(self, change_context)
     end
      original_main_menu(self, change_context)
       if G.title_top then
-        G.title_top.config.card_limit = 8  -- Allow up to 4 cards
+        G.title_top.config.card_limit = 8  -- Allow up to 8 cards
          local original_width = G.title_top.T.w
          G.title_top.T.w = G.title_top.T.w * 8
          G.title_top.T.x = G.title_top.T.x - (G.title_top.T.w - original_width) / 2
@@ -75,8 +79,28 @@ Game.main_menu = function(self, change_context)
                         {key = "j_fams_coke", x = -0.5, y = 0}
                     },
                     {
-                        {key = "j_fams_radiation", x = -0.5, y = 0},
-                        {key = "j_fams_radiationevil", x = 0.5, y = 0},
+                        {key = "c_fams_flushofdog", x = 0, y = 0},
+                    },
+                    {
+                        {key = "c_fams_m-joker", x = 0, y = 0}
+                    },
+                    {
+                        {key = "c_fams_fatboi", x = -1, y = 0},
+                        {key = "c_fams_yogee", x = -0.5, y = 0},
+                        {key = "c_fams_baer", x = 0, y = 0},
+                        {key = "c_fams_toebee", x = 0.5, y = 0},
+                        {key = "c_fams_buttergod", x = 1, y = 0}
+                    },
+                    {
+                        {key = "v_fams_fl", x = 0, y = 0},
+                    },
+                    {
+                        {key = "c_fams_dotcard", x = 0, y = 0},
+                        {key = "c_fams_line", x = 0, y = 0},
+                        {key = "c_fams_triangle", x = 0, y = 0},
+                        {key = "c_fams_square", x = 0, y = 0},
+                        {key = "c_fams_pentcard", x = 0, y = 0},
+                        {key = "c_fams_hexcard", x = 0, y = 0},
                     }
                 }
                 

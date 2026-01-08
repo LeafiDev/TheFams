@@ -114,6 +114,63 @@ SMODS.Atlas {
     }
 }
 
+SMODS.Atlas {
+    key = "balatro8",
+    path = "balatro8.png",
+    px = 450,
+    py = 216,
+    prefix_config = {
+        key = { mod = false },   -- disables mod prefix for 'key'
+        atlas = false            -- disables all prefixes for 'atlas'
+    }
+}
+
+SMODS.Atlas {
+    key = "balatro12",
+    path = "balatro12.png",
+    px = 450,
+    py = 216,
+    prefix_config = {
+        key = { mod = false },   -- disables mod prefix for 'key'
+        atlas = false            -- disables all prefixes for 'atlas'
+    }
+}
+
+SMODS.Atlas {
+    key = "balatro13",
+    path = "balatro13.png",
+    px = 450,
+    py = 216,
+    prefix_config = {
+        key = { mod = false },   -- disables mod prefix for 'key'
+        atlas = false            -- disables all prefixes for 'atlas'
+    }
+}
+
+SMODS.Atlas {
+    key = "balatro14",
+    path = "balatro14.png",
+    px = 450,
+    py = 216,
+    prefix_config = {
+        key = { mod = false },   -- disables mod prefix for 'key'
+        atlas = false            -- disables all prefixes for 'atlas'
+    }
+}
+
+
+
+SMODS.Atlas {
+    key = "block",
+    path = "block.png",
+    px = 100,
+    py = 100,
+    prefix_config = {
+        key = { mod = false },   -- disables mod prefix for 'key'
+        atlas = false            -- disables all prefixes for 'atlas'
+    }
+}
+
 atlas("divorce", "divorce.png", 1700, 2200)
 atlas("gayster", "gayster.png", 71, 95)
 
