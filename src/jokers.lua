@@ -32,20 +32,9 @@ calculate = function(self, card, context)
 
 	   if context.joker_main and not context.blueprint then
 		if hasJoker("j_fams_pedigree") then
-			local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			   return {	message = "blocked", colour = G.C.GREEN, xmult = 0.5 * dollars}
+			return { message = "blocked", colour = G.C.GREEN, xmult = 0.5 * force_number(G.GAME.dollars, 1) }
 		else
-			local current = G.GAME.dollars or 0
-			local to_eat = math.min(math.floor(current / 2), 10)
-			G.GAME.dollars = current - to_eat
-			local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			return { xmult = 0.5 * dollars, message = "Munch", sound = "fams_dogeat" }
+			return { dollars = calculate_div_dollars(2, 0, 10), xmult = 0.5 * force_number(G.GAME.dollars, 1), message = "Munch", sound = "fams_dogeat" }
 		end
 	   	end
 	   return 0
@@ -80,20 +69,9 @@ end,
 calculate = function(self, card, context)
 	   		if context.joker_main and not context.blueprint then
 		if hasJoker("j_fams_pedigree") then
-			   local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			   return {	message = "blocked", colour = G.C.GREEN, xmult = 0.5 * dollars}
+			return { message = "blocked", colour = G.C.GREEN, xmult = 0.5 * force_number(G.GAME.dollars, 1)}
 		else
-			local current = G.GAME.dollars or 0
-			local to_eat = math.min(math.floor(current / 2), 10)
-			G.GAME.dollars = current - to_eat
-			local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			return { xchips = 0.5 * dollars, message = "Munch", sound = "fams_dogeat" }
+			return { dollars = calculate_div_dollars(2, 0, 10), xchips = 0.5 * force_number(G.GAME.dollars, 1), message = "Munch", sound = "fams_dogeat" }
 		end
 	   		end
 end
@@ -128,20 +106,9 @@ calculate = function(self, card, context)
 
 	   if context.joker_main and not context.blueprint then
 		if hasJoker("j_fams_pedigree") then
-			   local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			   return {	message = "blocked", colour = G.C.GREEN, xmult = 0.5 * dollars}
+			return {	message = "blocked", colour = G.C.GREEN, xmult = 0.5 * force_number(G.GAME.dollars, 1)}
 		else
-			local current = G.GAME.dollars or 0
-			local to_eat = math.min(math.floor(current / 2), 5)
-			G.GAME.dollars = current - to_eat
-			local dollars = G.GAME.dollars
-			if not dollars or dollars < 1 then
-				dollars = 1
-			end
-			return { chips = 5 * dollars, message = "Munch", sound = "fams_dogeat" }
+			return { dollars = calculate_div_dollars(2, 0, 5), chips = 5 * force_number(G.GAME.dollars, 1), message = "Munch", sound = "fams_dogeat" }
 		end
 	   	end
 	   return 0
@@ -303,7 +270,7 @@ SMODS.Joker {
 	pos = { x = 7, y = 0 },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 0.01
+			return { dollars = 0.01 }
 		end
 		return 0
 	end,
@@ -328,7 +295,7 @@ SMODS.Joker {
 	pos = { x = 8, y = 0 },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 0.05
+			return { dollars = 0.05 }
 		end
 		return 0
 	end,
@@ -353,7 +320,7 @@ SMODS.Joker {
 	pos = { x = 9, y = 0 },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 0.10
+			return { dollars = 0.10 }
 		end
 		return 0
 	end,
@@ -378,7 +345,7 @@ SMODS.Joker {
 	pos = { x = 0, y = 1 },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 0.25
+			return { dollars = 0.25 }
 		end
 		return 0
 	end,
@@ -403,32 +370,7 @@ SMODS.Joker {
 	pos = { x = 1, y = 1 },
 	calculate = function(self, card, context)
 		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 1
-		end
-		return 0
-	end,
-	set_card_type_badge = function(self, card, badges)
-
-	badges[#badges+1] = create_badge("Money", {0.5, 0.5, 0.5, 1}, G.C.WHITE, 1.2)
-end
-}
-
-SMODS.Joker {
-	key = 'penny',
-	loc_txt = {
-		name = 'Big Ass Penny',
-		text = {
-			'Yep, That is a penny alright.'
-		}
-	},
-	config = {},
-	rarity = 1,
-	cost = 0,
-	atlas = 'jokers',
-	pos = { x = 2, y = 1 },
-	calculate = function(self, card, context)
-		if context.end_of_round and context.cardarea == G.jokers then
-			G.GAME.dollars = (G.GAME.dollars or 0) + 0.01
+			return { dollars = 1 }
 		end
 		return 0
 	end,

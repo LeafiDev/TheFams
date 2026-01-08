@@ -162,11 +162,11 @@ SMODS.Consumable {
 		if getcurrentBlind() == "Small Blind" or getcurrentBlind() == "Big Blind" then
 			local random = math.random(5, 15)
 			card:juice_up()
-			if GetMoney() >= random then
-				G.GAME.dollars = G.GAME.dollars - random
+			if force_number(G.GAME.dollars) >= random then
+                return { dollars = -random };
 			else
-				G.GAME.dollars = G.GAME.dollars - random
 				ForceLoss()
+                return { dollars = -random };
 			end
 			
 		end
