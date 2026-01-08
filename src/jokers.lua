@@ -67,15 +67,13 @@ set_card_type_badge = function(self, card, badges)
 	badges[#badges+1] = create_badge("DAWG", {0.7, 0.4, 0.1, 1}, G.C.WHITE, 1.2)
 end,
 calculate = function(self, card, context)
-
-	   if context.joker_main and not context.blueprint then
+	   		if context.joker_main and not context.blueprint then
 		if hasJoker("j_fams_pedigree") then
 			return { message = "blocked", colour = G.C.GREEN, xmult = 0.5 * force_number(G.GAME.dollars, 1)}
 		else
 			return { dollars = calculate_div_dollars(2, 0, 10), xchips = 0.5 * force_number(G.GAME.dollars, 1), message = "Munch", sound = "fams_dogeat" }
 		end
-	   	end
-	   return 0
+	   		end
 end
 }
 

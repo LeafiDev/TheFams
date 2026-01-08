@@ -297,3 +297,129 @@ SMODS.Tag {
 		tag.triggered = true
 	end
 }
+
+SMODS.Tag {
+    key = "MBP",
+    loc_txt = {
+        name = "Mini Buffoon Pack",
+        text = {
+            "Gives a free",
+            "{C:attention}Mini Joker Pack{}"
+        }
+    },
+    atlas = "tags", -- or your custom atlas
+    pos = { x = 8, y = 0 },
+    config = {},
+    discovered = false,
+    min_ante = 1,
+
+    set_ability = function(self, tag)
+        
+    end,
+
+    in_pool = function(self, args)
+        return true
+    end,
+
+    apply = function(self, tag, context)
+        if context.type == 'new_blind_choice' then
+            local lock = tag.ID
+            G.CONTROLLER.locks[lock] = true
+            tag:yep('+', G.C.SECONDARY_SET.Spectral, function()
+                local booster = SMODS.create_card { key = 'p_fams_minibooster', area = G.play }
+                booster.T.x = G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2
+                booster.T.y = G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2
+                booster.T.w = G.CARD_W * 1.27
+                booster.T.h = G.CARD_H * 1.27
+                booster.cost = 0
+                booster.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = booster } })
+                booster:start_materialize()
+                G.CONTROLLER.locks[lock] = nil
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+	end
+}
+
+SMODS.Tag {
+    key = "al",
+    loc_txt = {
+        name = "Algebra",
+        text = {
+            "Gives a free",
+            "{C:green,E:1}Poly Pack{}"
+        }
+    },
+    atlas = "tags", -- or your custom atlas
+    pos = { x = 9, y = 0 },
+    config = {},
+    discovered = false,
+    min_ante = 1,
+
+    set_ability = function(self, tag)
+        
+    end,
+
+    in_pool = function(self, args)
+        return true
+    end,
+
+    apply = function(self, tag, context)
+        if context.type == 'new_blind_choice' then
+            local lock = tag.ID
+            G.CONTROLLER.locks[lock] = true
+            tag:yep('+', G.C.GREEN, function()
+                local booster = SMODS.create_card { key = 'p_fams_poly', area = G.play }
+                booster.T.x = G.play.T.x + G.play.T.w / 2 - G.CARD_W * 1.27 / 2
+                booster.T.y = G.play.T.y + G.play.T.h / 2 - G.CARD_H * 1.27 / 2
+                booster.T.w = G.CARD_W * 1.27
+                booster.T.h = G.CARD_H * 1.27
+                booster.cost = 0
+                booster.from_tag = true
+                G.FUNCS.use_card({ config = { ref_table = booster } })
+                booster:start_materialize()
+                G.CONTROLLER.locks[lock] = nil
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+	end
+}
+
+SMODS.Tag {
+    key = "feb",
+    loc_txt = {
+        name = "Febreze, Fa la la la la",
+        text = {
+            "Disables one {C:attention}boss blind{}"
+        }
+    },
+    atlas = "tags", -- or your custom atlas
+    pos = { x = 10, y = 0 },
+    config = {},
+    discovered = false,
+    min_ante = 1,
+
+    set_ability = function(self, tag)
+        
+    end,
+
+    in_pool = function(self, args)
+        return true
+    end,
+
+    apply = function(self, tag, context)
+        if context.type == 'round_start_bonus' and isBoss() then
+            tag:yep(':D', G.C.GREEN, function()
+                G.GAME.blind:disable()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+	end
+}
