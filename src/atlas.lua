@@ -103,6 +103,17 @@ SMODS.Atlas {
     }
 }
 
+SMODS.Atlas {
+    key = "balatro7",
+    path = "balatro7.png",
+    px = 450,
+    py = 216,
+    prefix_config = {
+        key = { mod = false },   -- disables mod prefix for 'key'
+        atlas = false            -- disables all prefixes for 'atlas'
+    }
+}
+
 atlas("divorce", "divorce.png", 1700, 2200)
 atlas("gayster", "gayster.png", 71, 95)
 

@@ -4,7 +4,7 @@ Game.main_menu = function(self, change_context)
          title_variant = 1
         title_screen_randomized = true
     else
-          local variants_list = {1, 2, 3, 4, 5, 6}
+          local variants_list = {1, 2, 3, 4, 5, 6, 7}
         math.randomseed(os.time())
         math.random(); math.random(); math.random() -- warm up
         
@@ -20,6 +20,7 @@ Game.main_menu = function(self, change_context)
 		[4] = {atlas = "balatro4", pos = {x = 0, y = 0}}, -- Variant 2
 		[5] = {atlas = "balatro5", pos = {x = 0, y = 0}}, -- Variant 2
 		[6] = {atlas = "balatro6", pos = {x = 0, y = 0}}, -- Variant 2
+        [7] = {atlas = "balatro7", pos = {x = 0, y = 0}}, -- Variant 2
     }
     
     local selected_logo = title_logos[title_variant] or title_logos[1]
@@ -76,6 +77,11 @@ Game.main_menu = function(self, change_context)
                     },
 					{
                         {key = "j_fams_ritz", x = 0.5, y = 0},
+                        {key = "j_fams_coke", x = -0.5, y = 0}
+                    },
+                    {
+                        {key = "j_fams_radiation", x = -0.5, y = 0},
+                        {key = "j_fams_radiationevil", x = 0.5, y = 0}
                     }
                 }
                  local selected_variant = variants[title_variant] or variants[1]

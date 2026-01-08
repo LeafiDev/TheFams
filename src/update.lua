@@ -126,7 +126,7 @@ G.fams_update = function(dt)
 			-- Always reset timer when leaving a run
 			timer = TIMER_LENGTH
 			if G.GAME then
-				G.GAME.timer = nil
+				G.GAME.timer = 5
 			end
 			timer_active = false
 			timeradd = false
@@ -173,6 +173,9 @@ G.fams_update = function(dt)
 		end
 		if title_variant == 6 then
 			setMenuBG({ 0.8, 0, 0, 1 }, { 0.023, 0.086, 0.435, 1 }, { 1, 0, 0, 1 }, 0, math.abs(sine(0.6, 1)))
+		end
+		if title_variant == 7 then
+			setMenuBG({ 0.698, 0.949, 1, 1 }, { 1, 1, 1, 1 }, { 1, 0, 0, 1 }, 0, math.abs(sine(0.6, 1)))
 		end
 
 		showFloatingText("BPM: " .. tostring(BPM), G.C.WHITE, 0.29, { x = 999999, y = 3.1 }, "bpmcounter")

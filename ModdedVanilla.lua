@@ -367,6 +367,7 @@ end
 ForceLoss = function()
 	if G.STATE ~= G.STATES.GAME_OVER then
 	G.STATE = G.STATES.GAME_OVER
+	TIMER_LENGTH = 1
 	G.STATE_COMPLETE = false
 	end
 end
