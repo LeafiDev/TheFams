@@ -1032,7 +1032,7 @@ SMODS.Challenge {
 	}
   },
   restrictions = {
-	banned_cards = {{id = "c_ectoplasm"}, {id = "v_antimatter"}},
+	banned_cards = {{id = "c_ectoplasm"}, {id = "v_antimatter"}, {id = "c_fams_m-dice"}, {id = "c_fams_m-dice-evil"}},
 	banned_tags = {{id = "tag_negative"}, {id = "tag_fams_GB"}, {id = "tag_fams_cts"}, {id = "tag_buffoon"}, {id = "tag_uncommon"}, {id = "tag_rare"}, {id = "tag_negative"}, {id = "tag_holo"}, {id = "tag_polychrome"}},
 	banned_other = {{id = "v_planet_merchant"}, {id = "v_planet_tycoon"}, {id = "bl_final_vessel", type = "blind"}, {id = "bl_final_heart", type = "blind"}, {id = "bl_final_bell", type = "blind"}, {id = "bl_final_leaf", type = "blind"}, {id = "bl_final_acorn", type = "blind"}}
   },
@@ -1301,7 +1301,7 @@ SMODS.Challenge {
 	}
   },
   restrictions = {
-	banned_cards = {},
+	banned_cards = {{id = "c_fams_m-dice"}, {id = "c_fams_m-dice-evil"}},
 	banned_tags = {{id = "tag_fams_up"}, {id = "tag_fams_down"}},
 	banned_other = {}
   },
@@ -1366,7 +1366,7 @@ SMODS.Challenge {
   },
   restrictions = {
 	banned_cards = {},
-	banned_tags = {},
+	banned_tags = {{id = "c_fams_m-dice-evil"}},
 	banned_other = {}
   },
   consumeables = {},

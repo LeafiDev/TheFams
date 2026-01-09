@@ -455,6 +455,10 @@ SMODS.Consumable({
 		return false
 	end,
 
+    in_pool = function(self)
+        return (pseudorandom('dice') < G.GAME.probabilities.normal / 4)
+    end,
+
 	update = function(self, card, dt)
         if (card.rolling) then
             card.children.center.sprite_pos = { x = math.floor(card.rollAnim % 6), y = 1 };
