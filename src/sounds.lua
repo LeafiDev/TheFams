@@ -349,7 +349,10 @@ SMODS.Sound {
   path = "music_stopit.ogg",
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 70 and getAnte() < 80 then
-	
+  G.blind_select_opts = {}
+  G.blind_select_opts.small = G.GAME.round_resets.blind_states['Boss'] ~= 'Hide' and UIBox{definition = {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={UIBox_dyn_container({create_UIBox_blind_choice('Boss')},false,get_blind_main_colour('Boss'))}}, config = {align="bmi", offset = {x=0,y=0}}} or nil
+  G.blind_select_opts.big = G.GAME.round_resets.blind_states['Boss'] ~= 'Hide' and UIBox{definition = {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={UIBox_dyn_container({create_UIBox_blind_choice('Boss')},false,get_blind_main_colour('Boss'))}}, config = {align="bmi", offset = {x=0,y=0}}} or nil
+  G.blind_select_opts.boss = G.GAME.round_resets.blind_states['Boss'] ~= 'Hide' and UIBox{definition = {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={UIBox_dyn_container({create_UIBox_blind_choice('Boss')},false,get_blind_main_colour('Boss'), mix_colours(G.C.BLACK, get_blind_main_colour('Boss'), 0.8))}}, config = {align="bmi", offset = {x=0,y=0}}} or nil
 	return 99440024
 	end
   end
@@ -459,6 +462,7 @@ SMODS.Sound {
   path = "music_thankyou.ogg",
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 39 and getAnte() < 45 then
+  setrunBG({ 0, 0, 0, 1 }, { 0, 0, 0, 0 }, 1)
 	musicPower(3)
 	setBPM(135)
 	return 9999
@@ -473,7 +477,7 @@ SMODS.Sound {
   path = "music_thankyou.ogg",
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 37 and getAnte() < 39 then
-	musicPower(3)
+  setrunBG({ 0, 0, 0, 1 }, { 0, 0, 0, 0 }, 1)
 	setBPM(135)
 	return 999
 	end
@@ -487,9 +491,26 @@ SMODS.Sound {
   path = "music_wind.ogg",
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 20 and getAnte() < 37 then
+  setrunBG({ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, 1)
 	musicPower(1)
 	setBPM(1)
 	return 999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_mount",
+  pitch = 1,
+  volume = 1,
+  path = "music_mount.ogg",
+  select_music_track = function(self)
+	if isChallenge("mtn")then
+	musicPower(1.5)
+	setBPM(128)
+  setrunBG({ 0, 0, 0.2 + sine(0.2, 0.3) + (getAnte() / 5), 1 }, { 0, 0, 0.2 + sine(0.2, 0.3) + (getAnte() / 5), 0 }, 1)
+	
+  return 999
 	end
   end
 }

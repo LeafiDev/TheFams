@@ -1180,6 +1180,67 @@ SMODS.Challenge {
 }
 
 SMODS.Challenge {
+  key = 'aiot',
+  loc_txt = {
+	name = "An idea or two",
+  },
+  jokers = {
+	{id = "j_brainstorm", eternal = true}
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.FILTER,
+  rules = {
+	custom = {
+		
+	},
+	modifiers = {
+		{id = "joker_slots", value = 3},
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+  unlocked = function(self)
+
+  end
+}
+
+SMODS.Challenge {
+  key = 'fj',
+  loc_txt = {
+	name = "Where's Jimbo",
+  },
+  jokers = {
+
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.FILTER,
+  rules = {
+	custom = {
+		{id = "findjim"}
+	},
+	modifiers = {
+		{id = "joker_slots", value = 1}
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+}
+
+SMODS.Challenge {
   key = '',
   loc_txt = {
 	name = "I\'m jacking it",
@@ -1216,6 +1277,36 @@ SMODS.Challenge {
   button_colour = G.C.BLACK,
   consumeables = {},
   vouchers = {}
+}
+
+SMODS.Challenge {
+  key = 'mtn',
+  loc_txt = {
+	name = "The Mountain",
+  },
+  jokers = {
+	{id = "j_hiker", eternal = true}
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.CHIPS,
+  rules = {
+	custom = {
+		
+	},
+	modifiers = {
+		{id = "joker_slots", value = 3},
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+
 }
 
 SMODS.Challenge {

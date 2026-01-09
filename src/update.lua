@@ -36,10 +36,14 @@ G.fams_update = function(dt)
 	end
 
 	if isChallenge("dlcend") and getAnte() >= 50 and getAnte() < 70 then
-    setrunBG({ 0.529, 0.725, 0.922, 1 }, { 0.698, 0.792, 0.89, 1 }, 1)
+    setrunBG({ 0.529, 0.725, 0.922, 1 }, { 0.698, 0.792, 0.89, 1 }, 3)
 	musicPower(5)
 	setBPM(130)
 	return 9999
+	end
+
+	if isChallenge("mtn") then
+		SetWinningAnte(7)
 	end
 
 	if isChallenge("dlcend") and getAnte() >= 70 and getAnte() < 80 then
@@ -56,6 +60,15 @@ G.fams_update = function(dt)
 		thetimer = 0
 	end
 	return 99440024
+	end
+
+	if isChallenge("fj") then
+		if hasJoker("Joker") and G.GAME.won == false then
+			win_game()
+		end
+		if getAnte() >= 7 then
+			G.GAME.round_resets.ante = 1
+		end
 	end
 
 	if isChallenge("Dogtrials") then
@@ -179,6 +192,20 @@ G.fams_update = function(dt)
 		if title_variant == 7 then
 			setMenuBG({ 0.698, 0.949, 1, 1 }, { 1, 1, 1, 1 }, { 1, 0, 0, 1 }, 0, math.abs(sine(0.6, 1)))
 		end
+		if title_variant == 8 then
+			setMenuBG({ 0.85, 0.55, 0.25, 1 }, { 1, 0.9, 0.5, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
+		end
+		if title_variant == 9 then
+			setMenuBG({ 0.85, 0.35, 0.25, 1 }, { 1, 0.6, 0.3, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
+		end
+		if title_variant == 10 then
+			setMenuBG({ 0.2, 0.2, 0.2, 1 }, { 0.2, 0.2, 0.2, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
+		end
+		if title_variant == 11 then
+			if love.timer.getTime() % 4 >= 3.96 then
+			setMenuBG({ 0, math.random(0.01, 0.99), 0, 1 }, { 0, math.random(0.01, 0.99), 0, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
+			end
+		end
 
 		showFloatingText("BPM: " .. tostring(BPM), G.C.WHITE, 0.29, { x = 999999, y = 3.1 }, "bpmcounter")
 		showFloatingText(
@@ -197,7 +224,7 @@ G.fams_update = function(dt)
 		)
 	end
 
-	if G.STATE < 9 and G.STATE ~= 11 then
+	if G.STATE and G.STATE < 9 and G.STATE ~= 11 then
 		showFloatingText("BPM: " .. tostring(BPM), G.C.WHITE, 0.29, { x = 4.55, y = 3.1 }, "bpmcounter")
 		showFloatingText(
 			tostring(math.ceil(getBPMTick())) .. "/" .. getBPMMax(),

@@ -103,6 +103,9 @@ return {
             ch_c_evil = {
                 "{E:1,S:1.5}Evil >=]{}",
             },
+            ch_c_findjim = {
+                "{E:1,S:1.5}Find Jimbo!{}"
+            },
         },
     },
 }
