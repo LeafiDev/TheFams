@@ -1,0 +1,31 @@
+[manifest]
+version = "1.0.0"
+priority = 0
+
+#A less strange update
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = "G:update(dt)"
+position = "after"
+payload = '''
+if (G.fams_update) then
+    G.fams_update(dt);
+end
+'''
+match_indent = true
+times = 1
+
+#Fix for Talisman
+[[patches]]
+[patches.pattern]
+target = "engine/ui.lua"
+pattern = "node.config.lang = node.config.lang or G.LANG"
+position = "after"
+payload = '''
+if (type(node.config.text) ~= "string") then
+    node.config.text = tostring(node.config.text);
+end
+'''
+match_indent = true
+times = 1

@@ -85,8 +85,32 @@ return {
             ch_c_beat1 = {
                 "Time signature reduced to {C:attention}3{}",
             },
-            ch_c_beat2 = {
-                "all cards debuffed only on beat {C:attention}4{}",
+            ch_c_flavor1 = {
+                "Get the couple together again!",
+            },
+            ch_c_dlcend1 = {
+                "{E:1}Just {C:attention}you{} and {C:fams}the fams{} to the end of reality{}",
+            },
+            ch_c_goodluck = {
+                "{E:1}Good Luck{}",
+            },
+            ch_c_finaledlc = {
+                "{C:edition,E:2}Winning Ante up to 38{}",
+            },
+            ch_c_epi = {
+                "{C:red,E:2,S:1.3}Epilepsy Warning for this challenge{}",
+            },
+            ch_c_evil = {
+                "{E:1,S:1.5}Evil >=]{}",
+            },
+            ch_c_findjim = {
+                "{E:1,S:1.5}Find Jimbo!{}"
+            },
+            ch_c_lap2 = {
+                "{E:1,S:1.5}Impressive 600 seconds from dog trials!{}"
+            },
+            ch_c_lap22 = {
+                "{C:red,E:2,}Now do it in 300.{}"
             },
         },
     },
