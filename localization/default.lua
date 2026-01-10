@@ -112,6 +112,9 @@ return {
             ch_c_lap22 = {
                 "{C:red,E:2,}Now do it in 300.{}"
             },
+            ch_c_money1 = {
+                "Make {C:attention}300${}"
+            },
         },
     },
 }

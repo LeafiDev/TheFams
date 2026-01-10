@@ -1212,6 +1212,35 @@ SMODS.Challenge {
 }
 
 SMODS.Challenge {
+  key = 'pastdue',
+  loc_txt = {
+	name = "Past due",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  rules = {
+	custom = {
+		{id = "money1"}
+	},
+	modifiers = {
+		{id = "dollars", value = 4},
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  button_colour = G.C.MONEY,
+  consumeables = {},
+  vouchers = {}
+}
+
+SMODS.Challenge {
   key = 'fj',
   loc_txt = {
 	name = "Where's Jimbo",

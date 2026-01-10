@@ -5,6 +5,10 @@ G.fams_update = function(dt)
 	clearCustomTextAfterDraw()
 	forceback = false
 
+	-- Initialize global variables if not present
+	BPM = BPM or 100
+	targetdisplay = targetdisplay or "nothing"
+
 	-- Reset to default timer settings first
 	local DEFAULT_TIMER_LENGTH = 60
 	local DEFAULT_USE_TIMERS = false
@@ -60,8 +64,17 @@ G.fams_update = function(dt)
 	return 99440024
 	end
 
-	if isChallenge("fj") then
+	if isChallenge("fj") and not isMainMenu() then
 		if hasJoker("Joker") and G.GAME.won == false then
+			win_game()
+		end
+		if getAnte() >= 7 then
+			G.GAME.round_resets.ante = 1
+		end
+	end
+
+	if isChallenge("pastdue") and not isMainMenu() then
+		if G.GAME.dollars >= 300 and G.GAME.won == false then
 			win_game()
 		end
 		if getAnte() >= 7 then
@@ -203,14 +216,15 @@ G.fams_update = function(dt)
 			setMenuBG({ 0.85, 0.35, 0.25, 1 }, { 1, 0.6, 0.3, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
 		end
 		if title_variant == 10 then
-			setMenuBG({ 0.2, 0.2, 0.2, 1 }, { 0.2, 0.2, 0.2, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
+			setMenuBG({ 0.2, 0.2, 0.2, 1 }, { 0.2, 0.2, 0.2, 1 }, { 1, 0.7, 0.3, 1 }, 0, 0)
 		end
 		if title_variant == 11 then
 			if love.timer.getTime() % 4 >= 3.96 then
-			setMenuBG({ 0, math.random(0.01, 0.99), 0, 1 }, { 0, math.random(0.01, 0.99), 0, 1 }, { 1, 0.7, 0.3, 1 }, 0, math.abs(sine(0.6, 1)))
+			setMenuBG({ 0, math.random(0.01, 0.99), 0, 1 }, { 0, math.random(0.01, 0.99), 0, 1 }, { 1, 0.7, 0.3, 1 }, 0, 0)
 			end
 		end
 
+		--[[ Disabled BPM display due to nil value crashes
 		showFloatingText("BPM: " .. tostring(BPM), G.C.WHITE, 0.29, { x = 999999, y = 3.1 }, "bpmcounter")
 		showFloatingText(
 			tostring(math.ceil(getBPMTick())) .. "/" .. getBPMMax(),
@@ -226,8 +240,10 @@ G.fams_update = function(dt)
 			{ x = 9999999, y = 3.1 },
 			"targettext"
 		)
+		--]]
 	end
 
+	--[[ Disabled BPM display due to nil value crashes
 	if G.STATE and G.STATE < 9 and G.STATE ~= 11 then
 		showFloatingText("BPM: " .. tostring(BPM), G.C.WHITE, 0.29, { x = 4.55, y = 3.1 }, "bpmcounter")
 		showFloatingText(
@@ -238,6 +254,7 @@ G.fams_update = function(dt)
 			"bpmcounter2"
 		)
 	end
+	--]]
 
 	if (isPlayingBlind() and isBoss() and getcurrentBlind() == "bl_fams_extinct") and G.STATE < 9 and G.STATE ~= 11 then
 		if targetdisplay == "fams_one" then
