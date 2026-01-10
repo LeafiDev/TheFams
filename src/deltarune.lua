@@ -2,7 +2,9 @@ G.UT_IMAGES = {
     soul = new_arbituary_image("drut/soul.png"),
     battleOpt = new_arbituary_image("drut/battleOpts.png"),
     
-    testEnemy = new_arbituary_image("drut/enemy_test.png")
+    testEnemy = new_arbituary_image("drut/enemy_test.png"),
+    battleThing = new_arbituary_image("drut/johnAttack.png"),
+    battleBar = new_arbituary_image("drut/attackBar.png")
 }
 
 G.UT_SOUNDS = {
@@ -30,7 +32,6 @@ G.UT_ENEMIES = {
     }
 }
 
-local quad = love.graphics.newQuad(0, 0, 20, 20, 140, 20);
 local utCanvas = love.graphics.newCanvas(640, 480);
 local currentSong = nil;
 local activeEnemies = {
@@ -70,6 +71,7 @@ local soul = {
     selectHeld = false,
 
     menuOpt = 0,
+    menu = "",
     inBox = false
 };
 
@@ -81,29 +83,40 @@ soul.toggle_opt = function(optID, on)
 end
 
 soul.OOB_mode = function(dt)
-    if (love.keyboard.isDown("left") and not soul.leftHeld) then 
-        soul.toggle_opt(soul.menuOpt + 1, false);
-        soul.menuOpt = soul.menuOpt - 1;
+    if (soul.menu == "") then
+        if (love.keyboard.isDown("left") and not soul.leftHeld) then 
+            soul.toggle_opt(soul.menuOpt + 1, false);
+            soul.menuOpt = soul.menuOpt - 1;
 
-        soul.menuOpt = soul.menuOpt % 4;
-        soul.toggle_opt(soul.menuOpt + 1, true);
-        playSoundish("switch");
-    end
-    
-    if (love.keyboard.isDown("right") and not soul.rightHeld) then 
-        soul.toggle_opt(soul.menuOpt + 1, false);
-        soul.menuOpt = soul.menuOpt + 1;
+            soul.menuOpt = soul.menuOpt % 4;
+            soul.toggle_opt(soul.menuOpt + 1, true);
+            playSoundish("switch");
+        end
         
-        soul.menuOpt = soul.menuOpt % 4;
-        soul.toggle_opt(soul.menuOpt + 1, true);
-        playSoundish("switch");
-    end
+        if (love.keyboard.isDown("right") and not soul.rightHeld) then 
+            soul.toggle_opt(soul.menuOpt + 1, false);
+            soul.menuOpt = soul.menuOpt + 1;
+            
+            soul.menuOpt = soul.menuOpt % 4;
+            soul.toggle_opt(soul.menuOpt + 1, true);
+            playSoundish("switch");
+        end
 
-    if (love.keyboard.isDown("z") and not soul.selectHeld) then
-    end
+        if (love.keyboard.isDown("z") and not soul.selectHeld) then
+            if (G.UT_MENUS[soul.order[soul.menuOpt + 1]]) then
+                playSoundish("use");
+                soul.menu = soul.order[soul.menuOpt + 1];
 
-    soul.x = 37 + (144 * soul.menuOpt);
-    soul.y = 438;
+                G.UT_MENUS[soul.menu].init();
+                soul.toggle_opt(soul.menuOpt + 1, false);
+            end
+        end
+
+        soul.x = 52 + (146 * soul.menuOpt)
+        soul.y = 438;
+    else
+        G.UT_MENUS[soul.menu].update(dt);
+    end
 
     soul.leftHeld = love.keyboard.isDown("left");
     soul.rightHeld = love.keyboard.isDown("right");
@@ -125,9 +138,59 @@ soul.modes = {
     end
 }
 
+local boxSize = {
+    x = 544,
+    y = 140,
+
+    targetX = 544,
+    targetY = 140,
+
+    speed = 75
+}
+
+G.UT_MENUS = {
+    fight = {
+        time = 0,
+
+        init = function()
+            G.UT_MENUS.fight.time = -1;
+            boxSize.targetX = 560;
+        end,
+        
+        update = function(dt)
+            G.UT_MENUS.fight.time = G.UT_MENUS.fight.time + dt;
+            soul.x = -1000;
+            soul.y = -1000;
+        end,
+
+        draw = function()
+            love.graphics.draw(G.UT_IMAGES.battleThing, 45, 255);
+            love.graphics.draw(G.UT_IMAGES.battleBar, (G.UT_MENUS.fight.time * boxSize.x / 2) + 320, 255);
+        end
+    }
+};
+
 local curProfile = {};
 
 G.ut_update = function(dt)
+
+    --Resizing the middle box
+    if (boxSize.x < boxSize.targetX) then
+        boxSize.x = boxSize.x + boxSize.speed * dt;
+        if (boxSize.x > boxSize.targetX) then boxSize.x = boxSize.targetX; end
+    elseif (boxSize.x > boxSize.targetX) then
+        boxSize.x = boxSize.x - boxSize.speed * dt;
+        if (boxSize.x < boxSize.targetX) then boxSize.x = boxSize.targetX; end
+    end
+
+    if (boxSize.y < boxSize.targetY) then
+        boxSize.y = boxSize.y + boxSize.speed * dt;
+        if (boxSize.y > boxSize.targetY) then boxSize.y = boxSize.targetY; end
+    elseif (boxSize.y > boxSize.targetY) then
+        boxSize.y = boxSize.y - boxSize.speed * dt;
+        if (boxSize.y < boxSize.targetY) then boxSize.y = boxSize.targetY; end
+    end
+
     if (soul.introAnimation < 1) then
         soul.introAnimation = soul.introAnimation + dt * 2;
         if (soul.introAnimation > 1) then 
@@ -141,7 +204,7 @@ G.ut_update = function(dt)
             end
         end
         
-        soul.x = 16 + (155 * soul.menuOpt);
+        soul.x = 62 + (146 * soul.menuOpt);
         soul.y = 438;
 
         return;
@@ -156,8 +219,9 @@ G.play_encounter_music = function()
     currentSong:play();
 end
 
-G.fams_draw = function()    
+G.fams_draw = function()
     if (G.GAME.dr_boss) then
+        local prevFont = love.graphics.getFont();
         if (currentSong) then currentSong:setVolume((G.SETTINGS.SOUND.music_volume / 100) * (G.SETTINGS.SOUND.volume / 100)); end
 
         local width, height, flags = love.window.getMode();
@@ -175,19 +239,22 @@ G.fams_draw = function()
                 return;
             end
 
-            love.graphics.rectangle( "line", 31, 249, 544, 140);
-            love.graphics.draw(G.UT_IMAGES.battleOpt, soul.fight, 31, 426);
-            love.graphics.draw(G.UT_IMAGES.battleOpt, soul.act, 176, 426);
-            love.graphics.draw(G.UT_IMAGES.battleOpt, soul.item, 321, 426);
-            love.graphics.draw(G.UT_IMAGES.battleOpt, soul.mercy, 466, 426);
+            love.graphics.rectangle( "line", 320 - (boxSize.x / 2), 319 - (boxSize.y / 2), boxSize.x, boxSize.y );
+            love.graphics.draw(G.UT_IMAGES.battleOpt, soul.fight, 45, 426);
+            love.graphics.draw(G.UT_IMAGES.battleOpt, soul.act, 191, 426);
+            love.graphics.draw(G.UT_IMAGES.battleOpt, soul.item, 337, 426);
+            love.graphics.draw(G.UT_IMAGES.battleOpt, soul.mercy, 483, 426);
         
             love.graphics.draw( G.UT_IMAGES.soul, soul.quad, soul.x, soul.y);
-
-            love.graphics.setFont(G.UT_FONTS.DETERMINATION);
-            love.graphics.print("* Testicles", 53, 267, 0);
+            if (soul.menu ~= "") then
+                G.UT_MENUS[soul.menu].draw();
+            else
+                love.graphics.setFont(G.UT_FONTS.DETERMINATION);
+                love.graphics.print("* Testicles", 60, 267, 0);
+            end
 
             love.graphics.setFont(G.UT_FONTS.TBTD);
-            love.graphics.print((curProfile.name or "uknwn").. "  ANT ".. G.GAME.round_resets.blind_ante, 31, 400, 0);
+            love.graphics.print((curProfile.name or "uknwn").. "  ANT ".. G.GAME.round_resets.blind_ante, 48, 400, 0);
         end)
 
         local widthMul = width / 640;
@@ -197,5 +264,7 @@ G.fams_draw = function()
         else
             love.graphics.draw( utCanvas, 0, (height / 2) - (480 * widthMul / 2), 0, widthMul, widthMul);
         end
+
+        love.graphics.setFont(prevFont);
     end
 end
