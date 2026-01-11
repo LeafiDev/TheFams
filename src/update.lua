@@ -66,21 +66,23 @@ G.fams_update = function(dt)
 	return 99440024
 	end
 
-	if isChallenge("fj") and not isMainMenu() then
+	if isChallenge("pastdue") then
+		if G and G.GAME and G.GAME.dollars then
+			if G.GAME.dollars >= 300 and G.GAME.won ~= true then
+				win_game()
+			end
+		end
+		if getAnte() >= 7 then
+			setAnte(1)
+		end
+	end
+
+	if isChallenge("fj")then
 		if hasJoker("Joker") and G.GAME.won == false then
 			win_game()
 		end
 		if getAnte() >= 7 then
-			G.GAME.round_resets.ante = 1
-		end
-	end
-
-	if isChallenge("pastdue") and not isMainMenu() then
-		if G.GAME.dollars >= 300 and G.GAME.won == false then
-			win_game()
-		end
-		if getAnte() >= 7 then
-			G.GAME.round_resets.ante = 1
+			setAnte(1)
 		end
 	end
 

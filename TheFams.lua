@@ -1,4 +1,5 @@
 assert(SMODS.load_file('src/atlas.lua'))()
+assert(SMODS.load_file('src/muscredits.lua'))()
 assert(SMODS.load_file('src/jokers.lua'))()
 assert(SMODS.load_file('src/cons.lua'))()
 assert(SMODS.load_file('src/stickers.lua'))()
@@ -221,6 +222,55 @@ SMODS.current_mod.extra_tabs = function()
                             nodes = (function()
                                 local card_nodes = {}
                                 for _, card in ipairs(joker_cards) do
+                                    table.insert(card_nodes, {
+                                        n = G.UIT.O,
+                                        config = {object = card, padding = 0.1, minw = 2, minh = 2}
+                                    })
+                                end
+                                return card_nodes
+                            end)()
+                        }
+                    }
+                }
+            end,
+        },
+		{
+            label = 'Music Credits',
+            tab_definition_function = function()
+                local joker_list2 = {}
+                local joker_cards2 = {}
+                for i, joker_key in ipairs(joker_list2) do
+                    local center = G.P_CENTERS[joker_key] or G.P_CENTERS.j_joker
+                    if center then
+                        local card = Card(G.ROOM.T.x, G.ROOM.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, center)
+                        if card then table.insert(joker_cards2, card) end
+                    end
+                end
+
+                return {
+                    n = G.UIT.ROOT,
+                    config = {align = "cm", r = 0.1, minw = 12, minh = 8, padding = 1, colour = G.C.BLACK},
+                    nodes = {
+                         {
+                            n = G.UIT.R,
+                            config = {align = "cm", minw = 12, minh = 1, padding = 0.15},
+                            nodes = {
+                                {
+                                    n = G.UIT.T,
+                                    config = {text = "Artist Credits", hover = true, colour = G.C.UI.TEXT_LIGHT, scale = 1, padding = 0.1}
+                                },
+								{
+                                    n = G.UIT.T,
+                                    config = {text = "Artists that are credited for their work used in this mod", hover = true, colour = G.C.UI.TEXT_LIGHT, scale = 0.6, padding = 0.1}
+                                }
+                            }
+                        },
+                         {
+                            n = G.UIT.R,
+                            config = {align = "cm", minw = 12, minh = 2, padding = 0.1},
+                            nodes = (function()
+                                local card_nodes = {}
+                                for _, card in ipairs(joker_cards2) do
                                     table.insert(card_nodes, {
                                         n = G.UIT.O,
                                         config = {object = card, padding = 0.1, minw = 2, minh = 2}
