@@ -46,7 +46,17 @@ G.fams_update = function(dt)
 	return 9999
 	end
 
+	if isPlayingBlind() then
+		winnercheck = true
+	else
+		if winnercheck == true then
+			play_sound('fams_imweiner', 1, 1)
+			winnercheck = false
+		end
+	end
+
 	if isChallenge("mtn") then
+		setrunBG({ 0, 0, 0.2 + sine(0.2, 0.3) + (getAnte() / 5), 1 }, { 0, 0, 0.2 + sine(0.2, 0.3) + (getAnte() / 5), 0 }, 1)
 		SetWinningAnte(7)
 	end
 
@@ -105,6 +115,8 @@ G.fams_update = function(dt)
 		SetWinningAnte(10)
 		G.ROOM.jiggle = 0.1
 	end
+
+
 
 	if G.STATE == G.STATES.WIN then
 		if
@@ -228,7 +240,6 @@ G.fams_update = function(dt)
 			end
 		end
 
-		--[[ Disabled BPM display due to nil value crashes
 		showFloatingText("BPM: " .. tostring(BPM), G.C.WHITE, 0.29, { x = 999999, y = 3.1 }, "bpmcounter")
 		showFloatingText(
 			tostring(math.ceil(getBPMTick())) .. "/" .. getBPMMax(),
@@ -247,7 +258,6 @@ G.fams_update = function(dt)
 		--]]
 	end
 
-	--[[ Disabled BPM display due to nil value crashes
 	if G.STATE and G.STATE < 9 and G.STATE ~= 11 then
 		showFloatingText("BPM: " .. tostring(BPM), G.C.WHITE, 0.29, { x = 4.55, y = 3.1 }, "bpmcounter")
 		showFloatingText(

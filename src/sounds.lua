@@ -31,10 +31,24 @@ SMODS.Sound {
 }
 
 SMODS.Sound {
+  key = "imweiner",
+  pitch = 1,
+  volume = 1,
+  path = "winblind.ogg",
+}
+
+SMODS.Sound {
   key = "bang",
   pitch = 1,
   volume = 1,
   path = "bang.ogg",
+}
+
+SMODS.Sound {
+  key = "honk",
+  pitch = 1,
+  volume = 1,
+  path = "honk.ogg",
 }
 
 SMODS.Sound {
@@ -508,8 +522,6 @@ SMODS.Sound {
 	if isChallenge("mtn")then
 	musicPower(1.5)
 	setBPM(128)
-  setrunBG({ 0, 0, 0.2 + sine(0.2, 0.3) + (getAnte() / 5), 1 }, { 0, 0, 0.2 + sine(0.2, 0.3) + (getAnte() / 5), 0 }, 1)
-	
   return 999
 	end
   end

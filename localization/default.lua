@@ -101,7 +101,7 @@ return {
                 "{C:red,E:2,S:1.3}Epilepsy Warning for this challenge{}",
             },
             ch_c_evil = {
-                "{E:1,S:1.5}Evil >=]{}",
+                "{E:4,S:1.5}I <3 Gambling!{}",
             },
             ch_c_findjim = {
                 "{E:1,S:1.5}Find Jimbo!{}"

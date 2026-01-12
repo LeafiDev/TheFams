@@ -12,13 +12,18 @@ SMODS.Back {
     atlas = "backs",
     pos = {x = 0, y = 0},
     apply = function(self, back)
-    if G and G.GAME then
-        G.GAME.dollars = 4
-        local jokers = {"j_fams_wouldyourather"}
-        for i = 1, #jokers do
-            add_joker_by_key(jokers[i], false)
-        end
-    end
+    G.E_MANAGER:add_event(Event({
+            trigger = "immediate",
+            func = function()
+                SMODS.add_card  {
+                set = "Joker",                
+                legendary = false,            
+                key = "j_fams_wouldyourather",
+                skip_materialize = false,     
+                }
+                return true
+            end
+        }))
 end
 }
 
@@ -34,16 +39,18 @@ SMODS.Back {
     atlas = "backs",
     pos = {x = 1, y = 0},
     apply = function(self, back)
-        if G and G.GAME then
-            G.GAME.dollars = 4
-             if G.GAME.round_resets then
-                G.GAME.round_resets.hands = 3
+    G.E_MANAGER:add_event(Event({
+            trigger = "immediate",
+            func = function()
+                SMODS.add_card  {
+                set = "Joker",                
+                legendary = false,            
+                key = "j_fams_stressed",
+                skip_materialize = false,     
+                }
+                return true
             end
-            local jokers = {"j_fams_stressed"}
-            for i = 1, #jokers do
-                add_joker_by_key(jokers[i], false)
-            end
-        end
+        }))
     end
 }
 
@@ -67,13 +74,13 @@ SMODS.Back {
             add_joker_by_key(jokers[i], false)
         end
 		G.E_MANAGER:add_event(Event({
-                trigger = "immediate",
-                func = function()
-                    G.GAME.inflation = G.GAME.inflation - 4
-        			G.GAME.dollars = 0
-                    return true
-                end
-            }))
+            trigger = "immediate",
+            func = function()
+                G.GAME.inflation = G.GAME.inflation - 4
+                G.GAME.dollars = 0
+                return true
+            end
+        }))
     end
 end
 }
@@ -92,21 +99,28 @@ SMODS.Back {
     pos = {x = 4, y = 0},
     apply = function(self, back)
     if G and G.GAME then
-        local jokers = {"j_fams_ritz", "j_fams_pencil"}
-        for i = 1, #jokers do
-            add_joker_by_key(jokers[i], false)
-        end
-		G.E_MANAGER:add_event(Event({
-                trigger = "immediate",
-                func = function()
-                    
-                    return true
-                end
-            }))
+        G.E_MANAGER:add_event(Event({
+
+            trigger = "immediate",
+            func = function()
+                SMODS.add_card  {
+                set = "Joker",                
+                legendary = false,            
+                key = "j_fams_pencil",
+                skip_materialize = false,     
+                }
+                SMODS.add_card  {
+                set = "Joker",                
+                legendary = false,            
+                key = "j_fams_ritz",
+                skip_materialize = false,     
+                }
+                return true
+            end
+        }))
     end
 end
 }
-
 
 
 SMODS.Back {
@@ -121,20 +135,47 @@ SMODS.Back {
     atlas = "backs",
     pos = {x = 3, y = 0},
     apply = function(self, back)
+    G.E_MANAGER:add_event(Event({
+            trigger = "immediate",
+            func = function()
+                SMODS.add_card  {
+                set = "Joker",                
+                legendary = false,            
+                key = "j_fams_earl",
+                skip_materialize = false,     
+                }
+                return true
+            end
+        }))
+end
+}
+
+SMODS.Back {
+    key = "heartdeck",
+    loc_txt = {
+        name = "Heart Deck",
+        text = {
+			"start with {C:attention}The Soul{}"
+        }
+    },
+    atlas = "backs",
+    pos = {x = 5, y = 0},
+    apply = function(self, back)
     if G and G.GAME then
-        local jokers = {"j_fams_earl"}
-        for i = 1, #jokers do
-            add_joker_by_key(jokers[i], false)
-        end
-		
-		G.E_MANAGER:add_event(Event({
-                trigger = "immediate",
-                func = function()
-                    SetMoney(20)
-                    return true
-                end
-            }))
-		
+        
+
+    G.E_MANAGER:add_event(Event({
+            trigger = "immediate",
+            func = function()
+                SMODS.add_card  {
+                set = "Joker",                
+                legendary = false,            
+                key = "j_fams_dr_soul",
+                skip_materialize = false,     
+                }
+                return true
+            end
+        }))
     end
 end
 }

@@ -228,8 +228,6 @@ SMODS.Blind {
 }
 
 
-
-
 SMODS.Blind {
     key = "EarlBoss",
 	atlas = "bossBlinds",

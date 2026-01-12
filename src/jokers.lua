@@ -822,7 +822,7 @@ calculate = function(self, card, context)
     if context.joker_main then
 		if card.ability.times then
 			card.ability.times = card.ability.times + 1
-			if card.ability.times >= 3 then
+			if card.ability.times >= 3 and not isEternal(card) then
 				destroycard(card)
 			end
 		else
@@ -1405,4 +1405,34 @@ SMODS.Joker {
 
 		return 0;
 	end,
+}
+
+SMODS.Joker {
+	key = 'dingaling', 
+	atlas = 'dingalings',
+	pos = { x = 0, y = 0 },
+	loc_txt = {
+		name = 'When she touch yo dingaling', 
+		text = {
+			""
+		}
+	},
+	pools = {
+
+    },
+	config = { }, 
+	rarity = 4, 
+	cost = 0, 
+
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play then
+        local value = context.other_card.base and context.other_card.base.value or false
+        return {mult = tonumber(context.other_card.base.value)}
+		end
+    end,
+
+	set_sprites = function(self, card, front)
+		local image = pseudorandom("dingaling") * 6
+		card.children.center.sprite_pos = { x = math.floor(image), y = 0 };
+	end
 }

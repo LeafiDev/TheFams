@@ -159,18 +159,6 @@ SMODS.Atlas {
 }
 
 
-
-SMODS.Atlas {
-    key = "block",
-    path = "block.png",
-    px = 100,
-    py = 100,
-    prefix_config = {
-        key = { mod = false },   -- disables mod prefix for 'key'
-        atlas = false            -- disables all prefixes for 'atlas'
-    }
-}
-
 atlas("divorce", "divorce.png", 1700, 2200)
 atlas("gayster", "gayster.png", 71, 95)
 
@@ -184,6 +172,13 @@ SMODS.Atlas {
 SMODS.Atlas {
 	key = "creditCards",
 	path = "creditCards.png",
+	px = 71,
+	py = 95
+}
+
+SMODS.Atlas {
+	key = "muscredits",
+	path = "muscredits.png",
 	px = 71,
 	py = 95
 }
@@ -245,6 +240,13 @@ SMODS.Atlas {
 SMODS.Atlas {
 	key = "jokers",
 	path = "jokers.png",
+	px = 71,
+	py = 95
+}
+
+SMODS.Atlas {
+	key = "dingalings",
+	path = "dingalings.png",
 	px = 71,
 	py = 95
 }

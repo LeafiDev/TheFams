@@ -1212,35 +1212,6 @@ SMODS.Challenge {
 }
 
 SMODS.Challenge {
-  key = 'pastdue',
-  loc_txt = {
-	name = "Past due",
-  },
-  jokers = {
-	
-  },
-  deck = {
-	type = 'Challenge Deck'
-  },
-  rules = {
-	custom = {
-		{id = "money1"}
-	},
-	modifiers = {
-		{id = "dollars", value = 4},
-	}
-  },
-  restrictions = {
-	banned_cards = {},
-	banned_tags = {},
-	banned_other = {}
-  },
-  button_colour = G.C.MONEY,
-  consumeables = {},
-  vouchers = {}
-}
-
-SMODS.Challenge {
   key = 'fj',
   loc_txt = {
 	name = "Where's Jimbo",
@@ -1306,6 +1277,67 @@ SMODS.Challenge {
   button_colour = G.C.BLACK,
   consumeables = {},
   vouchers = {}
+}
+
+SMODS.Challenge {
+  key = 'lap2',
+  loc_txt = {
+	name = "LAP 2!",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.PURPLE,
+  rules = {
+	custom = {
+		{id = "lap2"},
+		{id = "lap22"}
+	},
+	modifiers = {
+		
+	}
+  },
+  restrictions = {
+	banned_cards = {{id = "c_fams_m-dice"}, {id = "c_fams_m-dice-evil"}},
+	banned_tags = {{id = "tag_fams_up"}, {id = "tag_fams_down"}},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+
+}
+
+SMODS.Challenge {
+  key = 'kitch',
+  loc_txt = {
+	name = "HI I'M DEREK BUM",
+  },
+  jokers = {
+	{id = "j_fams_kitchgun", eternal = true}
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.FILTER,
+  rules = {
+	custom = {
+		
+	},
+	modifiers = {
+		{id = "joker_slots", value = 1},
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+
 }
 
 SMODS.Challenge {

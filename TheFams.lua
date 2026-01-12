@@ -1,7 +1,7 @@
 assert(SMODS.load_file('src/atlas.lua'))()
-assert(SMODS.load_file('src/muscredits.lua'))()
 assert(SMODS.load_file('src/jokers.lua'))()
 assert(SMODS.load_file('src/cons.lua'))()
+assert(SMODS.load_file('src/muscredits.lua'))()
 assert(SMODS.load_file('src/stickers.lua'))()
 assert(SMODS.load_file('src/vouchers.lua'))()
 assert(SMODS.load_file('src/sounds.lua'))()
@@ -24,7 +24,7 @@ assert(SMODS.load_file('src/update.lua'))()
 -- assert(SMODS.load_file('src/achievements.lua'))()
 
 
-
+winnercheck = false
 title_variant = title_variant or 1
 title_screen_randomized = false
 timer_active = false
@@ -194,7 +194,7 @@ SMODS.current_mod.extra_tabs = function()
 
                 return {
                     n = G.UIT.ROOT,
-                    config = {align = "cm", r = 0.1, minw = 12, minh = 8, padding = 1, colour = G.C.BLACK},
+                    config = {align = "cm", r = 0.1, minw = 10, minh = 8, padding = 0.5, colour = G.C.BLACK},
                     nodes = {
                          {
                             n = G.UIT.R,
@@ -237,8 +237,10 @@ SMODS.current_mod.extra_tabs = function()
 		{
             label = 'Music Credits',
             tab_definition_function = function()
-                local joker_list2 = {}
-                local joker_cards2 = {}
+                local joker_list2 = {"c_fams_A1", "c_fams_A2", "c_fams_A3", "c_fams_A4", "c_fams_A5", "c_fams_A6"}
+                local joker_list22 = { "c_fams_A7", "c_fams_A8", "c_fams_A9", "c_fams_A10", "c_fams_A11", "c_fams_A12"}
+				local joker_cards2 = {}
+				local joker_cards22 = {}
                 for i, joker_key in ipairs(joker_list2) do
                     local center = G.P_CENTERS[joker_key] or G.P_CENTERS.j_joker
                     if center then
@@ -246,10 +248,17 @@ SMODS.current_mod.extra_tabs = function()
                         if card then table.insert(joker_cards2, card) end
                     end
                 end
+				for i, joker_key in ipairs(joker_list22) do
+                    local center = G.P_CENTERS[joker_key] or G.P_CENTERS.j_joker
+                    if center then
+                        local card = Card(G.ROOM.T.x, G.ROOM.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, center)
+                        if card then table.insert(joker_cards22, card) end
+                    end
+                end
 
                 return {
                     n = G.UIT.ROOT,
-                    config = {align = "cm", r = 0.1, minw = 12, minh = 8, padding = 1, colour = G.C.BLACK},
+                    config = {align = "cm", r = 0.1, minw = 12, minh = 8, padding = 0.5, colour = G.C.BLACK},
                     nodes = {
                          {
                             n = G.UIT.R,
@@ -258,25 +267,35 @@ SMODS.current_mod.extra_tabs = function()
                                 {
                                     n = G.UIT.T,
                                     config = {text = "Artist Credits", hover = true, colour = G.C.UI.TEXT_LIGHT, scale = 1, padding = 0.1}
-                                },
-								{
-                                    n = G.UIT.T,
-                                    config = {text = "Artists that are credited for their work used in this mod", hover = true, colour = G.C.UI.TEXT_LIGHT, scale = 0.6, padding = 0.1}
                                 }
                             }
                         },
                          {
                             n = G.UIT.R,
-                            config = {align = "cm", minw = 12, minh = 2, padding = 0.1},
+                            config = {align = "cm", minw = 12, minh = 2, padding = 0},
                             nodes = (function()
                                 local card_nodes = {}
                                 for _, card in ipairs(joker_cards2) do
                                     table.insert(card_nodes, {
                                         n = G.UIT.O,
-                                        config = {object = card, padding = 0.1, minw = 2, minh = 2}
+                                        config = {object = card, padding = 0.1, minw = 1, minh = 1}
                                     })
                                 end
                                 return card_nodes
+                            end)()
+                        },
+						{
+                            n = G.UIT.R,
+                            config = {align = "cm", minw = 12, minh = 2, padding = 0},
+                            nodes = (function()
+                                local card_nodes2 = {}
+                                for _, card in ipairs(joker_cards22) do
+                                    table.insert(card_nodes2, {
+                                        n = G.UIT.O,
+                                        config = {object = card, padding = 0.1, minw = 1, minh = 1}
+                                    })
+                                end
+                                return card_nodes2
                             end)()
                         }
                     }
@@ -944,6 +963,10 @@ addWYR("Money^4", function()
 	SetMoney(GetMoney()^4)
 end)
 
+addWYR("Money^5", function()
+	SetMoney(GetMoney()^5)
+end)
+
 addWYR("Random Money", function()
 	SetMoney(math.random(1, 10000))
 end)
@@ -956,8 +979,21 @@ addWYR("Increase Shop Prices by 3", function()
 	G.GAME.inflation = G.GAME.inflation + 3
 end)
 
+addWYR("Decrease Shop Prices by 6", function()
+	G.GAME.inflation = G.GAME.inflation - 6
+end)
+
+addWYR("Increase Shop Prices by 6", function()
+	G.GAME.inflation = G.GAME.inflation + 6
+end)
+
 addWYR("Gain 5 skips", function()
 	G.GAME.skips = G.GAME.skips + 5
+end)
+
+addWYR("Reroll the current boss blind", function()
+	G.from_boss_tag = true
+	G.FUNCS.reroll_boss()
 end)
 
 addWYR("Lose One Random Joker", function()
@@ -1042,6 +1078,18 @@ end)
 addWYR("Decrease Tarot Rate by 15", function()
     if not (G and G.GAME) then return end
     G.GAME.tarot_rate = G.GAME.tarot_rate + -15
+end)
+
+addWYR("Make all your jokers eternal", function()
+    if not (G and G.GAME) then return end
+    if G and G.jokers and G.jokers.cards then
+        for _, j in ipairs(G.jokers.cards) do
+            if j ~= exclude_card and j.sell_cost then
+                setEternal(j, true)
+				j:juice_up()
+            end
+        end
+    end
 end)
 
 
@@ -1132,13 +1180,18 @@ function Card:click()
 		play_sound("fams_gasterleave", 1, 1)
 		self:start_dissolve({G.C.BLACK, G.C.WHITE},true, 1, true)
 		SMODS.add_card{
-        			set = "Joker",                
-        			legendary = false,            
-					key = "j_egg",
-        			skip_materialize = false,     
+			set = "Joker",                
+			legendary = false,            
+			key = "j_egg",
+			skip_materialize = false,     
     	}
 		
     return 
+  end
+  if self.config and self.config.center and self.config.center.key == "j_fams_dingaling" and
+     self.area and self.area == G.jokers then
+
+    play_sound('fams_honk', 1, 1)
   end
   
   if original_card_click then
@@ -1260,24 +1313,26 @@ my_menu_function = function()
 	local name2 = current_wyr_idx2 and (type(wyrnames[current_wyr_idx2]) == "string" and wyrnames[current_wyr_idx2] or "Option 2") or "Option 2"
 	return {
 		n = G.UIT.ROOT,
-		config = {align = "cm", r = 1, minw = 40, minh = 20, padding = 1, colour = glass, emboss = 0.05, hover = true, shadow = true, juice = true},
+		config = {align = "cm", r = 0, minw = 40, minh = 20, padding = 1, colour = darkglass, emboss = 0.05, hover = true, shadow = true, juice = true},
 		nodes = {
 
-			{n = G.UIT.R, config = {align = "cm", padding = 0.05}, nodes = {
-				{n = G.UIT.T, config = {text = "Would You Rather", colour = G.C.UI.TEXT_LIGHT, scale = 2}}
+			{n = G.UIT.R, config = {align = "cm", padding = 0}, nodes = {
+				{n = G.UIT.T, config = {text = "Would", colour = G.C.RED, scale = 2, hover = true}},
+				{n = G.UIT.T, config = {text = " You ", colour = G.C.UI.TEXT_LIGHT, scale = 2, hover = true}},
+				{n = G.UIT.T, config = {text = "Rather", colour = G.C.BLUE, scale = 2, hover = true}}
 			}},
-			{n = G.UIT.R, config = {align = "cm", padding = 0.05}, nodes = {
-				{n = G.UIT.T, config = {text = "selected option is applied to this blind", colour = G.C.attention, scale = 0.5}}
+			{n = G.UIT.R, config = {align = "cm", padding = 0}, nodes = {
+				{n = G.UIT.T, config = {text = "selected option is applied to this blind", colour = G.C.ATTENTION, scale = 1}}
 			}},
 
-			{n = G.UIT.R, config = {align = "cm", padding = 0.1}, nodes = {
+			{n = G.UIT.R, config = {align = "cm", padding = 0}, nodes = {
 
 				{n = G.UIT.C, config = {button = "print_hello", shadow = true, colour = {1, 0.2, 0.2, 1}, r = 1.55, padding = 1, minw = 4, maxw = 4, emboss = 0.6}, nodes = {
-					{n = G.UIT.T, config = {text = name1, colour = G.C.UI.TEXT_LIGHT, scale = 0.7}}
+					{n = G.UIT.T, config = {text = name1, colour = G.C.UI.TEXT_LIGHT, scale = 1}}
 				}},
 
 				{n = G.UIT.C, config = {button = "print_world", shadow = true, colour = {0.2, 0.2, 1, 1}, r = 1.55, padding = 1, minw = 4, maxw = 4, emboss = 0.6}, nodes = {
-					{n = G.UIT.T, config = {text = name2, colour = G.C.UI.TEXT_LIGHT, scale = 0.7}}
+					{n = G.UIT.T, config = {text = name2, colour = G.C.UI.TEXT_LIGHT, scale = 1}}
 				}}
 			}}
 		}
@@ -1355,8 +1410,6 @@ showUICardOverlay = function(card_table)
     }
     G.CARD_OVERLAY:align_to_major()
 end
-
-
 
 
 
@@ -1519,12 +1572,12 @@ is_word_new = function(word, found_words)
 	return true
 end
 
-force_number = function(amount)
+force_number = function(amount, min)
 	if (type(amount) ~= "number") then
-		return amount:to_number()
+		return math.max(amount:to_number(), min or 0)
 	end
 
-	return amount;
+	return math.max(amount, min or 0);
 end
 
 calculate_div_dollars = function(divider, minimum, maximum)
