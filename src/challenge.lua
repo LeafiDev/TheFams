@@ -1426,8 +1426,8 @@ SMODS.Challenge {
 	}
   },
   restrictions = {
-	banned_cards = {},
-	banned_tags = {{id = "c_fams_m-dice-evil"}},
+	banned_cards = {{id = "c_fams_m-dice-evil"}},
+	banned_tags = {},
 	banned_other = {}
   },
   consumeables = {},

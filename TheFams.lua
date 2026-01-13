@@ -13,6 +13,7 @@ assert(SMODS.load_file('src/boosters.lua'))()
 assert(SMODS.load_file('src/ranks.lua'))()
 assert(SMODS.load_file('src/bigboys.lua'))()
 assert(SMODS.load_file('src/challenge.lua'))()
+assert(SMODS.load_file('src/enhancements.lua'))()
 -- assert(SMODS.load_file('src/challengemenu.lua'))()
 assert(SMODS.load_file('src/backs.lua'))()
 assert(SMODS.load_file('src/mainmenu.lua'))()
@@ -1180,10 +1181,10 @@ function Card:click()
 		play_sound("fams_gasterleave", 1, 1)
 		self:start_dissolve({G.C.BLACK, G.C.WHITE},true, 1, true)
 		SMODS.add_card{
-			set = "Joker",                
-			legendary = false,            
+			set = "Joker",
+			legendary = false,
 			key = "j_egg",
-			skip_materialize = false,     
+			skip_materialize = false,
     	}
 		
     return 
@@ -1192,6 +1193,37 @@ function Card:click()
      self.area and self.area == G.jokers then
 
     play_sound('fams_honk', 1, 1)
+  end
+  if self.config and self.config.center and self.config.center.key == "c_fams_m-cuphead" then
+	local variety = math.random(1, 2)
+	local Ihit = 0
+    for i, card in ipairs(G.hand.cards) do
+				for i, card in ipairs(G.hand.cards) do
+					G.E_MANAGER:add_event(Event({
+						trigger = "after", 
+    					delay = 1, 
+						func = function()
+						print(SMODS.has_enhancement(card, "m_fams_par"))
+						if SMODS.has_enhancement(card, "m_fams_par") then
+							self:flip(true)
+							card:flip()
+							play_sound('fams_parry1', 1, 1)
+							card:remove(true)
+							self:juice_up()
+							Ihit = Ihit + 1
+							G.parryreturn = (G.parryreturn or 0) + 1
+							self:flip(false)
+						end
+						return true
+						end
+						}))
+				end
+				if pseudorandom("cuphead") * 100 < G.GAME.probabilities.normal then
+					play_sound('fams_cupdie'..variety, 1, 1)
+					self:remove(true)
+				end
+			return
+		end
   end
   
   if original_card_click then
@@ -1338,6 +1370,76 @@ my_menu_function = function()
 		}
 	}
 end
+
+--[[ unused cuphead wallop function
+showFlashingTextUI = function(text, duration_frames, flash_speed, text_scale, bg_colour)
+    duration_frames = duration_frames or 12
+    flash_speed = flash_speed or 2
+    text_scale = text_scale or 3
+    bg_colour = bg_colour or {0, 0, 0, 0.5}
+    
+    if G.FLASHING_TEXT_UI and not G.FLASHING_TEXT_UI.removed then
+        G.FLASHING_TEXT_UI:remove()
+    end
+    
+    local text_node = {
+        n = G.UIT.T,
+        config = {
+            text = text or "HIT!",
+            scale = text_scale,
+            colour = G.C.WHITE
+        }
+    }
+    
+    local menu_def = {
+        n = G.UIT.ROOT,
+        config = {align = "cm", padding = 0.1, colour = bg_colour, r = 0.05, emboss = 0, minw = 55, minh = 55},
+        nodes = {
+            {
+                n = G.UIT.R,
+                config = {align = "cm", padding = 0},
+                nodes = {
+                    text_node
+                }
+            }
+        }
+    }
+    
+    G.FLASHING_TEXT_UI = UIBox {
+        definition = menu_def,
+        config = { align = "cm", offset = { x = 0, y = 0 }, major = G.ROOM_ATTACH, bond = "Weak", instance_type = "ALERT" }
+    }
+    G.FLASHING_TEXT_UI:align_to_major()
+    
+    local start_time = love.timer.getTime()
+    local frame_duration = 1 / 60  -- Assuming 60 FPS
+    
+    G.E_MANAGER:add_event(Event({
+        trigger = "immediate",
+        func = function()
+            local elapsed = love.timer.getTime() - start_time
+            local frame_number = math.floor(elapsed / frame_duration)
+            
+            -- Flash between white and transparent
+            if math.floor(frame_number / flash_speed) % 2 == 0 then
+                text_node.config.colour = G.C.WHITE
+            else
+                text_node.config.colour = G.C.BLACK
+            end
+            G.FLASHING_TEXT_UI:recalculate()
+            -- Remove after duration
+            if frame_number >= duration_frames then
+                if G.FLASHING_TEXT_UI and not G.FLASHING_TEXT_UI.removed then
+                    G.FLASHING_TEXT_UI:remove()
+                end
+                return true
+            end
+            
+            return false
+        end
+    }))
+end
+]]
 
 wyr = function()
 	local n = #wyrnames
@@ -1562,6 +1664,20 @@ end
 
 startingHand = 4
 labelset = "???"
+
+function extract_words_from_text(text)
+	if not text or type(text) ~= "string" then 
+		return {} 
+	end
+	local words = {}
+ 	local clean_text = string.lower(text)
+	for word in string.gmatch(clean_text, "%a+") do
+		if #word > 1 then -- Only consider words with more than 1 letter
+			table.insert(words, word)
+		end
+	end
+	return words
+end
 
 is_word_new = function(word, found_words)
 	for _, found_word in ipairs(found_words) do

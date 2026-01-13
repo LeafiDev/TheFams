@@ -923,6 +923,60 @@ end,
 }
 
 SMODS.Consumable {
+    key = "m-cuphead",
+    set = "mini-joker",
+    loc_txt = {
+        name = "Cup",
+        text = {"Click this card to check {C:purple,E:1}Parry{} purple cards.", "Parried cards will be destroyed and this card will gain {X:mult,C:white}1X{} mult", "currently {X:mult,C:white}#1#X{}", "{C:red}Clicking has a #3# in 100 to destroy the card{}"}
+    },
+    atlas = "miniJokers", 
+    pos = { x = 0, y = 5 },
+    config = { mult = 0 },
+    cost = 8,
+    pools = {
+        ["mini-joker"] = true
+    },
+	loc_vars = function()
+		return { vars = { G.parryreturn or 0, G.hits, G.GAME.probabilities.normal } }
+	end,
+	use = function(self, card)
+        
+    end,
+	calculate = function(self, card, context)
+        if context.setting_blind then
+            local callnum = math.random(1, 5)
+		    play_sound("fams_c_announcego"..callnum, 1, 1)
+        end
+
+        if context.end_of_round and context.individual and context.cardarea == G.hand then
+        play_sound("fams_c_win", 1, 1)
+        play_sound("fams_c_bell", 1, 1)
+        G.ROOM.jiggle = 12
+        end
+
+        if context.joker_main then
+            return { xmult = G.parryreturn }
+        end
+	end,
+
+	can_use = function(self, card)
+    return false
+	end,
+
+	add_to_deck = function(self, card, from_debuff)
+        local callnum = math.random(1, 5)
+		play_sound("fams_c_announce"..callnum, 1, 1)
+        G.hits = 0
+        G.parryreturn = 1
+	end,
+
+	remove_from_deck = function(self, card, from_debuff)
+		G.parryreturn = 1
+        G.hits = 0
+	end,
+}
+
+SMODS.Consumable {
     key = "fatboi",
     set = "dawgcards",
     loc_txt = {

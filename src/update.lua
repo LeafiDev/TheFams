@@ -43,8 +43,9 @@ G.fams_update = function(dt)
     setrunBG({ 0.529, 0.725, 0.922, 1 }, { 0.698, 0.792, 0.89, 1 }, 3)
 	musicPower(5)
 	setBPM(130)
-	return 9999
 	end
+
+	print(G.GAME.round_resets.blind_ante or 0)
 
 	if isPlayingBlind() then
 		winnercheck = true
@@ -73,7 +74,6 @@ G.fams_update = function(dt)
 		colrandom3 = math.random(0, 0.01)
 		thetimer = 0
 	end
-	return 99440024
 	end
 
 	if isChallenge("pastdue") then

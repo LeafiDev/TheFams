@@ -52,6 +52,13 @@ SMODS.Sound {
 }
 
 SMODS.Sound {
+  key = "XSCREAM",
+  pitch = 1,
+  volume = 1,
+  path = "XSCREAM.ogg",
+}
+
+SMODS.Sound {
   key = "ut_encounter",
   pitch = 1,
   volume = 1,
@@ -201,6 +208,117 @@ SMODS.Sound {
   path = "tick.ogg"
 }
 
+SMODS.Sound {
+  key = "parry1",
+  pitch = 1,
+  volume = 1,
+  path = "parry1.ogg",
+}
+
+SMODS.Sound {
+  key = "parry2",
+  pitch = 1,
+  volume = 1,
+  path = "parry2.ogg",
+}
+
+SMODS.Sound {
+  key = "cupdie1",
+  pitch = 1,
+  volume = 1,
+  path = "cupdie1.ogg",
+}
+
+SMODS.Sound {
+  key = "cupdie2",
+  pitch = 1,
+  volume = 1,
+  path = "cupdie2.ogg",
+}
+
+SMODS.Sound {
+  key = "c_announce1",
+  pitch = 1,
+  volume = 1,
+  path = "c_announce1.ogg",
+}
+
+SMODS.Sound {
+  key = "c_announce2",
+  pitch = 1,
+  volume = 1,
+  path = "c_announce2.ogg",
+}
+
+SMODS.Sound {
+  key = "c_announce3",
+  pitch = 1,
+  volume = 1,
+  path = "c_announce3.ogg",
+}
+
+SMODS.Sound {
+  key = "c_announce4",
+  pitch = 1,
+  volume = 1,
+  path = "c_announce4.ogg",
+}
+
+SMODS.Sound {
+  key = "c_announce5",
+  pitch = 1,
+  volume = 1,
+  path = "c_announce5.ogg",
+}
+
+SMODS.Sound {
+  key = "c_announcego1",
+  pitch = 1,
+  volume = 1,
+  path = "c_announcego1.ogg",
+}
+
+SMODS.Sound {
+  key = "c_announcego2",
+  pitch = 1,
+  volume = 1,
+  path = "c_announcego2.ogg",
+}
+
+SMODS.Sound {
+  key = "c_announcego3",
+  pitch = 1,
+  volume = 1,
+  path = "c_announcego3.ogg",
+}
+
+SMODS.Sound {
+  key = "c_announcego4",
+  pitch = 1,
+  volume = 1,
+  path = "c_announcego4.ogg",
+}
+
+SMODS.Sound {
+  key = "c_announcego5",
+  pitch = 1,
+  volume = 1,
+  path = "c_announcego5.ogg",
+}
+
+SMODS.Sound {
+  key = "c_bell",
+  pitch = 1,
+  volume = 1,
+  path = "c_bell.ogg",
+}
+
+SMODS.Sound {
+  key = "c_win",
+  pitch = 1,
+  volume = 1,
+  path = "c_win.ogg",
+}
 
 SMODS.Sound {
   key = "music_jimb",
@@ -342,31 +460,14 @@ colrandom2 = math.random(0, 0.1)
 colrandom3 = math.random(0, 0.1)
 -- dlc finale
 
-SMODS.Sound {
-  key = "music_dlcf",
-  pitch = 1,
-  volume = 0.8,
-  path = "music_dlcf.ogg",
-  select_music_track = function(self)
-	if isChallenge("dlcend") and getAnte() <= 9 then
-	musicPower(2)
-	setBPM(130)
-	return 1000
-	end
-  end
-}
 
 SMODS.Sound {
-  key = "music_stopit ",
+  key = "music_stopit",
   pitch = 1,
   volume = 0.7,
   path = "music_stopit.ogg",
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 70 and getAnte() < 80 then
-  G.blind_select_opts = {}
-  G.blind_select_opts.small = G.GAME.round_resets.blind_states['Boss'] ~= 'Hide' and UIBox{definition = {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={UIBox_dyn_container({create_UIBox_blind_choice('Boss')},false,get_blind_main_colour('Boss'))}}, config = {align="bmi", offset = {x=0,y=0}}} or nil
-  G.blind_select_opts.big = G.GAME.round_resets.blind_states['Boss'] ~= 'Hide' and UIBox{definition = {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={UIBox_dyn_container({create_UIBox_blind_choice('Boss')},false,get_blind_main_colour('Boss'))}}, config = {align="bmi", offset = {x=0,y=0}}} or nil
-  G.blind_select_opts.boss = G.GAME.round_resets.blind_states['Boss'] ~= 'Hide' and UIBox{definition = {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={UIBox_dyn_container({create_UIBox_blind_choice('Boss')},false,get_blind_main_colour('Boss'), mix_colours(G.C.BLACK, get_blind_main_colour('Boss'), 0.8))}}, config = {align="bmi", offset = {x=0,y=0}}} or nil
 	return 99440024
 	end
   end
@@ -523,6 +624,20 @@ SMODS.Sound {
 	musicPower(1.5)
 	setBPM(128)
   return 999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_dlcf",
+  pitch = 1,
+  volume = 0.8,
+  path = "music_dlcf.ogg",
+  select_music_track = function(self)
+	if isChallenge("dlcend") and getAnte() <= 9 then
+	musicPower(2)
+	setBPM(130)
+	return 99999
 	end
   end
 }

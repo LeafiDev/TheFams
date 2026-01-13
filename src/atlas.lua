@@ -231,6 +231,14 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
+	key = "enhance",
+	path = "enhance.png",
+	px = 71,
+	py = 95
+}
+
+
+SMODS.Atlas {
 	key = "actualtarots",
 	path = "actualtarots.png",
 	px = 71,

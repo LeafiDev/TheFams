@@ -1242,7 +1242,6 @@ SMODS.Joker {
 					table.insert(found_words, word)
 					table.insert(new_words, word)
 					total_new_mult = total_new_mult + #word
-
 				else
 
 				end
@@ -1392,7 +1391,7 @@ SMODS.Joker {
 
     },
 	config = { }, 
-	rarity = 2, 
+	rarity = 4, 
 	cost = 0, 
 
 	calculate = function(self, card, context)
@@ -1414,22 +1413,29 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'When she touch yo dingaling', 
 		text = {
-			""
+			"Gains {C:chips}+50{} chips every hand played",
 		}
 	},
 	pools = {
 
     },
-	config = { }, 
-	rarity = 4, 
+	config = { gain = 0 }, 
+	rarity = 2, 
 	cost = 0, 
 
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play then
-        local value = context.other_card.base and context.other_card.base.value or false
-        return {mult = tonumber(context.other_card.base.value)}
+	if context.joker_main then
+		local chance = math.ceil(pseudorandom("dingaling") * 10)
+		if chance == 10 then
+			G.ROOM.jiggle = 25
+			ForceLoss()
+			play_sound("fams_XSCREAM", 1, 1)
+		else
+			self.config.gain = self.config.gain + 50
+			return {message = "upgrade", chips = self.config.gain}
 		end
-    end,
+	end
+	end,
 
 	set_sprites = function(self, card, front)
 		local image = pseudorandom("dingaling") * 6
