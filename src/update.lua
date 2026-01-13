@@ -3,6 +3,8 @@ G.fams_update = function(dt)
     if (G.STATE == 13) then return end;
 	if (G.GAME.dr_boss) then G.ut_update(dt); end
 
+	showFloatingImage("fams_jokers", {x = 0, y = 0}, 1.5, {x = 0, y = 0}, "test1")
+
 	clearCustomTextAfterDraw()
 	forceback = false
 
@@ -44,8 +46,6 @@ G.fams_update = function(dt)
 	musicPower(5)
 	setBPM(130)
 	end
-
-	print(G.GAME.round_resets.blind_ante or 0)
 
 	if isPlayingBlind() then
 		winnercheck = true

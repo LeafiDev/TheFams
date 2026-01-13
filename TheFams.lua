@@ -328,16 +328,16 @@ isChallenge = function(key)
 end
 
 isAnte = function(num)
-	return G.GAME.round_resets.blind_ante == num
+	return G.GAME.round_resets.ante == num
 end
 
 getAnte = function()
-	return G.GAME.round_resets.blind_ante
+	return G.GAME.round_resets.ante
 end
 
 setAnte = function(index)
 	ease_ante(index - getAnte());
-	G.GAME.round_resets.blind_ante = G.GAME.round_resets.blind_ante or G.GAME.round_resets.ante
+	G.GAME.round_resets.ante = G.GAME.round_resets.ante or G.GAME.round_resets.ante
 end
 
 isBoss = function()
@@ -686,43 +686,6 @@ showFloatingText = function(text, colour, scale, offset, id)
 			scale = scale or 1,
 			colour = colour or G.C.WHITE,
 			offset = offset or {x = 0, y = 0}
-		}
-	}
-	G.customtext[id] = UIBox {
-		definition = node,
-		config = { align = "tm", offset = offset or {x = 0, y = 0}, major = G.ROOM_ATTACH, bond = "Weak" }
-	}
-	G.customtext[id]:align_to_major()
-end
-
--- Version of showFloatingText that uses an atlas image instead of text
-showFloatingImage = function(atlasName, pos, atlasW, atlasH, scale, offset, id)
-	G.customtext = G.customtext or {}
-	id = id or "newimage"
-	if G.customtext[id] and not G.customtext[id].removed then
-		G.customtext[id]:remove()
-	end
-	
-	local atlas_obj = G.ASSET_ATLAS[atlasName]
-	if not atlas_obj then
-		return -- Exit if atlas not found
-	end
-	
-	-- Use the original atlas object (don't try to create a modified copy)
-	local display_atlas = atlas_obj
-	
-	local node = {
-		n = G.UIT.C,
-		config = {
-			align = "cm"
-		},
-		nodes = {
-			{
-				n = G.UIT.O,
-				config = {
-					object = Sprite(0, 0, scale or 1, scale or 1, display_atlas, pos or {x = 0, y = 0})
-				}
-			}
 		}
 	}
 	G.customtext[id] = UIBox {

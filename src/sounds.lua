@@ -510,7 +510,7 @@ SMODS.Sound {
   path = "music_yourlimit.ogg",
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 100 then
-  setrunBG({ 0.063, 0.098, 0.149, 1 }, { 0, 0, 0, 0 }, 1)
+  setrunBG({ 0, 0, 0, 1 }, { 0, 0, 0, 0 }, 1)
 	musicPower(10)
 	setBPM(130)
 	return 9999
@@ -524,7 +524,9 @@ SMODS.Sound {
   volume = 0.5,
   path = "music_nolimit3.ogg",
   select_music_track = function(self)
-	if isChallenge("dlcend") and getAnte() >= 70 and getAnte() < 100 then
+	if isChallenge("dlcend") and getAnte() >= 80 and getAnte() < 100 then
+  setrunBG({ .659 + (getAnte() - 79) / 5, 0.424 + (getAnte() - 79) / 5, 0.153 + (getAnte() - 79) / 5, 1 }, { 0.969 + (getAnte() - 79) / 5, 0.851 + (getAnte() - 79) / 5, 0.537 + (getAnte() - 79) / 5, 0 }, 1 + (getAnte() - 79) / 5)
+  G.ROOM.jiggle = (getAnte() - 79.8) / 100
 	return 9999
 	end
   end
