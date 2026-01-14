@@ -179,3 +179,26 @@ SMODS.Back {
     end
 end
 }
+
+SMODS.Back {
+    key = "astrodeck",
+    loc_txt = {
+        name = "Astrology Deck",
+        text = {
+			"Gain 1 or 2 {C:blue}levels{} for each {C:attention}hand type{}"
+        }
+    },
+    atlas = "backs",
+    pos = {x = 6, y = 0},
+    apply = function(self, back)
+    for _, hand in ipairs(G.handlist) do
+    G.E_MANAGER:add_event(Event({
+            trigger = "immediate",
+            func = function()
+            SMODS.smart_level_up_hand(self, hand, true, math.floor((pseudorandom("astrodeck") * 2) + 1))
+            return true
+            end
+        }))
+    end
+end
+}

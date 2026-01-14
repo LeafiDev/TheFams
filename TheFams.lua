@@ -22,6 +22,7 @@ assert(SMODS.load_file('src/cardsleeves.lua'))()
 assert(SMODS.load_file('src/timers.lua'))()
 assert(SMODS.load_file('src/pokerhands.lua'))()
 assert(SMODS.load_file('src/update.lua'))()
+assert(SMODS.load_file('src/splash.lua'))()
 -- assert(SMODS.load_file('src/achievements.lua'))()
 
 
@@ -791,6 +792,9 @@ end
 SMODS.Keybind{
     key_pressed = "g", -- The key to trigger the action (e.g., "k" for the K key)
     action = function(self)
+		for _, joker in ipairs(G.jokers.cards) do
+			print(joker)
+		end
     end,
 }
 

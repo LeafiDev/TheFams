@@ -115,6 +115,27 @@ return {
             ch_c_money1 = {
                 "Make {C:attention}300${}"
             },
+            ch_c_weight = {
+                "If {C:money}Ante{} is below a joker {C:money}sell value{} it is {C:red}debuffed{}"
+            },
+            ch_c_weight2 = {
+                "{C:inactive}max of 7{}"
+            },
+            ch_c_vision = {
+                "Only the {C:attention}first{} and {C:attention}last{} cards are faced up"
+            },
+            ch_c_vision2 = {
+                "{C:inactive}Dragging cards to the first and last slot will reveal them{}"
+            },
+            ch_c_vision3 = {
+                "{C:inactive}Jokers are faced down{}"
+            },
+            ch_c_vision4 = {
+                "{C:attention}Highlighting a joker reveals what it is{}"
+            },
+            ch_c_nodrag = {
+                "Jokers {C:red}cannot{} be repositioned."
+            },
         },
     },
 }

@@ -1341,6 +1341,201 @@ SMODS.Challenge {
 }
 
 SMODS.Challenge {
+  key = 'deb1',
+  loc_txt = {
+	name = "Fair Weight Class",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.MONEY,
+  rules = {
+	custom = {
+		{id = "weight"}
+	},
+	modifiers = {
+		{id = "consumable_slots", value = 0},
+	}
+  },
+  restrictions = {
+	banned_cards = {{id = "j_egg"}, {id = "j_gift"}},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+
+}
+
+SMODS.Challenge {
+  key = 'nodrag',
+  loc_txt = {
+	name = "Immovable",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.RED,
+  rules = {
+	custom = {
+		{id = "nodrag"}
+	},
+	modifiers = {
+
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+
+}
+
+SMODS.Challenge {
+  key = 'flip1',
+  loc_txt = {
+	name = "Number Visionary",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck',
+	cards = (function()
+	local cards = {}
+	for i = 2, 9 do
+	table.insert(cards, {r = i, s = 'H'})
+	table.insert(cards, {r = i, s = 'S'})
+	table.insert(cards, {r = i, s = 'C'})
+	table.insert(cards, {r = i, s = 'D'})
+	end
+	table.insert(cards, {r = "T", s = 'H'})
+	table.insert(cards, {r = "T", s = 'S'})
+	table.insert(cards, {r = "T", s = 'C'})
+	table.insert(cards, {r = "T", s = 'D'})
+	return cards
+  end)()
+  },
+  button_colour = G.C.PURPLE,
+  rules = {
+	custom = {
+		{id = "vision"},
+		{id = "vision2"}
+	},
+	modifiers = {
+		{id = "hand_size", value = 10},
+		{id = "discards", value = 6},
+		{id = "hands", value = 6}
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+}
+
+SMODS.Challenge {
+  key = 'flip2',
+  loc_txt = {
+	name = "Joker Visionary",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.PURPLE,
+  rules = {
+	custom = {
+		{id = "vision3"},
+		{id = "vision4"}
+	},
+	modifiers = {
+
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+}
+
+SMODS.Challenge {
+  key = 'flip2',
+  loc_txt = {
+	name = "Joker Visionary",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.PURPLE,
+  rules = {
+	custom = {
+		{id = "vision3"},
+		{id = "vision4"}
+	},
+	modifiers = {
+
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+}
+
+SMODS.Challenge {
+  key = 'multi',
+  loc_txt = {
+	name = "barded Spells",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.PURPLE,
+  rules = {
+	custom = {
+		{id = "blindjump"}
+	},
+	modifiers = {
+
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+}
+
+SMODS.Challenge {
   key = 'lap2',
   loc_txt = {
 	name = "LAP 2!",

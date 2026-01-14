@@ -18,7 +18,7 @@ SMODS.PokerHand {
             'paired cards share a suit'
         }
     },
-    visible = false,
+    visible = true,
     evaluate = function(parts, hand)
         -- Check if we have at least 2 pairs
         if not parts._2 or #parts._2 < 2 then

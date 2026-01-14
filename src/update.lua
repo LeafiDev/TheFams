@@ -1,10 +1,25 @@
+startupframe = 0
 G.fams_update = function(dt)
+	startupframe = (startupframe or 0) + 0.5
+
+	if startupframe > 50 and startupframe < 500 then
+		showFloatingText("LeafiDev and Others present", G.C.WHITE, 1, { x = 0, y = 3.1 }, "intro1")
+	end
+
+	if startupframe > 500 and startupframe < 700 then
+		showFloatingText("A high quality shitpost mod", G.C.WHITE, 1, { x = 0, y = 3.1 }, "intro1")
+	end
+
+	if startupframe > 700 and startupframe < 900 then
+		showFloatingText("That mod is called...", G.C.WHITE, 1, { x = 0, y = 3.1 }, "intro1")
+	end
+
     --Stop us from appearing in the intro
     if (G.STATE == 13) then return end;
 	if (G.GAME.dr_boss) then G.ut_update(dt); end
-
-	showFloatingImage("fams_jokers", {x = 0, y = 0}, 1.5, {x = 0, y = 0}, "test1")
-
+	
+	-- locking up the intro text
+	startupframe = 300
 	clearCustomTextAfterDraw()
 	forceback = false
 
@@ -47,12 +62,79 @@ G.fams_update = function(dt)
 	setBPM(130)
 	end
 
+	if isChallenge("deb1") and G and G.jokers and G.jokers.cards then
+		local different = 0
+		for _, joker in ipairs(G.jokers.cards) do
+			different = different + 1
+			if getAnte() < joker.sell_cost then
+				joker.debuff = true
+			else
+				joker.debuff = false
+			end
+		end
+	end
+
+	if isChallenge("nodrag") and G and G.jokers and G.jokers.cards then
+	if G and G.jokers and G.jokers.cards then
+		for _, joker in ipairs(G.jokers.cards) do
+			joker.states.drag.can = false
+		end
+	end
+	end
+
+	if isChallenge("flip2") and G and G.jokers and G.jokers.cards then
+	if G and G.jokers and G.jokers.cards then
+		for _, joker in ipairs(G.jokers.cards) do
+			if joker.highlighted == true then
+			joker.facing = "front"
+			joker.sprite_facing = "front"
+			else
+			joker.facing = "back"
+			joker.sprite_facing = "back"
+			end
+		end
+	end
+	end
+
+	if isChallenge("flip1") and G and G.hand and G.hand.cards then
+		local length = #G.hand.cards
+		local counter = 0
+		for _, card in ipairs(G.hand.cards) do
+			counter = counter + 1
+			if counter == length or counter == 1 then
+				card.facing = "front"
+				card.sprite_facing = "front"
+			else
+				card.facing = "back"
+				card.sprite_facing = "back"
+			end
+		end
+	end
+
 	if isPlayingBlind() then
 		winnercheck = true
 	else
 		if winnercheck == true then
 			play_sound('fams_imweiner', 1, 1)
-			winnercheck = false
+
+		if isChallenge("decay") and G and G.jokers and G.jokers.cards then
+				for _, joker in ipairs(G.jokers.cards) do
+					if winnercheck == true then
+					G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.05,
+					func = function()
+						joker:juice_up()
+						play_sound("cancel", 1, 1)
+						joker.ability.mult = joker.ability.mult - (getAnte()) * 0.5
+						return true
+					end
+					}))
+					
+					end
+				end
+			end
+		winnercheck = false
 		end
 	end
 

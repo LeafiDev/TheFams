@@ -43,3 +43,24 @@ end
 }
 
 end
+
+CardSleeves.Sleeve {
+    key = "astrosleeve",
+    atlas = "sleeves",
+    pos = { x = 2, y = 0 },
+    loc_txt = {
+        name = "Astronomy Sleeve",
+        text = { "Gain 1 or 2 {C:blue}levels{} for each {C:attention}hand type{}" }
+    },
+	apply = function(self, back)
+    for _, hand in ipairs(G.handlist) do
+    G.E_MANAGER:add_event(Event({
+            trigger = "immediate",
+            func = function()
+            SMODS.smart_level_up_hand(self, hand, true, math.floor((pseudorandom("astrosleeve") * 2) + 1))
+            return true
+            end
+        }))
+    end
+end
+}

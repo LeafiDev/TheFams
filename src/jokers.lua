@@ -1126,7 +1126,7 @@ SMODS.Joker {
 end,
 	config = {  }, 
 	rarity = 2,
-	cost = 0, 
+	cost = 5, 
 
 	set_sprites = function(self, card, front)
 		play_sound("fams_skull", 1, 1)
