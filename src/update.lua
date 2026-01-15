@@ -45,6 +45,18 @@ G.fams_update = function(dt)
 		G.GAME["geometry_rate"] = 0.05
 	end
 
+	if G and G.jokers and G.jokers.cards then
+	if G and G.jokers and G.jokers.cards then
+		for _, joker in ipairs(G.jokers.cards) do
+			if joker.ability.fams_lock == true then
+				joker.states.drag.can = false
+			else
+				joker.states.drag.can = true
+			end
+		end
+	end
+	end
+
 	-- dlcend stuff
 	if isChallenge("dlcend") then 
 		SetWinningAnte(38)

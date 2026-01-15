@@ -66,3 +66,30 @@ SMODS.Sticker{
         card.ability[self.key] = val
     end,
 }
+
+SMODS.Sticker{
+    key = "lock",
+    loc_txt = {
+        name = "Locked",
+        text = {"This joker cannot be moved"},
+        label = "Locked"
+    },
+    atlas = "stickers",
+    pos = {x = 2, y = 0},
+    badge_colour = {1, 0, 0, 1},
+    hide_badge = false,
+    default_compat = true,
+    compat_exceptions = {},
+    sets = {Joker = true},
+    rate = 1,
+    needs_enable_flag = false,
+    calculate = function(self, card, context)
+        
+    end,
+    should_apply = function(self, card, center, area, bypass_roll)
+        return center.set == "Joker" and GetStake() >= 19 and math.random(1, 5) == 1
+    end,
+    apply = function(self, card, val)
+        card.ability[self.key] = val
+    end,
+}
