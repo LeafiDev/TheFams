@@ -42,8 +42,6 @@ CardSleeves.Sleeve {
 end
 }
 
-end
-
 CardSleeves.Sleeve {
     key = "astrosleeve",
     atlas = "sleeves",
@@ -64,3 +62,5 @@ CardSleeves.Sleeve {
     end
 end
 }
+
+end

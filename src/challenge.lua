@@ -1507,9 +1507,9 @@ SMODS.Challenge {
 }
 
 SMODS.Challenge {
-  key = 'multi',
+  key = 'flip2',
   loc_txt = {
-	name = "barded Spells",
+	name = "Joker Visionary",
   },
   jokers = {
 	
@@ -1520,7 +1520,8 @@ SMODS.Challenge {
   button_colour = G.C.PURPLE,
   rules = {
 	custom = {
-		{id = "blindjump"}
+		{id = "vision3"},
+		{id = "vision4"}
 	},
 	modifiers = {
 

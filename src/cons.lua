@@ -1361,7 +1361,7 @@ SMODS.Consumable {
 }
 
 
-SMODS.ConsumableType{
+--[[ SMODS.ConsumableType{
     key = "Pikmin",
     primary_colour = {0, 0.7137, 0, 1},
     secondary_colour = {0, 0.7137, 0, 1},
@@ -1375,7 +1375,7 @@ SMODS.ConsumableType{
     },
     collection_rows = {5},
     shop_rate = 0.25,
-}
+} ]]
  
 SMODS.ConsumableType{
     key = "credits",
@@ -1398,11 +1398,11 @@ SMODS.ConsumableType{
     primary_colour = {1, 0.5, 0, 1},
     secondary_colour = {1, 0.5, 0, 1},
     loc_txt = {
-        name = "gimmicks",
-        collection = "gimmicks",
+        name = "Gimmicks",
+        collection = "Gimmicks",
         undiscovered = {
             name = "???",
-            text = {"This gimmick has not been discovered yet."},
+            text = {"This Gimmick has not been discovered yet."},
         },
     },
     collection_rows = {2},
@@ -1457,6 +1457,22 @@ SMODS.ConsumableType{
     shop_rate = 0.05,
 }
 
+SMODS.ConsumableType{
+    key = "summon",
+    primary_colour = {0.357, 0.478, 0.729, 1.0},
+    secondary_colour = {0.357, 0.478, 0.729, 1.0},
+    loc_txt = {
+        name = "Summons",
+        collection = "Summons",
+        undiscovered = {
+            name = "???",
+            text = {"Thy has not discovered this summon"},
+        },
+    },
+    collection_rows = {3},
+    shop_rate = 0.15,
+}
+
 SMODS.Consumable {
     key = "wu",
     set = "Tarot",
@@ -1479,4 +1495,119 @@ SMODS.Consumable {
 	can_use = function(self, card)
     return amountselected() == 4
 end
+}
+
+SMODS.Consumable {
+    key = "sum-eternal",
+    set = "summon",
+    loc_txt = {
+        name = "Eternal Light",
+        text = {"Applies {C:purple}Eternal{} to 1 random joker", "Lose 1 {C:blue}hand{}"}
+    },
+    atlas = "eternalcandle",
+    config = {  },
+    pos = { x = 0, y = 0 },
+    cost = 5,
+    use = function(self, card)
+        local random = pseudorandom('sum-eternal') * #G.jokers.cards + 1
+        local target = G.jokers.cards[math.floor(random)]
+        target:juice_up()
+        setEternal(target, true)
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands - 1
+    end,
+    update = function(self, card, front)
+        card.children.center.sprite_pos = { x = math.ceil(love.timer.getTime() * 8) % 4, y = 0 };
+        card:set_sprites();
+    end,
+	can_use = function(self, card)
+    return #G.jokers.cards ~= 0
+    end
+}
+
+SMODS.Consumable {
+    key = "sum-unperish",
+    set = "summon",
+    loc_txt = {
+        name = "Defying Decay",
+        text = {"Removes {C:blue}Perishable{} from 1 random {C:blue}Perishable{} joker", "Lose 1 {C:blue}hand{}"}
+    },
+    atlas = "perishcandle",
+    config = {  },
+    pos = { x = 0, y = 0 },
+    cost = 5,
+    use = function(self, card)
+        if not (G and G.jokers and G.jokers.cards) then return false end
+        local filter = {}
+        for i = 1, #G.jokers.cards do
+            local j = G.jokers.cards[i]
+            if isPerishable(j) then
+                table.insert(filter, j)
+            end
+        end
+        if #filter == 0 then return false end
+        local idx = math.floor(pseudorandom('sum-unperish') * #filter) + 1
+        local target = filter[idx]
+        if target then
+            if target.juice_up then pcall(target.juice_up, target) end
+            setPerishable(target, false)
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands - 1
+            return true
+        end
+        return false
+    end,
+    update = function(self, card, front)
+        card.children.center.sprite_pos = { x = math.ceil(love.timer.getTime() * 8) % 4, y = 0 };
+        card:set_sprites();
+    end,
+    can_use = function(self, card)
+        if not (G and G.jokers and G.jokers.cards and #G.jokers.cards > 0) then return false end
+        for _, j in ipairs(G.jokers.cards) do
+            if isPerishable(j) then return true end
+        end
+        return false
+    end
+}
+
+SMODS.Consumable {
+    key = "sum-unrental",
+    set = "summon",
+    loc_txt = {
+        name = "Unlinked Mortgage",
+        text = {"Removes {C:money}Rental{} from 1 random {C:money}Rental{} joker", "Lose 1 {C:blue}hand{}"}
+    },
+    atlas = "rentalcandle",
+    config = {  },
+    pos = { x = 0, y = 0 },
+    cost = 5,
+    use = function(self, card)
+        if not (G and G.jokers and G.jokers.cards) then return false end
+        local filter = {}
+        for i = 1, #G.jokers.cards do
+            local j = G.jokers.cards[i]
+            if isRental(j) then
+                table.insert(filter, j)
+            end
+        end
+        if #filter == 0 then return false end
+        local idx = math.floor(pseudorandom('sum-unrental') * #filter) + 1
+        local target = filter[idx]
+        if target then
+            if target.juice_up then pcall(target.juice_up, target) end
+            setRental(target, false)
+            G.GAME.round_resets.hands = G.GAME.round_resets.hands - 1
+            return true
+        end
+        return false
+    end,
+    update = function(self, card, front)
+        card.children.center.sprite_pos = { x = math.ceil(love.timer.getTime() * 8) % 4, y = 0 };
+        card:set_sprites();
+    end,
+    can_use = function(self, card)
+        if not (G and G.jokers and G.jokers.cards and #G.jokers.cards > 0) then return false end
+        for _, j in ipairs(G.jokers.cards) do
+            if isRental(j) then return true end
+        end
+        return false
+    end
 }

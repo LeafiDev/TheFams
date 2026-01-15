@@ -237,6 +237,38 @@ SMODS.Atlas {
 	py = 95
 }
 
+SMODS.Atlas {
+	key = "eternalcandle",
+	path = "summons/eternal.png",
+	px = 71,
+	py = 95,
+    frames = 4
+}
+
+SMODS.Atlas {
+	key = "perishcandle",
+	path = "summons/perishable.png",
+	px = 71,
+	py = 95,
+    frames = 4
+}
+
+SMODS.Atlas {
+	key = "chipcandle",
+	path = "summons/chips.png",
+	px = 71,
+	py = 95,
+    frames = 4
+}
+
+SMODS.Atlas {
+	key = "rentalcandle",
+	path = "summons/rental.png",
+	px = 71,
+	py = 95,
+    frames = 4
+}
+
 
 SMODS.Atlas {
 	key = "actualtarots",

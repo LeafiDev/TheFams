@@ -86,13 +86,18 @@ SMODS.Booster {
 	select_card = "consumeables",
     config = { extra = 3, choose = 1 }, -- 3 cards, choose 1
     create_card = function(self, card, i)
+        if (math.floor(pseudorandom("minibooster") * 5)) == 1 then
+           table.insert(allowed_jokers, "m-dice")
+        end
+        if (math.floor(pseudorandom("minibooster") * 10)) == 1 then
+           table.insert(allowed_jokers, "m-dice-evil")
+        end
 		local allowed_jokers = {
 			"m-joker",
 			"m-pt",
 			"m-planet",
 			"m-burg",
 			"m-scallywag",
-			"m-dice",
 			"m-coupon",
 			"m-si",
 			"m-m",
@@ -112,5 +117,30 @@ SMODS.Booster {
 		soulable = false,
 		key_append = "fams"
 	}
+end
+}
+
+SMODS.Booster {
+    key = "Candle",
+    loc_txt = {
+    name = "Candle Pack",
+    group_name = "Candle Pack",
+    text = { "Select {C:attention}1{} of {C:attention}2{}",
+	"{C:blue:E:1}Summon Candles.{}" } 
+	},
+    atlas = "boosters", -- or your custom atlas key
+    pos = { x = 4, y = 0 },
+	draw_hand = false,
+    cost = 5,
+    weight = 0.5,
+    config = { extra = 2, choose = 1 }, -- 3 cards, choose 1
+    select_card = "consumeables",
+    create_card = function(self, card, i)
+    return {
+        set = "summon",
+        area = G.pack_cards,
+        skip_materialize = true,
+        key_append = "fams"
+    }
 end
 }
