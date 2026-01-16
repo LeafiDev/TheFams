@@ -86,13 +86,7 @@ SMODS.Booster {
 	select_card = "consumeables",
     config = { extra = 3, choose = 1 }, -- 3 cards, choose 1
     create_card = function(self, card, i)
-        if (math.floor(pseudorandom("minibooster") * 5)) == 1 then
-           table.insert(allowed_jokers, "m-dice")
-        end
-        if (math.floor(pseudorandom("minibooster") * 10)) == 1 then
-           table.insert(allowed_jokers, "m-dice-evil")
-        end
-		local allowed_jokers = {
+        local allowed_jokers = {
 			"m-joker",
 			"m-pt",
 			"m-planet",
@@ -108,6 +102,13 @@ SMODS.Booster {
 			"m-scratch",
 			"m-robux"
 		}
+        if (math.floor(pseudorandom("minibooster") * 5)) == 1 then
+           table.insert(allowed_jokers, "m-dice")
+        end
+        if (math.floor(pseudorandom("minibooster") * 10)) == 1 then
+           table.insert(allowed_jokers, "m-dice-evil")
+        end
+		
     local joker_key = "c_fams_"..tostring(allowed_jokers[math.random(#allowed_jokers)])
 	return {
 		set = "mini-joker",

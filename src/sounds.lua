@@ -480,7 +480,7 @@ SMODS.Sound {
   path = "music_outer.ogg",
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 20 and getAnte() < 25 then
-  setrunBG({ 0, 0, 0, 1 }, { 0, 0, 0, 0 }, 1)
+  setrunBG({ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, 1)
 	musicPower(3)
 	setBPM(139)
 	return 999
@@ -496,7 +496,7 @@ SMODS.Sound {
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 10 and getAnte() < 20 then
 	musicPower(2.5)
-  setrunBG({ 0.063, 0.098, 0.149, 1 }, { 0, 0, 0, 0 }, 1)
+  setrunBG({ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, 1)
 	setBPM(130)
 	return 999
 	end
@@ -510,8 +510,8 @@ SMODS.Sound {
   path = "music_yourlimit.ogg",
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 100 then
-  setrunBG({ 0, 0, 0, 1 }, { 0, 0, 0, 0 }, 1)
-	musicPower(10)
+  setrunBG({ 0.85, 0.55, 0.25, 0 }, { 0.85, 0.55, 0.25, 1 }, sine(0.1, 0.04))
+	musicPower(100)
 	setBPM(130)
 	return 9999
 	end
@@ -637,6 +637,7 @@ SMODS.Sound {
   path = "music_dlcf.ogg",
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() <= 9 then
+  setrunBG({ 0.85, 0.55, 0.25, 0.5 }, { 1, 0.9, 0.5, 0.5 }, 1)
 	musicPower(2)
 	setBPM(130)
 	return 99999
