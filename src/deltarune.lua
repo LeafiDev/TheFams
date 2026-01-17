@@ -42,9 +42,48 @@ G.UT_FONTS = {
 
 local projectiles = {};
 
+function new_enemy(data)
+    local ent = {
+        attacks = {},
+        actOptions = {
+            {
+                text = "Yup, that's an act",
+                mercy = 1
+            },
+            {
+                text = "2, but overlap",
+                mercy = 1
+            },
+            {
+                text = "3, but overlap",
+                mercy = 1
+            }
+        },
+        
+        health = 0,
+        maxHealth = 0,
+        
+        atkShake = 0,
+        sparePercentage = 0,
+
+        initialText = "",
+        name = "Enemy mc enemy"
+    };
+
+    for key, val in pairs(data) do
+        ent[key] = val;
+    end
+
+    if (ent.health > ent.maxHealth) then
+        ent.maxHealth = ent.health;
+    end
+
+    return ent;
+end
+
 G.UT_ENEMIES = {
     --TEST
-    {
+    new_enemy({
         spr = G.UT_IMAGES.testEnemy,
         attacks = {
             {
@@ -59,13 +98,14 @@ G.UT_ENEMIES = {
                 end
             }
         },
+
+        --actOptions = {},
+        
         health = 10,
-        maxHealth = 10,
-        atkShake = 0,
 
         initialText = "* He's here!",
         name = "Testy mc Test Face"
-    }
+    })
 }
 
 function inst_enemy(enemyID)
@@ -155,7 +195,7 @@ soul.OOB_mode = function(dt)
                 playSoundish("use");
                 soul.menu = soul.order[soul.menuOpt + 1];
 
-                G.UT_MENUS[soul.menu].init();
+                G.UT_MENUS[soul.menu].init(G.UT_MENUS[soul.menu]);
                 soul.toggle_opt(soul.menuOpt + 1, false);
             end
         end
@@ -163,7 +203,7 @@ soul.OOB_mode = function(dt)
         soul.x = 52 + (146 * soul.menuOpt)
         soul.y = 438;
     else
-        G.UT_MENUS[soul.menu].update(dt);
+        G.UT_MENUS[soul.menu].update(G.UT_MENUS[soul.menu], dt);
     end
 
     soul.leftHeld = love.keyboard.isDown("left");
@@ -206,29 +246,29 @@ G.UT_MENUS = {
         target = 0,
         subMenu = false,
 
-        init = function()
-            G.UT_MENUS.fight.time = -1;
-            G.UT_MENUS.fight.target = 0;
-            G.UT_MENUS.fight.subMenu = false;
+        init = function(self)
+            self.time = -1;
+            self.target = 0;
+            self.subMenu = false;
         end,
         
-        update = function(dt)
-            if (G.UT_MENUS.fight.subMenu) then
+        update = function(self, dt)
+            if (self.subMenu) then
                 boxSize.targetX = 560;
 
-                G.UT_MENUS.fight.time = G.UT_MENUS.fight.time + dt;
+                self.time = self.time + dt;
                 soul.x = -1000;
                 soul.y = -1000;
 
-                if (G.UT_MENUS.fight.time >= 1) then
+                if (self.time >= 1) then
                     soul.inBox = true;
                     soul.x = 310;
                     soul.y = 309;
                 end
 
                 if (love.keyboard.isDown("z") and not soul.selectHeld) then
-                    activeEnemies[G.UT_MENUS.fight.target + 1].health = activeEnemies[G.UT_MENUS.fight.target + 1].health - (10 * (1 - math.abs(G.UT_MENUS.fight.time)));
-                    activeEnemies[G.UT_MENUS.fight.target + 1].atkShake = 3;
+                    activeEnemies[self.target + 1].health = activeEnemies[self.target + 1].health - (10 * (1 - math.abs(self.time)));
+                    activeEnemies[self.target + 1].atkShake = 3;
 
                     soul.inBox = true;
                     soul.x = 310;
@@ -236,23 +276,23 @@ G.UT_MENUS = {
                 end
             else
                 soul.x = 60;
-                soul.y = 272 + (G.UT_MENUS.fight.target * 25);
+                soul.y = 272 + (self.target * 25);
 
-                if (love.keyboard.isDown("down") and not soul.leftHeld) then 
-                    G.UT_MENUS.fight.target = G.UT_MENUS.fight.target + 1;
+                if (love.keyboard.isDown("down") and not soul.downHeld) then 
+                    self.target = self.target + 1;
 
-                    if (G.UT_MENUS.fight.target > #activeEnemies - 1) then
-                        G.UT_MENUS.fight.target = #activeEnemies - 1;
+                    if (self.target > #activeEnemies - 1) then
+                        self.target = #activeEnemies - 1;
                     else
                         playSoundish("switch");
                     end
                 end
 
-                if (love.keyboard.isDown("up") and not soul.leftHeld) then 
-                    G.UT_MENUS.fight.target = G.UT_MENUS.fight.target - 1;
+                if (love.keyboard.isDown("up") and not soul.upHeld) then 
+                    self.target = self.target - 1;
 
-                    if (G.UT_MENUS.fight.target < 0) then
-                        G.UT_MENUS.fight.target = 0;
+                    if (self.target < 0) then
+                        self.target = 0;
                     else
                         playSoundish("switch");
                     end
@@ -264,15 +304,16 @@ G.UT_MENUS = {
                 end
 
                 if (love.keyboard.isDown("z") and not soul.selectHeld) then
-                    G.UT_MENUS.fight.subMenu = true;
+                    self.subMenu = true;
+                    playSoundish("use");
                 end
             end
         end,
 
-        draw = function()
-            if (G.UT_MENUS.fight.subMenu) then
+        draw = function(self)
+            if (self.subMenu) then
                 love.graphics.draw(G.UT_IMAGES.battleThing, 47, 255);
-                love.graphics.draw(G.UT_IMAGES.battleBar, (G.UT_MENUS.fight.time * boxSize.x / 2) + 320, 255);
+                love.graphics.draw(G.UT_IMAGES.battleBar, (self.time * boxSize.x / 2) + 320, 255);
             else
                 for id, ent in pairs(activeEnemies) do
                     love.graphics.print(" * ".. ent.name, 80, 267 + ((id - 1) * 25), 0);
@@ -281,7 +322,138 @@ G.UT_MENUS = {
                     love.graphics.rectangle( "fill", 420, 276 + ((id - 1) * 25), 100, 16);
 
                     love.graphics.setColor( 0, 1, 0, 1 );
+                    love.graphics.rectangle( "fill", 420, 276 + ((id - 1) * 25), (ent.health / ent.maxHealth) * 100, 16);
+
+                    love.graphics.setColor( 1, 1, 1, 1 );
+                end
+            end
+        end
+    },
+
+    act = {
+        time = 0,
+        target = 0,
+        subMenu = false,
+
+        init = function(self)
+            self.time = -1;
+            self.target = 0;
+            self.actOption = 0;
+            self.subMenu = false;
+        end,
+        
+        update = function(self, dt)
+            if (self.subMenu) then
+                soul.x = 60 + ((self.actOption % 2) * 232);
+                soul.y = 272 + (math.floor(self.actOption / 2) * 25);
+                
+                local actOptions = activeEnemies[self.target + 1].actOptions;
+
+                if (love.keyboard.isDown("down") and not soul.downHeld) then 
+                    self.actOption = self.actOption + 2;
+
+                    if (self.actOption > #actOptions - 1) then
+                        self.actOption = #actOptions - 1;
+                    else
+                        playSoundish("switch");
+                    end
+                end
+
+                if (love.keyboard.isDown("left") and not soul.leftHeld) then 
+                    if (self.actOption % 2 == 1) then
+                        self.actOption = self.actOption - 1;
+                        if (self.actOption < 0) then
+                            self.actOption = 0;
+                        else
+                            playSoundish("switch");
+                        end
+                    end
+                end
+
+                if (love.keyboard.isDown("right") and not soul.rightHeld) then 
+
+                    if (self.actOption % 2 == 0) then
+                        self.actOption = self.actOption + 1;
+                        if (self.actOption > #actOptions - 1) then
+                            self.actOption = #actOptions - 1;
+                        else
+                            playSoundish("switch");
+                        end
+                    end
+                end
+
+                if (love.keyboard.isDown("up") and not soul.upHeld) then 
+                    self.actOption = self.actOption - 2;
+
+                    if (self.actOption < 0) then
+                        self.actOption = 0;
+                    else
+                        playSoundish("switch");
+                    end
+                end
+
+                if (love.keyboard.isDown("x") and not soul.cancelHeld) then
+                    self.subMenu = false;
+                end
+
+                if (love.keyboard.isDown("z") and not soul.selectHeld) then
+                    playSoundish("use");
+                    activeEnemies[self.target + 1].sparePercentage = activeEnemies[self.target + 1].sparePercentage + actOptions[self.actOption + 1].mercy;
+                    
+                    soul.inBox = true;
+                    soul.x = 310;
+                    soul.y = 309;
+                end
+            else
+                soul.x = 60;
+                soul.y = 272 + (self.target * 25);
+
+                if (love.keyboard.isDown("down") and not soul.downHeld) then 
+                    self.target = self.target + 1;
+
+                    if (self.target > #activeEnemies - 1) then
+                        self.target = #activeEnemies - 1;
+                    else
+                        playSoundish("switch");
+                    end
+                end
+
+                if (love.keyboard.isDown("up") and not soul.upHeld) then 
+                    self.target = self.target - 1;
+
+                    if (self.target < 0) then
+                        self.target = 0;
+                    else
+                        playSoundish("switch");
+                    end
+                end
+
+                if (love.keyboard.isDown("x") and not soul.cancelHeld) then
+                    soul.menu = "";
+                    soul.toggle_opt(soul.menuOpt + 1, true);
+                end
+
+                if (love.keyboard.isDown("z") and not soul.selectHeld) then
+                    self.subMenu = true;
+                    playSoundish("use");
+                end
+            end
+        end,
+
+        draw = function(self)
+            if (self.subMenu) then
+                for id, action in pairs(activeEnemies[self.target + 1].actOptions) do
+                    love.graphics.print(" * ".. action.text, 80 + ((id - 1) % 2 * 232), 267 + (math.floor((id - 1) / 2) * 25), 0);
+                end
+            else
+                for id, ent in pairs(activeEnemies) do
+                    love.graphics.print(" * ".. ent.name, 80, 267 + ((id - 1) * 25), 0);
+
+                    love.graphics.setColor( 1, 0, 0, 1 );
                     love.graphics.rectangle( "fill", 420, 276 + ((id - 1) * 25), 100, 16);
+
+                    love.graphics.setColor( 1, 1, 0, 1 );
+                    love.graphics.rectangle( "fill", 420, 276 + ((id - 1) * 25), ent.sparePercentage * 100, 16);
 
                     love.graphics.setColor( 1, 1, 1, 1 );
                 end
@@ -381,7 +553,7 @@ G.ut_draw = function()
             love.graphics.draw( G.UT_IMAGES.soul, soul.quad, soul.x, soul.y);
             if (not soul.inBox) then
                 if (soul.menu ~= "") then
-                    G.UT_MENUS[soul.menu].draw();
+                    G.UT_MENUS[soul.menu].draw(G.UT_MENUS[soul.menu]);
                 else
                     love.graphics.print("* Big Boner Up the Lane", 60, 267, 0);
                 end

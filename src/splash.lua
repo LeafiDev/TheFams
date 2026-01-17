@@ -150,7 +150,7 @@ function Game:splash_screen()
                     func = (function()
                     local card, card_pos = make_splash_card({scale = 2 - i/300})
                     local speed = math.max(2. - i*0.005, 0.001)
-                    ease_value(card.T, 'scale', -card.T.scale, nil, nil, nil, 1.*speed, 'back')
+                    ease_value(card.T, 'scale', -card.T.scale, nil, nil, nil, 1.*speed)
                     ease_value(card.T, 'x', -card_pos.x, nil, nil, nil, 0.9*speed)
                     ease_value(card.T, 'y', -card_pos.y, nil, nil, nil, 0.9*speed)
                     local temp_pitch = i*0.007 + 0.6
