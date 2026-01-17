@@ -1660,6 +1660,20 @@ GiftBox = function()
 			key = "j_golden",
         	skip_materialize = false,     -- Skip animation
     		}
+		end,
+		function()
+			SMODS.add_card{
+        	set = "joker",                -- Card type: 'Joker', 'Tarot', 'Spectral', etc.
+        	legendary = false,            -- Legendary rarity (true/false)
+			key = "j_ice_cream",
+        	skip_materialize = false,     -- Skip animation
+    		}
+			SMODS.add_card{
+        	set = "joker",                -- Card type: 'Joker', 'Tarot', 'Spectral', etc.
+        	legendary = false,            -- Legendary rarity (true/false)
+			key = "j_popcorn",
+        	skip_materialize = false,     -- Skip animation
+    		}
 		end
 	}
 	local idx = math.random(1, #events)
