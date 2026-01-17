@@ -1568,6 +1568,36 @@ SMODS.Challenge {
 }
 
 SMODS.Challenge {
+  key = 'darkmode',
+  loc_txt = {
+	name = "In The Dark",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.FILTER,
+  rules = {
+	custom = {
+
+	},
+	modifiers = {
+		
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+
+}
+
+SMODS.Challenge {
   key = 'mtn',
   loc_txt = {
 	name = "The Mountain",

@@ -71,7 +71,7 @@ SMODS.Seal {
 				drums = 0
 				return {message = "Donderful!", colour = G.C.chips, sound = "fams_donderfulS", repetition = 1, chips = G.GAME.current_round.current_hand.chips * 5}
 			end
-            return {message = "katsu!", colour = G.C.chips, sound = "fams_Katsu", repetition = 1, chips = G.GAME.current_round.current_hand.chips * 1.2}
+            return {message = "katsu!", colour = G.C.chips, sound = "fams_Katsu", repetition = 1, xchips = 1.2}
         end
     end,
 	

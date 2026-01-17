@@ -32,7 +32,7 @@ assert(SMODS.load_file('src/enhancements.lua'))()
 -- assert(SMODS.load_file('src/challengemenu.lua'))()
 assert(SMODS.load_file('src/backs.lua'))()
 assert(SMODS.load_file('src/mainmenu.lua'))()
--- assert(SMODS.load_file('src/blindselect.lua'))()
+assert(SMODS.load_file('src/blindselect.lua'))()
 assert(SMODS.load_file('src/cardsleeves.lua'))()
 assert(SMODS.load_file('src/timers.lua'))()
 assert(SMODS.load_file('src/pokerhands.lua'))()
@@ -875,6 +875,9 @@ end
 updateBlindChips = function()
 	if G and G.GAME.blind and G.GAME.blind.chip_text then
 		G.GAME.blind.chip_text = G.GAME.blind.chips
+	end
+	if isChallenge("darkmode") then
+		G.GAME.blind.chip_text = "?"
 	end
 end
 
