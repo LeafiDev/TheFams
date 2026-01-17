@@ -1623,7 +1623,7 @@ SMODS.Challenge {
   },
   restrictions = {
 	banned_cards = {{id = "c_fams_m-dice-evil"}},
-	banned_tags = {},
+	banned_tags = {{id = "tag_fams_up"}},
 	banned_other = {}
   },
   consumeables = {},

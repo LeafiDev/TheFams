@@ -38,6 +38,8 @@ assert(SMODS.load_file('src/timers.lua'))()
 assert(SMODS.load_file('src/pokerhands.lua'))()
 assert(SMODS.load_file('src/update.lua'))()
 assert(SMODS.load_file('src/splash.lua'))()
+assert(SMODS.load_file('src/lose.lua'))()
+assert(SMODS.load_file('src/runinfo.lua'))()
 -- assert(SMODS.load_file('src/achievements.lua'))()
 
 
