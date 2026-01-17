@@ -279,7 +279,8 @@ SMODS.Stake {
 		name = 'Halfing it',
 		text = {
 			"Half joker has had enough of your shit",
-			"{C:red}-2{} Max card selection per hand"
+			"{C:red}-2{} Max card selection per hand",
+			"auto disables {C:attention}The Psychic{}"
 		},
 		sticker = {
 			name = 'Halfings',
@@ -296,6 +297,7 @@ SMODS.Stake {
 		G.E_MANAGER:add_event(Event({
 		trigger = "immediate",
 		func = function() 
+			table.insert(G.GAME.banned_keys, "bl_psychic")
 			SMODS.change_play_limit(-2)
 			return true
 		end,

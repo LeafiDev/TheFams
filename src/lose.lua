@@ -176,14 +176,14 @@ function create_UIBox_game_over()
         },
         nodes = {
 
-            {n=G.UIT.C, config={align = "cm", padding = 0.25, colour = G.C.WHITE, outline = 2, outline_colour = G.C.L_BLACK, r = 0.06, minw = 6, minh = 6}, nodes={
+            {n=G.UIT.C, config={align = "cm", padding = 0.25, colour = G.C.WHITE, outline = 2, outline_colour = G.C.L_BLACK, r = 0.06, minw = 4, minh = 6}, nodes={
 
                 {n=G.UIT.R, config={align = "cm", padding = 0.04}, nodes={
                   {n=G.UIT.O, config={object = DynaText({string = {localize('ph_game_over')}, colours = {G.C.RED}, shadow = true, float = true, scale = 1.8, pop_in = 0.6, maxw = 6.5})}},
                 }},
 
 
-                {n=G.UIT.R, config={align = "cm", padding = 0.5}, nodes={
+                {n=G.UIT.R, config={align = "cm", scale = 1, minw = 0.2, minh = 0.2, r = 15, padding = 0.1}, nodes={
                   {n=G.UIT.O, config={padding = 0, id = 'blind_killer', object = blind_animation, scale = 2}},
                 }},
 

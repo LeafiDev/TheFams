@@ -368,6 +368,24 @@ getcurrentBlind = function()
 	end
 end
 
+getcurrentBlindbykey = function()
+	if (G.GAME.blind) then
+		return G.GAME.blind.name
+	end
+end
+
+isbossblindbanned = function()
+	return is_banned(G.GAME.round_resets.blind_choices.Boss) and isPlayingBlind() and isBoss() and not G.GAME.blind.disabled
+end
+
+is_banned = function(blind)
+  if not G.GAME.banned_keys then return false end
+  for _, v in ipairs(G.GAME.banned_keys) do
+    if v == blind then return true end
+  end
+  return false
+end
+
 SetWinningAnte = function(num)
 	G.GAME.win_ante = num
 end
