@@ -1,3 +1,18 @@
+-- insert colors
+function CreateColor(key, hex)
+	if type(hex) == "string" then
+		local s = hex:gsub("^#", "")
+		G.C[key] = HEX(s)
+	elseif type(hex) == "table" then
+		G.C[key] = hex
+	else
+		G.C[key] = HEX('8867a5')
+	end
+end
+
+CreateColor("ETERNAL", HEX("c75985"))
+
+
 assert(SMODS.load_file('src/atlas.lua'))()
 assert(SMODS.load_file('src/jokers.lua'))()
 assert(SMODS.load_file('src/cons.lua'))()
@@ -23,6 +38,8 @@ assert(SMODS.load_file('src/timers.lua'))()
 assert(SMODS.load_file('src/pokerhands.lua'))()
 assert(SMODS.load_file('src/update.lua'))()
 assert(SMODS.load_file('src/splash.lua'))()
+assert(SMODS.load_file('src/lose.lua'))()
+assert(SMODS.load_file('src/runinfo.lua'))()
 -- assert(SMODS.load_file('src/achievements.lua'))()
 
 
@@ -364,11 +381,34 @@ GetStake = function()
 end
 
 isEternal = function(card)
-	return card.ability.eternal
+	return card and card.ability and card.ability.eternal
 end
 
 setEternal = function(card, bool)
+	if not card then return end
+	card.ability = card.ability or {}
 	card.ability.eternal = bool
+end
+
+isPerishable = function(card)
+	return card and card.ability and card.ability.perishable
+end
+
+setPerishable = function(card, bool)
+	if not card then return end
+	card.ability = card.ability or {}
+	card.ability.perishable = bool
+end
+
+-- Rental helpers
+isRental = function(card)
+	return card and card.ability and card.ability.rental
+end
+
+setRental = function(card, bool)
+	if not card then return end
+	card.ability = card.ability or {}
+	card.ability.rental = bool
 end
 
 getRoundNumber = function()
@@ -792,9 +832,7 @@ end
 SMODS.Keybind{
     key_pressed = "g", -- The key to trigger the action (e.g., "k" for the K key)
     action = function(self)
-		for _, joker in ipairs(G.jokers.cards) do
-			print(joker)
-		end
+		print(G.jokers.cards)
     end,
 }
 
@@ -1620,6 +1658,20 @@ GiftBox = function()
         	set = "joker",                -- Card type: 'Joker', 'Tarot', 'Spectral', etc.
         	legendary = false,            -- Legendary rarity (true/false)
 			key = "j_golden",
+        	skip_materialize = false,     -- Skip animation
+    		}
+		end,
+		function()
+			SMODS.add_card{
+        	set = "joker",                -- Card type: 'Joker', 'Tarot', 'Spectral', etc.
+        	legendary = false,            -- Legendary rarity (true/false)
+			key = "j_ice_cream",
+        	skip_materialize = false,     -- Skip animation
+    		}
+			SMODS.add_card{
+        	set = "joker",                -- Card type: 'Joker', 'Tarot', 'Spectral', etc.
+        	legendary = false,            -- Legendary rarity (true/false)
+			key = "j_popcorn",
         	skip_materialize = false,     -- Skip animation
     		}
 		end

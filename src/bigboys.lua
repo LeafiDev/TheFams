@@ -42,8 +42,9 @@ SMODS.Blind {
     mult = 1,
     boss_colour = HEX('B8860B'), 
     set_blind = function(self)
-
+        
         self.greedy_suit = picky_suits[math.random(#picky_suits)]
+        G.globalgreedycall = self.greedy_suit
     end,
     debuff_hand = function(self, cards, hand, handname, check)
     if not self.greedy_suit then return false end

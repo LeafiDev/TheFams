@@ -45,9 +45,34 @@ G.fams_update = function(dt)
 		G.GAME["geometry_rate"] = 0.05
 	end
 
+	if G and G.jokers and G.jokers.cards then
+	if G and G.jokers and G.jokers.cards then
+		for _, joker in ipairs(G.jokers.cards) do
+			if joker.ability.fams_lock == true then
+				joker.states.drag.can = false
+			else
+				joker.states.drag.can = true
+			end
+		end
+	end
+	end
+
 	-- dlcend stuff
 	if isChallenge("dlcend") then 
 		SetWinningAnte(38)
+		-- Ensure banned_keys is a map of key->true to match other code expectations
+		G.GAME.banned_keys = G.GAME.banned_keys or {}
+		-- Ban any blind that is a final/showdown boss. Covers modded additions in G.P_BLINDS.
+		if G.P_BLINDS then
+			for bk, bv in pairs(G.P_BLINDS) do
+				-- Skip the specific fams trueend blind key
+				if bk == 'bl_fams_trueend' then goto continue end
+				if bv and bv.boss and (bv.boss.showdown == true or (bv.boss.min == 10 and bv.boss.max == 10)) then
+					G.GAME.banned_keys[bk] = true
+				end
+				::continue::
+			end
+		end
 	end
 
 	if isChallenge("dlcend") and getAnte() >= 40 and getAnte() < 50 then

@@ -469,3 +469,57 @@ SMODS.Stake {
 		
 	end
 }
+
+SMODS.Stake {
+	key = 'lock',
+	prefix_config = {
+	applied_stakes = false
+    },
+	applied_stakes = {
+        "stake_white",
+        "stake_red",
+        "stake_green",
+        "stake_black",
+        "stake_blue",
+        "stake_purple",
+        "stake_orange",
+        "stake_gold",
+		"stake_fams_walmert",
+		"stake_fams_poor",
+		"stake_fams_fuckyou",
+		"stake_fams_clankers",
+		"stake_fams_egg",
+		"stake_fams_half",
+		"stake_fams_theft",
+		"stake_fams_copyright",
+		"stake_fams_taxes",
+    },
+	loc_txt = {
+		name = 'Lock Stake',
+		text = {
+			"Jokers can be {C:red}Locked{}"
+		},
+		sticker = {
+			name = 'Lock Stake',
+			text = {'Win a run with Lock Stake.'}
+		}
+	},
+	atlas = 'stakes',
+	pos = { x = 10, y = 0 },
+	sticker_pos = { x = 10, y = 0 },
+	unlocked = true,
+	colour = {1, 0, 0, 1}, 
+	above_stake = "stake_fams_taxes", 
+	modifiers = function(self)
+		G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.5,
+		func = function() 
+			
+			return true
+		end,
+		blockable = true
+		}))
+		
+	end
+}
