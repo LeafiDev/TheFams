@@ -349,7 +349,7 @@ G.play_encounter_music = function()
     currentSong:play();
 end
 
-G.fams_draw = function()
+G.ut_draw = function()
     if (G.GAME.dr_boss) then
         local prevFont = love.graphics.getFont();
         if (currentSong) then currentSong:setVolume((G.SETTINGS.SOUND.music_volume / 100) * (G.SETTINGS.SOUND.volume / 100)); end

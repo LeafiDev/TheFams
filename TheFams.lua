@@ -1713,4 +1713,5 @@ new_arbituary_font = function(path, size, filtering)
 	return love.graphics.newFont("mods/"..fams_path.."/assets/"..path, size, filtering)
 end
 
+assert(SMODS.load_file('src/draw.lua'))()
 assert(SMODS.load_file('src/deltarune.lua'))()
