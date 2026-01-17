@@ -203,6 +203,13 @@ G.fams_update = function(dt)
 		end
 	end
 
+		if GetStake() >= 15 then
+			if isbossblindbanned() then
+				G.GAME.blind:disable()
+			end
+		end
+
+
 	if isChallenge("Dogtrials") then
 		SetWinningAnte(12)
 		TIMER_LENGTH = 600
