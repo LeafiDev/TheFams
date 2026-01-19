@@ -2,7 +2,7 @@
     "id": "Fams",
     "name": "The Fams",
     "author": ["LeafiDev & More"],
-    "description": "",
+    "description": "A mod of shitpost ideas that me and friends have had both good and or bad.",
     "prefix": "fams",
     "main_file": "TheFams.lua",
     "badge_colour": "7a4a10",
