@@ -139,7 +139,7 @@ calculate = function(self, card, context)
 
 					return {message = "absorbed", sound = "fams_dogres"}
 				else
-					card:remove(true)
+					SMODS.destroy_cards(card, nil, nil, true)
 					return {message = "see ya!", sound = "fams_dogres"}
 				end
 	   end
@@ -167,7 +167,7 @@ SMODS.Joker {
 	end,
 	config = { mult = 0 }, 
 	rarity = 1,
-	cost = 0, 
+	cost = 5, 
 
 	calculate = function(self, card, context)
  		if context.individual and context.cardarea == G.play then
@@ -246,10 +246,22 @@ SMODS.Joker {
 	cost = 5,
 	atlas = 'jokers',
 	pos = { x = 6, y = 0 },
-calc_dollar_bonus = function(self, card)
-		play_sound("fams_dogresevil", 1, 1)
-        return 5
-    end,
+	calculate = function(self, card, context)
+		if context.joker_main then
+			SMODS.destroy_cards(card, nil, nil, true)
+			play_sound("fams_dogresevil", 1, 1)
+			local add_card = SMODS.add_card { set = "Base", area = G.deck }
+			return {
+                    message = "+",
+                    colour = G.C.WHITE,
+                    func = function()
+						for i = 1, 5 do
+							SMODS.calculate_context({ playing_card_added = true, cards = { add_card } })
+                        end
+                    end
+                }
+		end
+	end,
 	set_card_type_badge = function(self, card, badges)
 	badges[#badges+1] = create_badge("EVIL DAWG", {1, 0, 0, 1}, G.C.WHITE, 1.2)
 end,
@@ -399,6 +411,10 @@ SMODS.Joker {
 		return { vars = {musicpower} }
 	end,
 	calculate = function(self, card, context)
+		if context.setting_blind then
+			return { message = tostring(musicpower), colour = G.C.RED }
+		end
+
 		if context.joker_main then
 			return { xmult = musicpower }
 		end
@@ -493,7 +509,7 @@ SMODS.Joker {
 
 		if context.joker_main then
  			extra.coke_mult = (extra.coke_mult or 5) - 1
-			return { xmult = extra.coke_mult or 5, message = "-1" }
+			if extra.coke_mult == 0 then extra.coke_mult = 1 else return { xmult = extra.coke_mult or 5, message = "-1" } end
 		end
  		return 0
 	end,
@@ -512,7 +528,6 @@ SMODS.Joker {
 		name = 'Big Boobs',
 		text = {
 			'{C:red}Search him up on google{}',
-			'{}'
 		}
 	},
 	config = {},
@@ -524,9 +539,7 @@ SMODS.Joker {
 	calculate = function(self, card, context)
 		if context.setting_blind then
 			love.system.openURL("https://pbs.twimg.com/media/GB7qCDnbYAAKPPe.jpg:large")
-			if card.destroy then
-				card:destroy(true)
-			end
+			SMODS.destroy_cards(card, nil, nil, true)
 		return 0
 	end
 end
@@ -581,7 +594,7 @@ SMODS.Joker {
 calculate = function(self, card, context)
 	if context.joker_main then
 	if math.random(1, 4) == 1 then
-		destroycard(card)
+		SMODS.destroy_cards(card, nil, nil, true)
 	end
 	return {message = "pikmin_startup_sfx.ogg", sound = "fams_pikmin"}
 	end
@@ -669,13 +682,9 @@ SMODS.Joker {
 	cost = 0, 
 
 calculate = function(self, card, context)
-     if context.end_of_round and context.cardarea == G.jokers then
-         local kill = G.jokers.cards[1]
-        if kill and kill ~= card and kill.remove and not isEternal(kill) then
-            kill:remove()
-			card:remove()
+    if context.end_of_round and context.cardarea == G.jokers then
+            SMODS.destroy_cards(card, nil, nil, true)
             return {message = "Poisoned", sound = "fams_pikmin", repetitions = 1}
-        end
     end
 end,
 	set_card_type_badge = function(self, card, badges)
@@ -703,8 +712,8 @@ SMODS.Joker {
 calculate = function(self, card, context)
      if context.joker_main then
 	if math.random(1, 8) == 1 then
-		destroycard(card)
-		return {message = "tongued", colour = G.C.WHITE}
+		SMODS.destroy_cards(card, nil, nil, true)
+		return {message = "tongued", colour = G.C.PURPLE}
 	end
 	return {message = "pikmin_startup_sfx.ogg", sound = "fams_pikmin"}
 	end
@@ -734,6 +743,7 @@ SMODS.Joker {
 calculate = function(self, card, context)
     if context.joker_main then
 	if math.random(1, 10000) == 1 then
+		SMODS.destroy_cards(card, nil, nil, true)
 		ForceLoss()
 	else
 		return {message = "Safe"}
@@ -752,7 +762,7 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Thumbs up emoji', 
 		text = {
-			"Gives {X:mult,C:white}2x{} mult for each",
+			"Gives {X:mult,C:white}1x{} mult for each",
 			"card that is {C:edition,E:2}cool{}",
 			"{C:inactive}currently{} {X:mult,C:white}#1#x{}"
 		}
@@ -909,7 +919,15 @@ end,
         
     end
     if context.joker_main then
-         return {xmult = card.ability.swearmult}
+		if getcurrentBlind() == "bl_fams_fish2" then
+			card:juice_up()
+			G.GAME.chips = G.GAME.blind.chips
+			G.GAME.gordon_secret = true
+			return { message = "Disposed"}
+		else
+			return {xmult = card.ability.swearmult}
+		end
+        
     end
 end,
 	set_card_type_badge = function(self, card, badges)
@@ -1429,6 +1447,7 @@ SMODS.Joker {
 		if chance == 10 then
 			G.ROOM.jiggle = 25
 			ForceLoss()
+			G.dingaling = true
 			play_sound("fams_XSCREAM", 1, 1)
 		else
 			self.config.gain = self.config.gain + 50
@@ -1441,6 +1460,7 @@ SMODS.Joker {
 		local image = pseudorandom("dingaling") * 6
 		card.children.center.sprite_pos = { x = math.floor(image), y = 0 };
 	end
+<<<<<<< Updated upstream
 }
 --[[
 --Some of these will crash the game, let's stop that.
@@ -1520,3 +1540,6 @@ SMODS.Joker {
 	end,
 }
 ]]
+=======
+}
+>>>>>>> Stashed changes

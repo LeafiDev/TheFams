@@ -1,4 +1,7 @@
 return {
+    tooltips = {
+        -- unused
+    },
     misc = {
         v_text = {
             ch_c_timer = {
@@ -135,6 +138,18 @@ return {
             },
             ch_c_nodrag = {
                 "Jokers {C:red}cannot{} be repositioned."
+            },
+            ch_c_twopaironly = {
+                "{C:inactive}Dynamically adds based on total in collection ("..#allnonbosses().."{C:inactive}){}"
+            },
+            ch_c_allclear = {
+                "Defeat all {C:filter,E:2}non-final bosses{}"
+            },
+            ch_c_investstart = {
+                "Start with an {C:attention}Investment{} Tag"
+            },
+            ch_c_bamount = {
+                "{C:inactive}Dynamically adds based on total in collection ("..#allnonbosses().."{C:inactive}){}"
             },
         },
     },

@@ -107,6 +107,19 @@ SMODS.Sound {
 }
 
 SMODS.Sound {
+  key = "music_doubledown",
+  pitch = 1,
+  path = "music_doubledown.ogg",
+  select_music_track = function(self)
+	if isChallenge("DD") then
+	musicPower(2.3)
+	setBPM(120)
+	return 999
+	end
+  end
+}
+
+SMODS.Sound {
   key = "music_beat1",
   pitch = 1,
   path = "music_rhythm.ogg",

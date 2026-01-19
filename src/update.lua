@@ -203,11 +203,27 @@ G.fams_update = function(dt)
 		end
 	end
 
-		if GetStake() >= 15 then
-			if isbossblindbanned() then
-				G.GAME.blind:disable()
-			end
+	-- checks jokers as a clever way to see if tags work
+	if isChallenge("BR") and G and G.GAME and G.jokers and G.jokers.cards then
+		if G.GAME.boss_rush_trigger == nil then
+			G.GAME.boss_rush_trigger = true
+			G.E_MANAGER:add_event(Event({
+                func = function()
+					G.GAME.starting_params.ante_scaling = 0.5
+                    add_tag(Tag('tag_investment'))
+                    play_sound('generic1', 0.9 + math.random() * 0.1, 0.8)
+                    play_sound('holo1', 1.2 + math.random() * 0.1, 0.4)
+                    return true
+                end
+            }))
 		end
+	end
+
+	if GetStake() >= 15 then
+		if isbossblindbanned() then
+			G.GAME.blind:disable()
+		end
+	end
 
 
 	if isChallenge("Dogtrials") then
@@ -228,6 +244,11 @@ G.fams_update = function(dt)
 		TIMER_ADD_BONUS = false
 		SetWinningAnte(10)
 		G.ROOM.jiggle = 0.1
+	elseif isChallenge("PT") then
+		TIMER_LENGTH = 300
+		USE_TIMERS = true
+		TIMER_ADD_BONUS = false
+		SetWinningAnte(5)
 	end
 
 
@@ -461,6 +482,22 @@ G.fams_update = function(dt)
 		G.GAME.inflation = G.GAME.inflation + 5
 	end
 
+	if isChallenge("DD") and G.STATE ~= 10 then
+		if G.GAME.double_down == nil then
+		G.GAME.double_down = true
+		G.GAME.starting_params.ante_scaling = 2
+		SMODS.change_voucher_limit(1)
+		SMODS.change_booster_limit(3)
+		SMODS.change_play_limit(5)
+		SMODS.change_discard_limit(5)
+		G.GAME.starting_params.reroll_cost = 10
+		SetWinningAnte(16)
+		G.GAME.ecto_minus = 2
+		G.GAME.edition_rate = 2
+		G.GAME.rare_mod = 2
+		end
+	end
+
 	if isChallenge("bstreet") and G.STATE ~= 10 then
 		G.GAME.planet_rate = 0
 		G.GAME.tarot_rate = 0
@@ -478,23 +515,6 @@ G.fams_update = function(dt)
 				G.fams_dogtrials_complete = true
 			end
 		end
-	end
-
-	if G.STATE ~= 10 and not isMainMenu() then
-		showFloatingText(
-			"Bankrupt at: " .. tostring(G.GAME.bankrupt_at),
-			G.C.BLACK,
-			0.29,
-			{ x = -7.09, y = 9.26 },
-			"bank1bg"
-		)
-		showFloatingText(
-			"Bankrupt at: " .. tostring(G.GAME.bankrupt_at),
-			G.C.MONEY,
-			0.29,
-			{ x = -7.09, y = 9.2 },
-			"bank1"
-		)
 	end
 
 	if isChallenge("SPAWN") and G.STATE ~= 10 then

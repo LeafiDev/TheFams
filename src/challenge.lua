@@ -13,6 +13,7 @@ edge = { 0.063, 0.098, 0.149, 1 }
 fams = { 0.545, 0.271, 0.075, 1 }
 
 
+
 SMODS.Challenge {
   key = 'allsix',
   loc_txt = {
@@ -1280,37 +1281,6 @@ SMODS.Challenge {
 }
 
 SMODS.Challenge {
-  key = 'lap2',
-  loc_txt = {
-	name = "LAP 2!",
-  },
-  jokers = {
-	
-  },
-  deck = {
-	type = 'Challenge Deck'
-  },
-  button_colour = G.C.PURPLE,
-  rules = {
-	custom = {
-		{id = "lap2"},
-		{id = "lap22"}
-	},
-	modifiers = {
-		
-	}
-  },
-  restrictions = {
-	banned_cards = {{id = "c_fams_m-dice"}, {id = "c_fams_m-dice-evil"}},
-	banned_tags = {{id = "tag_fams_up"}, {id = "tag_fams_down"}},
-	banned_other = {}
-  },
-  consumeables = {},
-  vouchers = {},
-
-}
-
-SMODS.Challenge {
   key = 'kitch',
   loc_txt = {
 	name = "HI I'M DEREK BUM",
@@ -1338,6 +1308,36 @@ SMODS.Challenge {
   consumeables = {},
   vouchers = {},
 
+}
+
+SMODS.Challenge {
+  key = 'next',
+  loc_txt = {
+	name = "Double it and give it to the next person",
+  },
+  jokers = {
+	{id = "j_pareidolia", eternal = true},
+	{id = "j_sock_and_buskin", eternal = true}
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.GREEN,
+  rules = {
+	custom = {
+		{id = "no_shop_jokers"}
+	},
+	modifiers = {
+		{id = "joker_slots", value = 2},
+	}
+  },
+  restrictions = {
+	banned_cards = {{id = "p_buffoon_normal_1", type = "booster"}, {id = "p_buffoon_normal_2", type = "booster"}, {id = "p_buffoon_jumbo_1", type = "booster"}, {id = "p_buffoon_mega_1", type = "booster"}, {id = "c_soul"}, {id = "j_riff_raff"}, {id = "c_wraith"}, {id = "c_judgement"}},
+	banned_tags = {{id = "tag_negative"}, {id = "tag_fams_GB"}, {id = "tag_fams_cts"}, {id = "tag_buffoon"}, {id = "tag_uncommon"}, {id = "tag_rare"}, {id = "tag_negative"}, {id = "tag_holo"}, {id = "tag_polychrome"}},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
 }
 
 SMODS.Challenge {
@@ -1447,33 +1447,37 @@ SMODS.Challenge {
 }
 
 SMODS.Challenge {
-  key = 'flip2',
+  key = 'JW',
   loc_txt = {
-	name = "Joker Visionary",
+	name = "Joker Wheel",
   },
   jokers = {
-	
+	{id = "c_judgement"},
+	{id = "c_judgement"},
+	{id = "c_judgement"},
+	{id = "c_judgement"},
+	{id = "c_judgement"},
   },
   deck = {
 	type = 'Challenge Deck'
   },
-  button_colour = G.C.PURPLE,
+  button_colour = G.C.ORANGE,
   rules = {
 	custom = {
-		{id = "vision3"},
-		{id = "vision4"}
+		{id = "no_shop_jokers"}, {id = "all_eternal"}
 	},
 	modifiers = {
 
 	}
   },
   restrictions = {
-	banned_cards = {},
-	banned_tags = {},
+	banned_cards = {{id = "p_buffoon_normal_1", type = "booster"}, {id = "p_buffoon_normal_2", type = "booster"}, {id = "p_buffoon_jumbo_1", type = "booster"}, {id = "p_buffoon_mega_1", type = "booster"}, {id = "c_soul"}, {id = "j_riff_raff"}, {id = "c_wraith"}, {id = "c_judgement"}},
+	banned_tags = {{id = "tag_negative"}, {id = "tag_fams_GB"}, {id = "tag_fams_cts"}, {id = "tag_buffoon"}, {id = "tag_uncommon"}, {id = "tag_rare"}, {id = "tag_negative"}, {id = "tag_holo"}, {id = "tag_polychrome"}},
 	banned_other = {}
   },
   consumeables = {},
   vouchers = {},
+
 }
 
 SMODS.Challenge {
@@ -1506,35 +1510,6 @@ SMODS.Challenge {
   vouchers = {},
 }
 
-SMODS.Challenge {
-  key = 'flip2',
-  loc_txt = {
-	name = "Joker Visionary",
-  },
-  jokers = {
-	
-  },
-  deck = {
-	type = 'Challenge Deck'
-  },
-  button_colour = G.C.PURPLE,
-  rules = {
-	custom = {
-		{id = "vision3"},
-		{id = "vision4"}
-	},
-	modifiers = {
-
-	}
-  },
-  restrictions = {
-	banned_cards = {},
-	banned_tags = {},
-	banned_other = {}
-  },
-  consumeables = {},
-  vouchers = {},
-}
 
 SMODS.Challenge {
   key = 'lap2',
@@ -1598,6 +1573,181 @@ SMODS.Challenge {
 }
 
 SMODS.Challenge {
+  key = 'DD',
+  loc_txt = {
+	name = "Double Down",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck',
+	cards = (function()
+	local cards = {}
+	table.insert(cards, {r = 2, s = 'S'})
+	table.insert(cards, {r = 3, s = 'S'})
+	table.insert(cards, {r = 4, s = 'S'})
+	table.insert(cards, {r = 5, s = 'S'})
+	table.insert(cards, {r = 6, s = 'S'})
+	table.insert(cards, {r = 7, s = 'S'})
+	table.insert(cards, {r = 8, s = 'S'})
+	table.insert(cards, {r = 9, s = 'S'})
+	table.insert(cards, {r = "T", s = 'S'})
+	table.insert(cards, {r = "J", s = 'S'})
+	table.insert(cards, {r = "K", s = 'S'})
+	table.insert(cards, {r = "Q", s = 'S'})
+	table.insert(cards, {r = "A", s = 'S'})
+	table.insert(cards, {r = 2, s = 'H'})
+	table.insert(cards, {r = 3, s = 'H'})
+	table.insert(cards, {r = 4, s = 'H'})
+	table.insert(cards, {r = 5, s = 'H'})
+	table.insert(cards, {r = 6, s = 'H'})
+	table.insert(cards, {r = 7, s = 'H'})
+	table.insert(cards, {r = 8, s = 'H'})
+	table.insert(cards, {r = 9, s = 'H'})
+	table.insert(cards, {r = "T", s = 'H'})
+	table.insert(cards, {r = "J", s = 'H'})
+	table.insert(cards, {r = "K", s = 'H'})
+	table.insert(cards, {r = "Q", s = 'H'})
+	table.insert(cards, {r = "A", s = 'H'})
+	table.insert(cards, {r = 2, s = 'D'})
+	table.insert(cards, {r = 3, s = 'D'})
+	table.insert(cards, {r = 4, s = 'D'})
+	table.insert(cards, {r = 5, s = 'D'})
+	table.insert(cards, {r = 6, s = 'D'})
+	table.insert(cards, {r = 7, s = 'D'})
+	table.insert(cards, {r = 8, s = 'D'})
+	table.insert(cards, {r = 9, s = 'D'})
+	table.insert(cards, {r = "T", s = 'D'})
+	table.insert(cards, {r = "J", s = 'D'})
+	table.insert(cards, {r = "K", s = 'D'})
+	table.insert(cards, {r = "Q", s = 'D'})
+	table.insert(cards, {r = "A", s = 'D'})
+	table.insert(cards, {r = 2, s = 'C'})
+	table.insert(cards, {r = 3, s = 'C'})
+	table.insert(cards, {r = 4, s = 'C'})
+	table.insert(cards, {r = 5, s = 'C'})
+	table.insert(cards, {r = 6, s = 'C'})
+	table.insert(cards, {r = 7, s = 'C'})
+	table.insert(cards, {r = 8, s = 'C'})
+	table.insert(cards, {r = 9, s = 'C'})
+	table.insert(cards, {r = "T", s = 'C'})
+	table.insert(cards, {r = "J", s = 'C'})
+	table.insert(cards, {r = "K", s = 'C'})
+	table.insert(cards, {r = "Q", s = 'C'})
+	table.insert(cards, {r = "A", s = 'C'})
+
+	table.insert(cards, {r = 2, s = 'S'})
+	table.insert(cards, {r = 3, s = 'S'})
+	table.insert(cards, {r = 4, s = 'S'})
+	table.insert(cards, {r = 5, s = 'S'})
+	table.insert(cards, {r = 6, s = 'S'})
+	table.insert(cards, {r = 7, s = 'S'})
+	table.insert(cards, {r = 8, s = 'S'})
+	table.insert(cards, {r = 9, s = 'S'})
+	table.insert(cards, {r = "T", s = 'S'})
+	table.insert(cards, {r = "J", s = 'S'})
+	table.insert(cards, {r = "K", s = 'S'})
+	table.insert(cards, {r = "Q", s = 'S'})
+	table.insert(cards, {r = "A", s = 'S'})
+	table.insert(cards, {r = 2, s = 'H'})
+	table.insert(cards, {r = 3, s = 'H'})
+	table.insert(cards, {r = 4, s = 'H'})
+	table.insert(cards, {r = 5, s = 'H'})
+	table.insert(cards, {r = 6, s = 'H'})
+	table.insert(cards, {r = 7, s = 'H'})
+	table.insert(cards, {r = 8, s = 'H'})
+	table.insert(cards, {r = 9, s = 'H'})
+	table.insert(cards, {r = "T", s = 'H'})
+	table.insert(cards, {r = "J", s = 'H'})
+	table.insert(cards, {r = "K", s = 'H'})
+	table.insert(cards, {r = "Q", s = 'H'})
+	table.insert(cards, {r = "A", s = 'H'})
+	table.insert(cards, {r = 2, s = 'D'})
+	table.insert(cards, {r = 3, s = 'D'})
+	table.insert(cards, {r = 4, s = 'D'})
+	table.insert(cards, {r = 5, s = 'D'})
+	table.insert(cards, {r = 6, s = 'D'})
+	table.insert(cards, {r = 7, s = 'D'})
+	table.insert(cards, {r = 8, s = 'D'})
+	table.insert(cards, {r = 9, s = 'D'})
+	table.insert(cards, {r = "T", s = 'D'})
+	table.insert(cards, {r = "J", s = 'D'})
+	table.insert(cards, {r = "K", s = 'D'})
+	table.insert(cards, {r = "Q", s = 'D'})
+	table.insert(cards, {r = "A", s = 'D'})
+	table.insert(cards, {r = 2, s = 'C'})
+	table.insert(cards, {r = 3, s = 'C'})
+	table.insert(cards, {r = 4, s = 'C'})
+	table.insert(cards, {r = 5, s = 'C'})
+	table.insert(cards, {r = 6, s = 'C'})
+	table.insert(cards, {r = 7, s = 'C'})
+	table.insert(cards, {r = 8, s = 'C'})
+	table.insert(cards, {r = 9, s = 'C'})
+	table.insert(cards, {r = "T", s = 'C'})
+	table.insert(cards, {r = "J", s = 'C'})
+	table.insert(cards, {r = "K", s = 'C'})
+	table.insert(cards, {r = "Q", s = 'C'})
+	table.insert(cards, {r = "A", s = 'C'})
+
+	return cards
+  end)()
+  },
+  button_colour = G.C.GREEN,
+  rules = {
+	custom = {
+		
+	},
+	modifiers = {
+		{id = "joker_slots", value = 10},
+		{id = "hands", value = 8},
+		{id = "discards", value = 6},
+		{id = "dollars", value = 8},
+		{id = "consumable_slots", value = 4},
+		{id = "hand_size", value = 16},
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {{id = "v_fams_fl"}},
+
+}
+
+SMODS.Challenge {
+  key = 'JW',
+  loc_txt = {
+	name = "Joker Wheel",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.DARK_EDITION,
+  rules = {
+	custom = {
+		
+	},
+	modifiers = {
+
+	}
+  },
+  restrictions = {
+	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+
+}
+
+SMODS.Challenge {
   key = 'mtn',
   loc_txt = {
 	name = "The Mountain",
@@ -1619,6 +1769,38 @@ SMODS.Challenge {
   },
   restrictions = {
 	banned_cards = {},
+	banned_tags = {},
+	banned_other = {}
+  },
+  consumeables = {},
+  vouchers = {},
+
+}
+
+SMODS.Challenge {
+  key = 'BR',
+  loc_txt = {
+	name = "Boss Rush",
+  },
+  jokers = {
+	
+  },
+  deck = {
+	type = 'Challenge Deck'
+  },
+  button_colour = G.C.EDITION,
+  rules = {
+	custom = {
+		{id = "allclear"},
+		{id = "investstart"},
+		{id = "bamount"}
+	},
+	modifiers = {
+		
+	}
+  },
+  restrictions = {
+	banned_cards = {{id = "j_chicot"}},
 	banned_tags = {},
 	banned_other = {}
   },

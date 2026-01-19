@@ -113,7 +113,7 @@ SMODS.Tag {
         
     end,
      in_pool = function(self, args)
-        return true -- Always allow
+        return true
     end,
      apply = function(self, tag, context)
         tag:yep("-", G.C.RED, function()
@@ -416,6 +416,46 @@ SMODS.Tag {
         if context.type == 'round_start_bonus' and isBoss() then
             tag:yep(':D', G.C.GREEN, function()
                 G.GAME.blind:disable()
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+	end
+}
+
+SMODS.Tag {
+    key = "rev",
+    loc_txt = {
+        name = "Uno Reverse",
+        text = {
+            "Makes 1 Joker {C:attention}free{} in shop", "and gives it's cost back as {C:filter}dollars{}."
+        }
+    },
+    atlas = "tags", -- or your custom atlas
+    pos = { x = 11, y = 0 },
+    config = {},
+    discovered = false,
+    min_ante = 4,
+
+    set_ability = function(self, tag)
+        
+    end,
+
+    in_pool = function(self, args)
+        return true
+    end,
+
+    apply = function(self, tag, context)
+        if context.type == 'shop_final_pass' and G.shop and not G.GAME.shop_free then
+            G.GAME.shop_free = true
+            tag:yep('+', G.C.RED, function()
+                if G.shop_jokers then
+                        card = G.shop_jokers.cards[math.ceil(math.random(1, #G.shop_jokers.cards))]
+                        ease_dollars(card.cost)
+                        card.ability.couponed = true
+                        card:set_cost()
+                end
                 return true
             end)
             tag.triggered = true

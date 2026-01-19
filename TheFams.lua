@@ -11,6 +11,8 @@ function CreateColor(key, hex)
 end
 
 CreateColor("ETERNAL", HEX("c75985"))
+G.C.HAND_LEVELS[0] = G.C.BLACK
+
 
 
 assert(SMODS.load_file('src/atlas.lua'))()
@@ -40,7 +42,7 @@ assert(SMODS.load_file('src/update.lua'))()
 assert(SMODS.load_file('src/splash.lua'))()
 assert(SMODS.load_file('src/lose.lua'))()
 assert(SMODS.load_file('src/runinfo.lua'))()
--- assert(SMODS.load_file('src/achievements.lua'))()
+assert(SMODS.load_file('src/achievements.lua'))()
 
 
 winnercheck = false
@@ -119,7 +121,7 @@ addCardsRandom = function(count, edition)
 						suit = suit,
 						rank = rank,
 						front = front,
-						edition = "e_" .. edition,
+						edition = ("e_" .. edition) or nil,
 						area = G.deck
 					}
 					return true
@@ -374,6 +376,20 @@ getcurrentBlindbykey = function()
 	end
 end
 
+function allnonbosses()
+  local out = {}
+  if not G.P_BLINDS then return out end
+  for k, v in pairs(G.P_BLINDS) do
+    if type(k) == 'string' and k:match('^bl_') and k ~= 'bl_small' and k ~= 'bl_big' then
+      if v and type(v.boss) == 'table' and not v.boss.showdown then
+        table.insert(out, k)
+      end
+    end
+  end
+  table.sort(out)
+  return out
+end
+
 isbossblindbanned = function()
 	return is_banned(G.GAME.round_resets.blind_choices.Boss) and isPlayingBlind() and isBoss() and not G.GAME.blind.disabled
 end
@@ -501,10 +517,6 @@ ForceLoss = function()
 	TIMER_LENGTH = 1
 	G.STATE_COMPLETE = false
 	end
-end
-
-ForceWin = function()
-	
 end
 
 destroycard = function(card)
@@ -1173,7 +1185,18 @@ addWYR("Create an entirely random joker deck", function()
 		end
 	end
 end)
- 
+
+addWYR("Copy the leftmost joker (Must have room)", function()
+	local max_slots = (G and G.GAME and G.GAME.starting_params and G.GAME.starting_params.joker_slots) or 5
+	local owned = (G and G.jokers and G.jokers.cards) and #G.jokers.cards or 0
+	local slots = math.max(0, max_slots - owned)
+	leftmost = G.jokers.cards[1].config.center_key
+	if slots <= 0 then return end
+	SMODS.add_card{
+		set = "Joker",
+		key = tostring(leftmost)
+	}
+end)
 
 
 
@@ -1206,6 +1229,7 @@ function Card:click()
 
 		play_sound("fams_gasterleave", 1, 1)
 		self:start_dissolve({G.C.BLACK, G.C.WHITE},true, 1, true)
+		G.GAME.found_gaster = true
 		SMODS.add_card{
 			set = "Joker",
 			legendary = false,
@@ -1354,6 +1378,10 @@ G.FUNCS.print_hello = function(e)
 		active_wyr_menu:remove()
 		active_wyr_menu = nil
 	end
+end
+
+G.FUNCS.print_hello = function(e)
+	
 end
 
 G.FUNCS.print_world = function(e)
@@ -1556,6 +1584,37 @@ end
 
 currentmult = function()
 return G.GAME.current_round.current_hand.mult
+end
+
+function level_up_hand(card, hand, instant, amount)
+    amount = amount or 1
+    G.GAME.hands[hand].level = math.max(-999, G.GAME.hands[hand].level + amount)
+    G.GAME.hands[hand].mult = math.max(G.GAME.hands[hand].s_mult + G.GAME.hands[hand].l_mult*(G.GAME.hands[hand].level - 1), 1)
+    G.GAME.hands[hand].chips = math.max(G.GAME.hands[hand].s_chips + G.GAME.hands[hand].l_chips*(G.GAME.hands[hand].level - 1), 0)
+    if not instant then 
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
+            play_sound('tarot1')
+            if card then card:juice_up(0.8, 0.5) end
+            G.TAROT_INTERRUPT_PULSE = true
+            return true end }))
+        update_hand_text({delay = 0}, {mult = G.GAME.hands[hand].mult, StatusText = true})
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+            play_sound('tarot1')
+            if card then card:juice_up(0.8, 0.5) end
+            return true end }))
+        update_hand_text({delay = 0}, {chips = G.GAME.hands[hand].chips, StatusText = true})
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.9, func = function()
+            play_sound('tarot1')
+            if card then card:juice_up(0.8, 0.5) end
+            G.TAROT_INTERRUPT_PULSE = nil
+            return true end }))
+        update_hand_text({sound = 'button', volume = 0.7, pitch = 0.9, delay = 0}, {level=G.GAME.hands[hand].level})
+        delay(1.3)
+    end
+    G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = (function() check_for_unlock{type = 'upgrade_hand', hand = hand, level = G.GAME.hands[hand].level} return true end)
+    }))
 end
 
 GiftBox = function()

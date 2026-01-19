@@ -15,6 +15,10 @@ function G.UIDEF.run_info()
             tab_definition_function = G.UIDEF.used_vouchers,
         },
         {
+          label = 'Parameters',
+          tab_definition_function = G.UIDEF.params,
+        },
+        {
           label = 'Banned',
           tab_definition_function = G.UIDEF.banned_items,
         },
@@ -25,6 +29,28 @@ function G.UIDEF.run_info()
     },
     tab_h = 8,
     snap_to_nav = true})}})
+end
+
+function G.UIDEF.params()
+  local rows = {}
+  rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Global Game Parameters"}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 1, maxw = 6})}}}}
+  rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.5}, nodes={{n=G.UIT.O, config={object = DynaText({string = {""}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 1, maxw = 6})}}}}
+
+  if G and G.GAME and G.GAME.starting_params and next(G.GAME.starting_params) then
+    rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Bankrupt Threshold: "..tostring(G.GAME.bankrupt_at)}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 0.5, maxw = 6})}}}}
+    rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Ante Scale: "..tostring(G.GAME.starting_params.ante_scaling)}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 0.5, maxw = 6})}}}}
+    rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Vouchers Available: "..tostring(G.GAME.starting_params.vouchers_in_shop)}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 0.5, maxw = 6})}}}}
+    rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Total Skips: "..tostring(G.GAME.skips)}, colours = {G.C.WHITE}, hover = true, shadow = true, scale = 0.5, maxw = 6})}}}}
+    rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Probability: "..tostring(G.GAME.probabilities.normal)}, colours = {G.C.WHITE}, hover = true, shadow = true, scale = 0.5, maxw = 6})}}}}
+    rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Tarot Rate : "..tostring(G.GAME.tarot_rate)}, colours = {G.C.WHITE}, hover = true, shadow = true, scale = 0.5, maxw = 6})}}}}
+    rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Planet Rate: "..tostring(G.GAME.planet_rate)}, colours = {G.C.WHITE}, hover = true, shadow = true, scale = 0.5, maxw = 6})}}}}
+    rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Edition Rate: "..tostring(G.GAME.edition_rate)}, colours = {G.C.WHITE}, hover = true, shadow = true, scale = 0.5, maxw = 6})}}}}
+    rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Endless Mode: "..tostring(G.GAME.won)}, colours = {G.C.WHITE}, hover = true, shadow = true, scale = 0.5, maxw = 6})}}}}
+  else
+    rows[#rows+1] = {n=G.UIT.R, config={align = 'cm', padding = 0.04}, nodes={{n=G.UIT.T, config={text = 'No starting parameters, Restart run!', scale = 0.7, colour = G.C.RED}}}}
+  end
+
+  return {n=G.UIT.ROOT, config={align = 'cm', colour = G.C.CLEAR, padding = 0.2}, nodes = rows}
 end
 
 function G.UIDEF.banned_items()

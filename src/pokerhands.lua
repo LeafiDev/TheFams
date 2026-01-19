@@ -11,6 +11,7 @@ SMODS.PokerHand {
         { 'H_9', true },
         { 'D_3', false }
     },
+    order_offset = -3,
     loc_txt = {
         name = 'Flush Two Pair',
         description = {

@@ -508,7 +508,7 @@ SMODS.Stake {
 	},
 	atlas = 'stakes',
 	pos = { x = 10, y = 0 },
-	sticker_pos = { x = 10, y = 0 },
+	sticker_pos = { x = 9, y = 0 },
 	unlocked = true,
 	colour = {1, 0, 0, 1}, 
 	above_stake = "stake_fams_taxes", 
