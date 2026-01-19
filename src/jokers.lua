@@ -1460,7 +1460,6 @@ SMODS.Joker {
 		local image = pseudorandom("dingaling") * 6
 		card.children.center.sprite_pos = { x = math.floor(image), y = 0 };
 	end
-<<<<<<< Updated upstream
 }
 --[[
 --Some of these will crash the game, let's stop that.
@@ -1540,6 +1539,3 @@ SMODS.Joker {
 	end,
 }
 ]]
-=======
-}
->>>>>>> Stashed changes
