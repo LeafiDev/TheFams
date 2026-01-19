@@ -1442,3 +1442,81 @@ SMODS.Joker {
 		card.children.center.sprite_pos = { x = math.floor(image), y = 0 };
 	end
 }
+--[[
+--Some of these will crash the game, let's stop that.
+local everything_blacklist = {
+	"j_mr_bones",
+	"j_gros_michel",
+	"j_cavendish",
+	"j_madness",
+	"j_blueprint",
+	"j_brainstormr",
+	"j_fams_gayster",
+	"j_fams_everything_joker"
+}
+
+SMODS.Joker {
+	key = 'everything_joker', 
+	atlas = 'jokers',
+	pos = { x = 9, y = 3 },
+	loc_txt = {
+		name = 'Everything Bagel', 
+		text = {
+			"{C:attention}Everything{}. {C:attention}Everywhere{}. All at {C:attention}once{}.",
+			"Prepare {C:mult}mortals{}."
+		}
+	},
+	rarity = 4, 
+	cost = 0,
+
+	calculate = function(self, card, context)
+		local jokes = 0;
+		for key, joker in pairs(G.P_CENTERS) do
+			if (string.sub(key, 1,2) == "j_" and string.sub(key, 1,6) ~= "j_fams") then
+				local canDo = true;
+				for bKey, val in pairs(everything_blacklist) do
+					if (bKey == key) then
+						canDo = false;
+					end
+				end
+
+				if (canDo) then
+					local myJoke = context;
+					myJoke.ability = G.P_CENTERS[key];
+					print(myJoke);
+					--card:calculate_joker(myJoke);
+
+					jokes = jokes + 1;
+
+					if (jokes > 10) then return {}; end;
+
+					--G.E_MANAGER:add_event(Event({
+					--	trigger = 'immediate',
+					--	blocking = false,
+					--	delay = 0,
+					--	func = function()  
+					--		card_eval_status_text(card,'extra',nil,nil,nil,{message = key});
+					--		return true;
+					--	end,
+                    --}));
+				end
+
+				--if (canDo and joker.calculate) then 
+				--	local stuff = joker.calculate(self, card, context);
+--
+				--	G.E_MANAGER:add_event(Event({
+				--		trigger = 'immediate',
+				--		blocking = false,
+				--		delay = 0,
+				--		func = function()  
+				--			card_eval_status_text(card,'extra',nil,nil,nil,{message = key});
+				--			return true;
+				--		end,
+                --    }));
+				--end
+			end
+		end
+		return 0;
+	end,
+}
+]]
