@@ -1,4 +1,18 @@
-spinnerbone = math.random(-10, 10) 
+SMODS.Sound {
+  key = "music_gencom",
+  pitch = 1,
+  path = "music_completenorm.ogg",
+  select_music_track = function(self)
+  local pr = G.PROFILES[G.SETTINGS.profile]
+  if pr and pr.dog_trials_win == true then
+	musicPower(2.3)
+	setBPM(130)
+	return 800
+  end
+  end
+}
+
+
 SMODS.Sound {
   key = "music_gen",
   pitch = 1,
@@ -91,6 +105,20 @@ SMODS.Sound {
   pitch = 1,
   volume = 0.8,
   path = "skull.ogg",
+}
+
+SMODS.Sound {
+  key = "baldiohh",
+  pitch = 1,
+  volume = 0.8,
+  path = "baldiohh.ogg",
+}
+
+SMODS.Sound {
+  key = "splat",
+  pitch = 1,
+  volume = 0.8,
+  path = "splat.ogg",
 }
 
 SMODS.Sound {
@@ -327,10 +355,38 @@ SMODS.Sound {
 }
 
 SMODS.Sound {
+  key = "c_beginbell",
+  pitch = 1,
+  volume = 1,
+  path = "c_beginbell.ogg",
+}
+
+SMODS.Sound {
   key = "c_win",
   pitch = 1,
   volume = 1,
   path = "c_win.ogg",
+}
+
+SMODS.Sound {
+  key = "c_winback",
+  pitch = 1,
+  volume = 1,
+  path = "c_winback.ogg",
+}
+
+SMODS.Sound {
+  key = "c_winboom",
+  pitch = 1,
+  volume = 1,
+  path = "c_winboom.ogg",
+}
+
+SMODS.Sound {
+  key = "saiyan",
+  pitch = 1,
+  volume = 1,
+  path = "saiyan.ogg",
 }
 
 SMODS.Sound {

@@ -158,6 +158,17 @@ SMODS.Atlas {
     }
 }
 
+SMODS.Atlas {
+    key = "balatro15",
+    path = "balatro15.png",
+    px = 450,
+    py = 216,
+    prefix_config = {
+        key = { mod = false },   -- disables mod prefix for 'key'
+        atlas = false            -- disables all prefixes for 'atlas'
+    }
+}
+
 
 atlas("divorce", "divorce.png", 1700, 2200)
 atlas("gayster", "gayster.png", 71, 95)
@@ -259,6 +270,30 @@ SMODS.Atlas {
 	px = 71,
 	py = 95,
     frames = 4
+}
+
+SMODS.Atlas {
+	key = "discardcandle",
+	path = "summons/discard.png",
+	px = 71,
+	py = 95,
+    frames = 4
+}
+
+SMODS.Atlas {
+	key = "tagcandle",
+	path = "summons/tags.png",
+	px = 71,
+	py = 95,
+    frames = 4
+}
+
+SMODS.Atlas {
+	key = "baldi",
+	path = "baldi.png",
+	px = 71,
+	py = 95,
+    frames = 21
 }
 
 SMODS.Atlas {

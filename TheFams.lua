@@ -13,7 +13,39 @@ end
 CreateColor("ETERNAL", HEX("c75985"))
 G.C.HAND_LEVELS[0] = G.C.BLACK
 
-
+function create_UIBox_your_collection_something()
+	local lose_quotes = require('src.lose')
+	local fams_boss_blinds = lose_quotes.LOSE_QUOTES_FAMS_BOSS_BLINDS or {}
+	local nodes = {}
+	for boss, quotes in pairs(fams_boss_blinds) do
+		table.insert(nodes, {n=G.UIT.R, config={align="cm", padding=0.05}, nodes={
+			{n=G.UIT.T, config={text = boss, scale = 0.5, colour = G.C.L_BLACK}},
+		}})
+		for _, quote in ipairs(quotes) do
+			table.insert(nodes, {n=G.UIT.R, config={align="cm", padding=0.02}, nodes={
+				{n=G.UIT.T, config={text = '"'..quote..'"', scale = 0.35, colour = G.C.L_DARKGREY}}
+			}})
+		end
+	end
+	return UIBox{
+		definition = {
+			n=G.UIT.ROOT,
+			config={align="cm", colour=G.C.WHITE, padding=0.2, minh=6, minw=8},
+			nodes={
+				{n=G.UIT.C, config={align="cm", padding=0.1, r=0.05, minw=7.5, minh=5.5, colour=G.C.WHITE, outline=2, outline_colour=G.C.L_BLACK}, nodes={
+					{n=G.UIT.R, config={align="cm", padding=0.05}, nodes={
+						{n=G.UIT.T, config={text = 'Boss Blind Death Quotes', scale = 0.7, colour = G.C.RED}}
+					}},
+					{n=G.UIT.S, config={align="cm", minh=4.5, minw=7, scroll=true, colour=G.C.CLEAR}, nodes=nodes},
+					{n=G.UIT.R, config={align="cm", padding=0.1}, nodes={
+						UIBox_button({label = {"Close"}, button = function() G.FUNCS.overlay_menu_close() end, colour = G.C.RED, scale = 0.6, minw = 3.5, minh = 0.5})
+					}}
+				}}
+			}
+		},
+		config={align="cm"}
+	}
+end
 
 assert(SMODS.load_file('src/atlas.lua'))()
 assert(SMODS.load_file('src/jokers.lua'))()
@@ -44,6 +76,10 @@ assert(SMODS.load_file('src/lose.lua'))()
 assert(SMODS.load_file('src/runinfo.lua'))()
 assert(SMODS.load_file('src/achievements.lua'))()
 
+
+get_current_profile = function()
+	return G.PROFILES[G.SETTINGS.profile] or "not valid"
+end
 
 winnercheck = false
 title_variant = title_variant or 1
@@ -731,6 +767,8 @@ check_wyr_joker_on_run = function()
 	end
 end
 
+
+
 timer = 60.0
 timeropened = false
 timerdisplay = timer
@@ -1378,10 +1416,6 @@ G.FUNCS.print_hello = function(e)
 		active_wyr_menu:remove()
 		active_wyr_menu = nil
 	end
-end
-
-G.FUNCS.print_hello = function(e)
-	
 end
 
 G.FUNCS.print_world = function(e)

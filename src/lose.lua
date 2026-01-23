@@ -49,6 +49,7 @@ local LOSE_QUOTES_FAMS_BOSS_BLINDS = {
   trueend = { "..." },
 }
 
+
 local LOSE_BLIND_VISUALS = {
   -- Example overrides (edit as needed):
   bl_fams_the_picky = { atlas = 'fams_bossBlinds', scale = 1.8 },
@@ -64,8 +65,98 @@ local LOSE_BLIND_VISUALS = {
   bl_fams_trueend = { atlas = 'fams_bossBlinds', scale = 1.8 },
 }
 
+
+
+-- Find the current profile using the provided logic
+function get_current_profile()
+  if G and G.PROFILES then
+    for i=1,#G.PROFILES,1 do
+      if (G.PROFILES[i].name) then
+        return G.PROFILES[i]
+      end
+    end
+  end
+  return nil
+end
+
+-- Load chosen_lose_quotes from the current profile if available
+function load_chosen_lose_quotes_from_profile()
+  local profile = get_current_profile()
+  if profile and profile.chosen_lose_quotes then
+    chosen_lose_quotes = profile.chosen_lose_quotes
+  end
+end
+
+-- Save chosen_lose_quotes to the current profile
+function save_chosen_lose_quotes_to_profile()
+  local profile = get_current_profile()
+  if profile then
+    profile.chosen_lose_quotes = chosen_lose_quotes
+  end
+end
+
+-- Load on file load
+load_chosen_lose_quotes_from_profile()
+
+-- Check if chosen_lose_quotes contains all quotes from LOSE_QUOTES_BY_BLIND and LOSE_QUOTES_FAMS_BOSS_BLINDS
+function chosen_lose_quotes_has_all()
+  local chosen_set = {}
+  for _, q in ipairs(chosen_lose_quotes or {}) do
+    chosen_set[q] = true
+  end
+
+  local function all_quotes_in_table(tbl)
+    for _, arr in pairs(tbl) do
+      for _, quote in ipairs(arr) do
+        if not chosen_set[quote] then
+          return false, quote
+        end
+      end
+    end
+    return true
+  end
+
+  local ok1, missing1 = all_quotes_in_table(LOSE_QUOTES_BY_BLIND)
+  if not ok1 then return false, missing1 end
+  local ok2, missing2 = all_quotes_in_table(LOSE_QUOTES_FAMS_BOSS_BLINDS)
+  if not ok2 then return false, missing2 end
+  return true
+end
+
+-- Debug function: add all lose quotes from both tables to chosen_lose_quotes
+function alldeaths()
+  chosen_lose_quotes = chosen_lose_quotes or {}
+  local chosen_set = {}
+  for _, q in ipairs(chosen_lose_quotes) do
+    chosen_set[q] = true
+  end
+  local function add_from_table(tbl)
+    for _, arr in pairs(tbl) do
+      for _, quote in ipairs(arr) do
+        if not chosen_set[quote] then
+          table.insert(chosen_lose_quotes, quote)
+          chosen_set[quote] = true
+        end
+      end
+    end
+  end
+  add_from_table(LOSE_QUOTES_BY_BLIND)
+  add_from_table(LOSE_QUOTES_FAMS_BOSS_BLINDS)
+  save_chosen_lose_quotes_to_profile()
+end
+
+local function add_chosen_lose_quote(quote)
+  chosen_lose_quotes = chosen_lose_quotes or {}
+  for _, q in ipairs(chosen_lose_quotes) do
+    if q == quote then return end
+  end
+  table.insert(chosen_lose_quotes, quote)
+  save_chosen_lose_quotes_to_profile()
+end
+
 local function resolve_lose_quotes(blind_key, blind_obj)
   if blind_obj and type(blind_obj) == 'table' and blind_obj.lose_quotes and #blind_obj.lose_quotes > 0 then
+    
     return blind_obj.lose_quotes
   end
 
@@ -162,7 +253,8 @@ function create_UIBox_game_over()
     local blind_animation = AnimatedSprite(0,0, scale, scale, anim_atlas, pos)
 
     local quotes = resolve_lose_quotes(blind_key, blind_obj)
-    local lose_quote = quotes and quotes[math.random(#quotes)] or "Better luck next run."
+    local lose_quote = quotes and quotes[math.random(#quotes)] or "This defaulted. big oops."
+    add_chosen_lose_quote(lose_quote)
     
     local t = {
         n = G.UIT.ROOT,

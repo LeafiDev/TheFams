@@ -69,10 +69,18 @@ SMODS.Back {
     pos = {x = 2, y = 0},
     apply = function(self, back)
     if G and G.GAME then
-        local jokers = {"j_fams_doller"}
-        for i = 1, #jokers do
-            add_joker_by_key(jokers[i], false)
-        end
+        G.E_MANAGER:add_event(Event({
+            trigger = "immediate",
+            func = function()
+                SMODS.add_card  {
+                set = "Joker",                
+                legendary = false,            
+                key = "j_fams_doller",
+                skip_materialize = false,     
+                }
+                return true
+            end
+        }))
 		G.E_MANAGER:add_event(Event({
             trigger = "immediate",
             func = function()

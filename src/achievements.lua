@@ -1,6 +1,5 @@
 SMODS.Achievement{
     key = "flushdog",
-    -- omit loc_txt to use the localization tables above
     loc_txt = {
         name = "Dog's Toilet",
         description = {
@@ -35,7 +34,7 @@ SMODS.Achievement{
 SMODS.Achievement{
     key = "wingingding",
     loc_txt = {
-        name = "Winging",
+        name = "Winging my ding",
         description = {
             'Find the lost doctor'
         }
@@ -80,6 +79,23 @@ SMODS.Achievement{
     hidden_name = false,
     unlock_condition = function(self, args)
         return isChallenge("dlcend") and G and G.GAME and getAnte() == G.GAME.win_ante + 1
+    end,
+}
+
+SMODS.Achievement{
+    key = "PB",
+    loc_txt = {
+        name = "Punching Bag",
+        description = {
+            'Get all death quotes'
+        }
+    },
+    atlas = "gold",
+    pos = { x = 0, y = 0 },
+    hidden_text = true,
+    hidden_name = false,
+    unlock_condition = function(self, args)
+        return chosen_lose_quotes_has_all()
     end,
 }
 

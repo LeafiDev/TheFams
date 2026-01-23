@@ -120,6 +120,41 @@ SMODS.Blind {
     end
 }
 
+SMODS.Blind {
+    key = "addition",
+	atlas = "bossBlinds",
+    pos = { x = 0, y = 10 },
+    loc_txt = {
+        name = "The Addition",
+        text = {"all Negative cards are debuffed"}
+    },
+   boss = ({ min = 6 }),
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX('c75959'),
+	recalc_debuff = function(self, card, from_blind)
+        if card and card.edition and card.edition.negative and card.edition.negative == true then
+            return true
+        end
+        return false
+    end
+}
+
+-- dah fuck
+SMODS.Blind {
+    key = "disco",
+	atlas = "bossBlinds",
+    pos = { x = 0, y = 12 },
+    loc_txt = {
+        name = "The Disco",
+        text = {"Cards shuffle every beat"}
+    },
+   boss = ({ min = 1 }),
+    dollars = 5,
+    mult = 2,
+    boss_colour = HEX('d25ab0'),
+}
+
 local selcardsuit = {"H", "D", "C", "S"}
 local selcardrank = {"fams_one", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"}
 
@@ -266,7 +301,7 @@ end,
 SMODS.Blind {
     key = "trueend",
 	atlas = "bossBlinds",
-    pos = { x = 0, y = 10 },
+    pos = { x = 0, y = 11 },
     loc_txt = {
         name = "The Vortex",
         text = {"Too far out..."}

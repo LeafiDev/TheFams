@@ -1071,6 +1071,7 @@ SMODS.Joker {
 	pos = { x = 2, y = 3 },
     cost = -5,
 	rarity = 1,
+	no_collection = false,
 	pools = {
     	["gimmicks"] = true
     },
@@ -1367,6 +1368,10 @@ end
 			end
 		end
 	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Book", {1, 0, 0, 1}, G.C.WHITE, 1.2)
+	end
 }
 
 SMODS.Joker {
@@ -1392,8 +1397,14 @@ SMODS.Joker {
         return {mult = tonumber(context.other_card.base.value)}
     end
 	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Wood", {0.8, 0.8, 0, 1}, G.C.WHITE, 1.2)
+	end
 }
 
+
+--[[
 SMODS.Joker {
 	key = 'dr_soul', 
 	atlas = 'jokers',
@@ -1422,7 +1433,11 @@ SMODS.Joker {
 
 		return 0;
 	end,
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Heart", {1, 0, 0, 1}, G.C.BLACK, 1.2)
+	end
 }
+]]
 
 SMODS.Joker {
 	key = 'dingaling', 
@@ -1459,8 +1474,290 @@ SMODS.Joker {
 	set_sprites = function(self, card, front)
 		local image = pseudorandom("dingaling") * 6
 		card.children.center.sprite_pos = { x = math.floor(image), y = 0 };
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("animatronic(s)", {1, 1, 1, 0.6}, G.C.WHITE, 1.2)
 	end
 }
+
+SMODS.Joker {
+	key = 'baldi', 
+	atlas = 'baldi',
+	pos = { x = 0, y = 0 },
+	loc_txt = {
+		name = 'Baldi',
+		text = {
+			"Gain {X:mult,C:white}0.5X{} mult for each hand that isn't a {C:attention}five of a kind{}",
+			"When a five of a kind is played, resets the mult to {X:mult,C:white}1X{}",
+			"{C:inactive}Currently: {}{X:mult,C:white}#1#X{}"
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { self.config.gain } }
+	end,
+	pools = {
+
+    },
+	config = { gain = 1, paused = false, image = 1 }, 
+	rarity = 3, 
+	cost = 0, 
+
+	calculate = function(self, card, context)
+		if context.joker_main then
+		local boosh = self.config.gain
+		if G.GAME.current_round.current_hand.handname == "Five of a Kind" or G.GAME.current_round.current_hand.handname == "Flush Five" then
+		baldibust(self, card)
+		self.config.gain = 1
+		return {xmult = boosh, message = "Reset"}
+	else
+		self.config.gain = self.config.gain + 0.5
+		return {message = "+0.5", colour = G.C.RED}
+	end
+end
+	end,
+
+	set_sprites = function(self, card, front)
+		self.config.paused = false
+		card.children.center.sprite_pos = { x = 0, y = 0 };
+	end,
+
+	update = function(self, card, dt)
+		if self.config.paused == false then
+		if love.timer.getTime() % 0.6 > 0.1 then
+			card.children.center.sprite_pos = { x = 1, y = 0 };
+		end
+		if love.timer.getTime() % 0.6 > 0.2 then
+			card.children.center.sprite_pos = { x = 2, y = 0 };
+		end
+		if love.timer.getTime() % 0.6 > 0.3 then
+			card.children.center.sprite_pos = { x = 3, y = 0 };
+		end
+		if love.timer.getTime() % 0.6 > 0.4 then
+			card.children.center.sprite_pos = { x = 4, y = 0 };
+		end
+		if love.timer.getTime() % 0.6 > 0.5 then
+			card.children.center.sprite_pos = { x = 5, y = 0 };
+		end
+	end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Bald", {0, 1, 0, 1}, G.C.BLACK, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'CYH', 
+	atlas = 'jokers',
+	pos = { x = 2, y = 4 },
+	loc_txt = {
+		name = 'Control Your Hands',
+		text = {
+			"If played hand is not your {C:attention}most played hand{}", "gain {C:money}+$10{}"
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { mostPlayedHand() } }
+	end,
+	pools = {
+
+    },
+	config = {  }, 
+	rarity = 2, 
+	cost = 0, 
+
+	calculate = function(self, card, context)
+	if context.joker_main then
+		if mostPlayedHand() ~= G.GAME.current_round.current_hand.handname then
+			return { dollars = 10 }
+		end
+	end
+	end,
+
+	set_sprites = function(self, card, front)
+	end,
+
+	update = function(self, card, dt)
+		
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Reference", {0.1, 0.1, 0.1, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'propaganda', 
+	atlas = 'jokers',
+	pos = { x = 0, y = 4 },
+	loc_txt = {
+		name = 'You are not immune to propaganda',
+		text = {
+			"Gives {C:red}+#1#{} mult"
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { math.floor(pseudorandom('propaganda') * 100) } }
+	end,
+	pools = {
+
+    },
+	config = {  }, 
+	rarity = 1,
+	cost = 1,
+
+	calculate = function(self, card, context)
+		if context.joker_main then
+			local mult = math.floor(pseudorandom('propaganda') * 25)
+			return { mult = mult }
+		end
+	end,
+
+	set_sprites = function(self, card, front)
+
+	end,
+
+	update = function(self, card, dt)
+		
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Garfield", {0.91, 0.631, 0.176, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'cum',
+	atlas = 'jokers',
+	pos = { x = 1, y = 4 },
+	loc_txt = {
+		name = 'The Cum Chalice',
+		text = {
+			"{X:mult,C:white}-0.5X{} mult each round",
+			"currently: {X:mult,C:white}#1#X{}"
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { self.config.gain } }
+	end,
+	pools = {
+
+    },
+	config = { gain = 3 },
+	rarity = 2,
+	cost = 2,
+
+	calculate = function(self, card, context)
+		if context.joker_main then
+			local mult = self.config.gain
+			return { xmult = self.config.gain }
+		end
+		if context.joker_main and context.end_of_round then
+			self.config.gain = self.config.gain - 0.5
+			if self.config.gain < 1 then
+				SMODS.destroy_cards(card, nil, nil, true)
+				return { message = "Empty"}
+			end
+			return { message = "-0.5", colour = G.C.RED }
+		end
+	end,
+
+	add_to_deck = function(self, card, from_debuff)
+		self.config.gain = 3
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge('Yanderedev', {0.7, 0, 0.7, 1}, G.C.WHITE, 1.2)
+	badges[#badges+1] = create_badge('"Programmer"', {0.7, 0, 0.7, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+
+baldibust = function(self, card)
+	local image = 5
+	for i = 1, 16 do
+		G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.08 * G.SPEEDFACTOR,
+				func = function()
+					self.config.paused = true
+					if i == 1 then
+						play_sound("fams_baldiohh", 1, 1)
+						play_sound("fams_splat", 1, 1)
+					end
+					image = image + 1
+					card.children.center.sprite_pos = { x = image, y = 0 };
+					if i == 16 then
+						self.config.paused = false
+					end
+					return true
+				end
+		}))
+	end
+end
+
+SMODS.Joker {
+	key = 'saiyan',
+	atlas = 'jokers',
+	pos = { x = 1, y = 1 },
+	loc_txt = {
+		name = '{C:edition,E:2}FURTHER BEYOND{}',
+		text = {
+			"On {C:filter}Blind Start{} gain {X:mult,C:white}+0.2X{} mult up to {X:mult,C:white}3X{}", "Currently {X:mult,C:white}#1#X{} of {X:mult,C:white}#1#X{}",
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { self.config.gain } }
+	end,
+	pools = {
+
+    },
+	config = { gain = 1.2, phasenum = 1},
+	rarity = 3,
+	cost = 5,
+
+	calculate = function(self, card, context)
+		if context.setting_blind then
+			if self.config.gain < 3 and self.config.phasenum ~= 3 then
+				self.config.gain = self.config.gain + 0.2
+				if self.config.gain < 2 and self.config.phasenum ~= 1 then
+					self.config.phasenum = 1
+					return {message = "Base Saiyan"}
+				elseif self.config.gain >= 2 and self.config.phasenum ~= 2 then
+					self.config.phasenum = 2
+					return {sound = "fams_saiyan", message = "Super Saiyan"}
+				elseif self.config.gain == 3 and self.config.phasenum ~= 3 then
+					self.config.phasenum = 3
+					return {sound = "fams_saiyan", message = "Super Saiyan III"}
+				end
+				return { message = self.config.gain.."/3", colour = G.C.RED }
+			end
+		end
+		if context.joker_main then
+			return { xmult = self.config.gain }
+		end
+	end,
+
+	add_to_deck = function(self, card, from_debuff)
+		
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+		if self.config.gain then
+		if self.config.gain < 2 then
+			badges[#badges+1] = create_badge('Saiyan', {1, 0.651, 0, 1}, G.C.WHITE, 1.2)
+		elseif self.config.gain >= 2 then
+			badges[#badges+1] = create_badge('Super Saiyan', {1, 1, 0, 1}, G.C.WHITE, 1.2)
+		elseif self.config.gain == 3 then
+			badges[#badges+1] = create_badge('Super Saiyan III', {1, 0.816, 0, 1}, G.C.WHITE, 1.2)
+		end
+	end
+	end
+}
+
+
+
 --[[
 --Some of these will crash the game, let's stop that.
 local everything_blacklist = {

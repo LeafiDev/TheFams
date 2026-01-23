@@ -13,7 +13,6 @@ titlelistloc = {
 }
 
 
-
 return {
-	["setting_1"] = 0
+	["setting_1"] = false
 }

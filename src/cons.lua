@@ -944,14 +944,70 @@ SMODS.Consumable {
     end,
 	calculate = function(self, card, context)
         if context.setting_blind then
-            local callnum = math.random(1, 5)
-		    play_sound("fams_c_announcego"..callnum, 1, 1)
+            if isBoss() then
+		    local callnum = math.random(1, 5)
+		    play_sound("fams_c_announce"..callnum, 1, 1)
+            play_sound("fams_c_beginbell", 1, 1)
+
+            attention_text({
+                text = "Get Ready!",
+                scale = 4, 
+                hold = 2,
+                backdrop_colour = colour or G.C.BLACK,
+                align = card_aligned or "cm",
+                major = G.ROOM_ATTACH,
+                offset = {x = 0, y = -0.5}
+            })
+
+            
+                G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 1.8 * G.SPEEDFACTOR,
+					func = function()
+						play_sound("fams_c_announcego"..callnum, 1, 1)
+                        G.ROOM.jiggle = 12
+                        attention_text({
+                            text = "WALLOP!",
+                            scale = 4, 
+                            hold = 6,
+                            backdrop_colour = colour or G.C.BLACK,
+                            align = card_aligned or "cm",
+                            major = G.ROOM_ATTACH,
+                            offset = {x = 0, y = -0.5}
+                        })
+                        
+						return true
+					end
+					}))
+            end
         end
 
-        if context.end_of_round and context.individual and context.cardarea == G.hand then
-        play_sound("fams_c_win", 1, 1)
-        play_sound("fams_c_bell", 1, 1)
-        G.ROOM.jiggle = 12
+        if context.end_of_round and context.main_eval then
+            play_sound("fams_c_bell", 1, 1)
+            if getAnte() == G.GAME.win_ante then
+                play_sound("fams_c_win", 1, 1)
+                attention_text({
+                            text = "KNOCKOUT!",
+                            scale = 4, 
+                            hold = 6,
+                            backdrop_colour = colour or G.C.BLACK,
+                            align = card_aligned or "cm",
+                            major = G.ROOM_ATTACH,
+                            offset = {x = 0, y = -0.5}
+                        })
+                G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.5 * G.SPEEDFACTOR,
+					func = function()
+						play_sound("fams_c_winback", 1, 1)
+                        play_sound("fams_c_winboom", 1, 1)
+                        G.ROOM.jiggle = 12
+                        
+						return true
+					end
+					}))
+                
+            end
         end
 
         if context.joker_main then
@@ -973,6 +1029,43 @@ SMODS.Consumable {
 	remove_from_deck = function(self, card, from_debuff)
 		G.parryreturn = 1
         G.hits = 0
+	end,
+}
+
+SMODS.Consumable {
+    key = "m-fps",
+    set = "mini-joker",
+    loc_txt = {
+        name = "Runtime",
+        text = {"adds mult based on half of your current FPS.", "{C:inactive}Currently{} {C:red}+#1#{} {C:inactive}mult.{}"}
+    },
+    atlas = "miniJokers", 
+    pos = { x = 1, y = 5 },
+    cost = 30,
+    pools = {
+        ["mini-joker"] = true
+    },
+    config = { fps = math.min(love.timer.getFPS(), 60) },
+	loc_vars = function(self, info_queue, card)
+    if G and G.jokers and G.jokers.config then
+        return { vars = { card.config.fps or 0 } }
+    end
+    end,
+
+        calculate = function(self, card, context)
+        if context.joker_main then
+            return {
+                mult = card.config.fps or 0
+            }
+        end
+    end,
+
+	can_use = function(self, card)
+    return false
+	end,
+
+	update = function(self, card, dt)
+        card.config.fps = love.timer.getFPS() / 2
 	end,
 }
 
@@ -1469,7 +1562,7 @@ SMODS.ConsumableType{
             text = {"Thy has not discovered this summon"},
         },
     },
-    collection_rows = {3},
+    collection_rows = {2, 3},
     shop_rate = 0.15,
 }
 
@@ -1609,5 +1702,62 @@ SMODS.Consumable {
             if isRental(j) then return true end
         end
         return false
+    end
+}
+
+SMODS.Consumable {
+    key = "discard-candle",
+    set = "summon",
+    loc_txt = {
+        name = "One man's trash, Another man's treasure",
+        text = {"Gain 3 {C:red}Discards{},", "Lose 1 {C:blue}hand{}"}
+    },
+    atlas = "discardcandle",
+    config = {  },
+    pos = { x = 0, y = 0 },
+    cost = 5,
+    use = function(self, card)
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + 3
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands - 1
+    end,
+    update = function(self, card, front)
+        card.children.center.sprite_pos = { x = math.ceil(love.timer.getTime() * 8) % 4, y = 0 };
+        card:set_sprites();
+    end,
+	can_use = function(self, card)
+    return true
+    end
+}
+
+SMODS.Consumable {
+    key = "tags-candle",
+    set = "summon",
+    loc_txt = {
+        name = "Medallion of tags",
+        text = {"Recieve 3 random tags", "Lose 1 {C:blue}hand{}"}
+    },
+    atlas = "tagcandle",
+    config = {  },
+    pos = { x = 0, y = 0 },
+    cost = 5,
+    use = function(self, card)
+        G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.5 * G.SPEEDFACTOR,
+					func = function()
+						add_tag(Tag("tag_fams_shapeshifter"))
+                        add_tag(Tag("tag_fams_shapeshifter"))
+                        add_tag(Tag("tag_fams_shapeshifter"))
+                        add_tag(Tag("tag_fams_shapeshifter"))
+						return true
+					end
+					}))
+    end,
+    update = function(self, card, front)
+        card.children.center.sprite_pos = { x = math.ceil(love.timer.getTime() * 8) % 4, y = 0 };
+        card:set_sprites();
+    end,
+	can_use = function(self, card)
+    return true
     end
 }

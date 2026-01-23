@@ -6,7 +6,7 @@ Game.main_menu = function(self, change_context)
     else
         math.randomseed(os.time())
         
-        title_variant = math.random(1, 11)
+        title_variant = math.random(1, 12)
     end
      local title_logos = {
         [1] = {atlas = "balatro", pos = {x = 0, y = 0}}, 
@@ -20,6 +20,7 @@ Game.main_menu = function(self, change_context)
         [9] = {atlas = "balatro", pos = {x = 0, y = 0}}, 
         [10] = {atlas = "balatro12", pos = {x = 0, y = 0}}, 
         [11] = {atlas = "balatro14", pos = {x = 0, y = 0}}, 
+        [12] = {atlas = "balatro15", pos = {x = 0, y = 0}}, 
     }
     
     local selected_logo = title_logos[title_variant] or title_logos[1]
@@ -101,6 +102,10 @@ Game.main_menu = function(self, change_context)
                         {key = "c_fams_square", x = 0, y = 0},
                         {key = "c_fams_pentcard", x = 0, y = 0},
                         {key = "c_fams_hexcard", x = 0, y = 0},
+                    },
+                    {
+                        {key = "j_burglar", x = 0, y = 0},
+                        {key = "c_fams_m-burg", x = 0, y = 0},
                     }
                 }
                 

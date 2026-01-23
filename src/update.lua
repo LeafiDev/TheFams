@@ -203,6 +203,19 @@ G.fams_update = function(dt)
 		end
 	end
 
+	if getcurrentBlind() == "bl_fams_disco" and tick_once then
+		G.hand:shuffle('aajk')
+		G.jokers:shuffle('aajk')
+	end
+
+	if isChallenge("Dogtrials") and G and G.GAME and getAnte() == G.GAME.win_ante + 1 then
+		get_current_profile().dog_trials_win = true
+	end
+
+	if isChallenge("dlcend") and G and G.GAME and getAnte() == G.GAME.win_ante + 1 then
+		get_current_profile().end_win = true
+	end
+
 	-- checks jokers as a clever way to see if tags work
 	if isChallenge("BR") and G and G.GAME and G.jokers and G.jokers.cards then
 		if G.GAME.boss_rush_trigger == nil then
@@ -374,6 +387,29 @@ G.fams_update = function(dt)
 			setMenuBG({ 0, math.random(0.01, 0.99), 0, 1 }, { 0, math.random(0.01, 0.99), 0, 1 }, { 1, 0.7, 0.3, 1 }, 0, 0)
 			end
 		end
+		if title_variant == 12 then
+			setMenuBG({ 1, 1, 1, 1 }, { 0, 0, 0, 0 }, { 1, 0.7, 0.3, 1 }, 0, 0)
+		end
+		local pr = G.PROFILES[G.SETTINGS.profile]
+		if pr.dog_trials_win == true then
+			setMenuBG({ 0.922, 0.506, 0.408, sine(0.3, 1) + 0.4 }, { 0.91, 0.537, 0.243, sine(0.3, 1) + 0.4 }, { 1, 0.7, 0.3, sine(0.6, 1) }, 0, math.abs(sine(0.6, 1)))
+			if not G.winbg then
+			G.winbg = Particles(0, 0, 0, 0, {
+                    timer = 0.015,
+                    scale = 0.1,
+                    initialize = true,
+                    lifespan = 0.5,
+                    speed = 1,
+                    padding = -2,
+                    attach = G.ROOM_ATTACH,
+                    colours = {lighten(G.C.GOLD, 0.2)},
+                    fill = true
+                })
+			end
+			showFloatingText("Congratulations!", HEX('a3863c'), 1, { x = 0, y = sine(0.1, 1) + 8.54 }, "100back")
+			showFloatingText("Congratulations!", HEX('eac058'), 1, { x = 0, y = sine(0.1, 1) + 8.5 }, "100")
+			showFloatingText("Thanks for playing!", HEX('ffffff'), 0.5, { x = 0, y = sine(0.1, 0.8) + 8.85 }, "100sub")
+		end
 
 		showFloatingText("BPM: " .. tostring(BPM), G.C.WHITE, 0.29, { x = 999999, y = 3.1 }, "bpmcounter")
 		showFloatingText(
@@ -505,6 +541,11 @@ G.fams_update = function(dt)
 	end
 
 	if isChallenge("dogtrials") and getAnte() == GetWinningAnte() + 1 then
+		local profile = get_current_profile()
+		if profile and not profile.dog_trials_win == true then
+			profile.dog_trials_win = true
+		end
+
 		if G and G.PROFILES and G.SETTINGS and G.SETTINGS.profile then
 			local pr = G.PROFILES[G.SETTINGS.profile]
 			if pr then
