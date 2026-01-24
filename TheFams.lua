@@ -294,7 +294,7 @@ SMODS.current_mod.extra_tabs = function()
 		{
             label = 'Music Credits',
             tab_definition_function = function()
-                local joker_list2 = {"c_fams_A1", "c_fams_A2", "c_fams_A3", "c_fams_A4", "c_fams_A5", "c_fams_A6"}
+                local joker_list2 = {"c_fams_A13", "c_fams_A1", "c_fams_A2", "c_fams_A3", "c_fams_A4", "c_fams_A5", "c_fams_A6"}
                 local joker_list22 = { "c_fams_A7", "c_fams_A8", "c_fams_A9", "c_fams_A10", "c_fams_A11", "c_fams_A12"}
 				local joker_cards2 = {}
 				local joker_cards22 = {}
@@ -1271,6 +1271,7 @@ function Card:click()
   if self.config and self.config.center and self.config.center.key == "c_fams_m-cuphead" then
 	local variety = math.random(1, 2)
 	local Ihit = 0
+	if G.hand.cards then
     for i, card in ipairs(G.hand.cards) do
 				for i, card in ipairs(G.hand.cards) do
 					G.E_MANAGER:add_event(Event({
@@ -1299,7 +1300,7 @@ function Card:click()
 			return
 		end
   end
-  
+end
   if original_card_click then
     return original_card_click(self)
   end

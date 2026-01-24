@@ -1773,6 +1773,59 @@ SMODS.Joker {
 	end,
 }
 
+SMODS.Joker {
+	key = 'asgore', 
+	atlas = 'jokers',
+	pos = { x = 3, y = 4 },
+	loc_txt = {
+		name = 'Asgore',
+		text = {
+			"{C:inactive}DRIVING IN MY CARRRRR RIGHT AFTER A BEERRRRRR! HEY THAT BUMPPPPPP IS SHAPED LIKE A GOOD RUNNNN!!{}",
+			"On {C:red}Blind Start{}, Assgore will adjust his truck speed", "when playing a hand, {C:green}#1# in 4{} chance to hit and run you",
+			"Truck Speed = {X:mult,C:white}X#2#{}"
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { G.GAME.probabilities.normal, self.config.mult} }
+	end,
+	pools = {
+
+    },
+	config = { mult = 1 }, 
+	rarity = 1,
+	cost = 1,
+
+	calculate = function(self, card, context)
+		if context.setting_blind then
+			self.config.mult = pseudorandom('Asgore') * 10 + 1
+			return { message = "Speed Change!" }
+		end
+		
+		if context.joker_main then
+			if math.floor(pseudorandom('Asgore') * 4) >= (4 - G.GAME.probabilities.normal) then
+				ForceLoss()
+				card:juice_up()
+				play_sound("fams_truckcrash", 1, 1)
+				return { message = "TRUCK!" }
+			end
+			return { xmult = self.config.mult }
+		end
+	end,
+
+	set_sprites = function(self, card, front)
+
+	end,
+
+	update = function(self, card, dt)
+		
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Assgore", {1, 0, 0, 1}, G.C.WHITE, 1.2)
+	badges[#badges+1] = create_badge("Bitchless", {1, 0, 0, 0.2}, G.C.WHITE, 0.5)
+	end
+}
+
 
 
 --[[

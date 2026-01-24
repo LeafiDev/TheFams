@@ -53,9 +53,9 @@ SMODS.PokerHand {
 SMODS.PokerHand {
     key = 'binary',
     mult = 12,
-    chips = 48,
+    chips = 480,
     l_mult = 12,
-    l_chips = 48,
+    l_chips = 480,
     example = {
         { 'H_1', true },
         { 'C_2', true },
@@ -98,7 +98,6 @@ SMODS.PokerHand {
                 end
             end
         end
-        print(has1 and has2 and has4 and has8)
         if has1 and has2 and has4 and has8 then
         return {scorevalid}
         end

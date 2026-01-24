@@ -390,6 +390,13 @@ SMODS.Sound {
 }
 
 SMODS.Sound {
+  key = "truckcrash",
+  pitch = 1,
+  volume = 1,
+  path = "truckcrash.ogg",
+}
+
+SMODS.Sound {
   key = "music_jimb",
   pitch = 1,
   path = "music_jimb.ogg",

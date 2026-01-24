@@ -146,6 +146,7 @@ SMODS.Back {
     G.E_MANAGER:add_event(Event({
             trigger = "immediate",
             func = function()
+                G.GAME.dollars = 20
                 SMODS.add_card  {
                 set = "Joker",                
                 legendary = false,            

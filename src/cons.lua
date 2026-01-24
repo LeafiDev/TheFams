@@ -60,8 +60,8 @@ SMODS.Consumable{
         name = "xpikolaix",
         text = {
             "Gave the ideas for",
-			"Halo Rule, Ritz Box, big boobs's mechanic, Stressed Joker, smurf (what the fuck.)",
-			"Drew the card for Stressed Joker",
+			"Halo Rule, Ritz Box, big boobs's mechanic, Stressed Joker, smurf (what the fuck.), control your hands and Saiyan",
+			"Drew the card for Stressed Joker, control your hands and Saiyan",
 			"also did bug testing {C:munching3}<3{}",
             '{C:inactive}"don\'t touch my man titties"{}'
         }
@@ -80,6 +80,7 @@ SMODS.Consumable{
         name = "WaffleJolt64",
         text = {
             'Made the Pootis blind',
+            "gave the partial idea for 'Where's jimbo?'",
 			'{C:inactive}"Waffle is love, Waffle is life."{}'
         },
     },
