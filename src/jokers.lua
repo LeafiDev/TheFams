@@ -1699,12 +1699,12 @@ end
 
 SMODS.Joker {
 	key = 'saiyan',
-	atlas = 'jokers',
+	atlas = 'saiyan',
 	pos = { x = 1, y = 1 },
 	loc_txt = {
 		name = '{C:edition,E:2}FURTHER BEYOND{}',
 		text = {
-			"On {C:filter}Blind Start{} gain {X:mult,C:white}+0.2X{} mult up to {X:mult,C:white}3X{}", "Currently {X:mult,C:white}#1#X{} of {X:mult,C:white}#1#X{}",
+			"On {C:filter}Blind Start{} gain {X:mult,C:white}+0.2X{} mult up to {X:mult,C:white}3X{}", "Currently {X:mult,C:white}#1#X{} of {X:mult,C:white}3X{}",
 		}
 	},
 	loc_vars = function(self, info_queue, card)
@@ -1719,16 +1719,17 @@ SMODS.Joker {
 
 	calculate = function(self, card, context)
 		if context.setting_blind then
-			if self.config.gain < 3 and self.config.phasenum ~= 3 then
+			if self.config.phasenum ~= 3 then
 				self.config.gain = self.config.gain + 0.2
 				if self.config.gain < 2 and self.config.phasenum ~= 1 then
 					self.config.phasenum = 1
 					return {message = "Base Saiyan"}
-				elseif self.config.gain >= 2 and self.config.phasenum ~= 2 then
+				elseif self.config.gain > 1.8 and self.config.phasenum ~= 2 then
 					self.config.phasenum = 2
 					return {sound = "fams_saiyan", message = "Super Saiyan"}
-				elseif self.config.gain == 3 and self.config.phasenum ~= 3 then
+				elseif self.config.gain > 2.8 and self.config.phasenum ~= 3 then
 					self.config.phasenum = 3
+					self.config.gain = 3
 					return {sound = "fams_saiyan", message = "Super Saiyan III"}
 				end
 				return { message = self.config.gain.."/3", colour = G.C.RED }
@@ -1740,7 +1741,11 @@ SMODS.Joker {
 	end,
 
 	add_to_deck = function(self, card, from_debuff)
-		
+		self.config.gain = 1.2
+	end,
+
+	remove_from_deck = function(self, card, from_debuff)
+		self.config.gain = 1.2
 	end,
 
 	set_card_type_badge = function(self, card, badges)
@@ -1753,7 +1758,19 @@ SMODS.Joker {
 			badges[#badges+1] = create_badge('Super Saiyan III', {1, 0.816, 0, 1}, G.C.WHITE, 1.2)
 		end
 	end
-	end
+	end,
+
+	update = function(self, card, dt)
+		if self.config.phasenum == 1 then
+			card.children.center.sprite_pos = { x = 0, y = 0 };
+		end
+		if self.config.phasenum == 2 then
+			card.children.center.sprite_pos = { x = 1, y = 0 };
+		end
+		if self.config.phasenum == 3 then
+			card.children.center.sprite_pos = { x = 2, y = 0 };
+		end
+	end,
 }
 
 

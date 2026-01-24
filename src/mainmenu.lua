@@ -1,12 +1,23 @@
 local original_main_menu = Game.main_menu
+-- Table to track viewed title screens (no duplicates)
+local viewed_title_screens = {}
+
 Game.main_menu = function(self, change_context)
-     if not title_screen_randomized then
-         title_variant = 1
+    if not title_screen_randomized then
+        title_variant = 1
         title_screen_randomized = true
     else
         math.randomseed(os.time())
-        
         title_variant = math.random(1, 12)
+    end
+
+    -- Mark this title_variant as viewed (no duplicates)
+    if not viewed_title_screens[title_variant] then
+        viewed_title_screens[title_variant] = true
+        if #viewed_title_screens == 12 then
+            -- All title screens have been viewed
+            get_current_profile().viewer = true
+        end
     end
      local title_logos = {
         [1] = {atlas = "balatro", pos = {x = 0, y = 0}}, 

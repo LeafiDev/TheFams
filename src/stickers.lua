@@ -87,7 +87,7 @@ SMODS.Sticker{
         
     end,
     should_apply = function(self, card, center, area, bypass_roll)
-        return center.set == "Joker" and GetStake() >= 19 and math.random(1, 5) == 1
+        return (isChallenge("factory") and center.set == "Joker") or (center.set == "Joker" and GetStake() >= 19 and math.random(1, 5) == 1)
     end,
     apply = function(self, card, val)
         card.ability[self.key] = val

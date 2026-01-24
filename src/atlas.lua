@@ -320,6 +320,14 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
+	key = "saiyan",
+	path = "saiyan.png",
+	px = 71,
+	py = 95,
+    frames = 3
+}
+
+SMODS.Atlas {
 	key = "dingalings",
 	path = "dingalings.png",
 	px = 71,

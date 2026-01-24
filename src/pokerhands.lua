@@ -51,6 +51,61 @@ SMODS.PokerHand {
 }
 
 SMODS.PokerHand {
+    key = 'binary',
+    mult = 12,
+    chips = 48,
+    l_mult = 12,
+    l_chips = 48,
+    example = {
+        { 'H_1', true },
+        { 'C_2', true },
+        { 'S_4', true },
+        { 'D_8', true },
+        { 'H_5', false }
+    },
+    loc_txt = {
+        name = 'Four Bit Binary',
+        description = {
+            'A hand that contains',
+            'cards with 1, 2, 4, and 8 as ranks',
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        -- Check for dog jokers
+        local has1 = false
+        local has2 = false
+        local has4 = false
+        local has8 = false
+        local scorevalid = {}
+        if hand then
+            for _, c in ipairs(hand) do
+                if c.base.nominal == 1 then 
+                has1 = true 
+                table.insert(scorevalid, c)
+                end
+                if c.base.nominal == 2 then 
+                has2 = true 
+                table.insert(scorevalid, c)
+                end
+                if c.base.nominal == 4 then 
+                has4 = true 
+                table.insert(scorevalid, c)
+                end
+                if c.base.nominal == 8 then 
+                has8 = true 
+                table.insert(scorevalid, c)
+                end
+            end
+        end
+        print(has1 and has2 and has4 and has8)
+        if has1 and has2 and has4 and has8 then
+        return {scorevalid}
+        end
+    end
+}
+
+SMODS.PokerHand {
     key = 'flushofdog',
     mult = 5,
     chips = 120,

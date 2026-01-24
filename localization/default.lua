@@ -151,6 +151,12 @@ return {
             ch_c_bamount = {
                 "{C:inactive}Dynamically adds based on total in collection ("..#allnonbosses().."{C:inactive}){}"
             },
+            ch_c_alllocked = {
+                "All jokers are {C:red}locked{}"
+            },
+            ch_c_halfbase = {
+                "{C:red}0.5x{} chip base"
+            },
         },
     },
 }

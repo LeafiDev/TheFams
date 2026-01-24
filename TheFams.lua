@@ -898,20 +898,6 @@ end
 
 
 SMODS.Keybind{
-    key_pressed = "g", -- The key to trigger the action (e.g., "k" for the K key)
-    action = function(self)
-		print(G.jokers.cards)
-    end,
-}
-
-SMODS.Keybind{
-    key_pressed = "s",
-    action = function(self)
-        
-    end,
-}
-
-SMODS.Keybind{
     key_pressed = "j", -- The key to trigger the action (e.g., "k" for the K key)
     action = function(self)
         SMODS.create_card{

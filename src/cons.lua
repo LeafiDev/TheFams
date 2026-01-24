@@ -696,6 +696,29 @@ SMODS.Consumable {
 }
 
 SMODS.Consumable {
+    key = "m-tag",
+    set = "mini-joker",
+    loc_txt = {
+        name = "Medium Double Tag",
+        text = {"When this joker is used, self destructs and becomes a {C:attention}double tag{}"}
+    },
+    atlas = "miniJokers", 
+    pos = { x = 4, y = 4 },
+    cost = 4,
+    pools = {
+        ["mini-joker"] = true
+    },
+    use = function(self, card)
+        add_tag(Tag("tag_double"))
+		SMODS.destroy_cards(card, nil, nil, true)
+    end,
+
+	can_use = function(self, card)
+    return true
+	end
+}
+
+SMODS.Consumable {
     key = "m-b",
     set = "mini-joker",
     loc_txt = {
@@ -881,6 +904,108 @@ end,
 	remove_from_deck = function(self, card, from_debuff)
 		G.jokers.config.card_limit = G.jokers.config.card_limit - 1
 	end,
+}
+
+SMODS.Consumable {
+    key = "m-darkface",
+    set = "mini-joker",
+    loc_txt = {
+        name = "Face in the dark",
+        text = {"If played card is a {C:attention}face{} card,", "Change the card to a random {C:attention}enhancement.{}"}
+    },
+    atlas = "miniJokers", 
+    pos = { x = 1, y = 3 },
+    cost = 4,
+    config = { gain = 0 },
+    pools = {
+        ["mini-joker"] = true
+    },
+
+    calculate = function(self, card, context)
+
+    if context.before and not context.blueprint then
+            for i = 1, #context.scoring_hand do
+                local played_card = context.scoring_hand[i]
+                if played_card and played_card.config.center.set == 'Default' and not played_card.config.center.enhancement then
+                    G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.1 * G.SPEEDFACTOR,
+					func = function()
+                        -- List of available enhancements
+                        local enhancements = {'m_bonus', 'm_mult', 'm_wild', 'm_glass', 'm_steel', 'm_stone', 'm_gold', 'm_lucky', 'm_fams_par'}
+                        
+                        -- Pick a random enhancement
+                        local random_enhancement = enhancements[math.random(#enhancements)]
+                        
+                        -- Apply the enhancement
+                        played_card:set_ability(G.P_CENTERS[random_enhancement])
+                        played_card:juice_up()
+						return true
+					end
+					}))
+                    
+                end
+            end
+        end
+
+    end,
+    
+	can_use = function(self, card)
+    return false
+	end
+}
+
+SMODS.Consumable {
+    key = "m-table",
+    set = "mini-joker",
+    loc_txt = {
+        name = "table.insert",
+        text = {"On {C:attention}Blind Start{},", "Gain 1 random joker,", "destroy your {C:attention}left-most joker.{}"}
+    },
+    atlas = "miniJokers", 
+    pos = { x = 2, y = 5 },
+    cost = 4,
+    config = {  },
+    pools = {
+        ["mini-joker"] = true
+    },
+
+    calculate = function(self, card, context)
+        if context.setting_blind then
+        if G.jokers.cards[1] then
+        SMODS.destroy_cards(G.jokers.cards[1], nil, nil, true)
+        end
+        if isChallenge("factory") then
+        SMODS.add_card{
+        area = G.jokers,
+        set = 'Joker', 
+        rarity = 0.7,
+        stickers = {'fams_locked'}
+        }
+        else
+        SMODS.add_card{
+        area = G.jokers,
+        set = 'Joker', 
+        rarity = 0.7
+        }
+        end
+        
+    end
+    end,
+
+    remove_from_deck = function(self, card, from_debuff)
+        if isChallenge("factory") then
+            ForceLoss()
+        end
+    end,
+
+    in_pool = function(self)
+        return not isChallenge("factory")
+    end,
+    
+	can_use = function(self, card)
+    return false
+	end
 }
 
 SMODS.Consumable {

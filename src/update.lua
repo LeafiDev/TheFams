@@ -203,7 +203,7 @@ G.fams_update = function(dt)
 		end
 	end
 
-	if getcurrentBlind() == "bl_fams_disco" and tick_once then
+	if getcurrentBlind() == "bl_fams_disco" and tick_once and G.GAME.blind.disabled ~= true then
 		G.hand:shuffle('aajk')
 		G.jokers:shuffle('aajk')
 	end
@@ -491,6 +491,10 @@ G.fams_update = function(dt)
 
 	if isChallenge("smol") then
 		SetWinningAnte(4)
+	end
+
+	if isChallenge("factory") then
+		G.GAME.starting_params.ante_scaling = 0.5
 	end
 
 	if isChallenge("Dogtrials") then

@@ -1311,32 +1311,32 @@ SMODS.Challenge {
 }
 
 SMODS.Challenge {
-  key = 'next',
+  key = 'factory',
   loc_txt = {
-	name = "Double it and give it to the next person",
+	name = "Factory Line",
   },
   jokers = {
-	{id = "j_pareidolia", eternal = true},
-	{id = "j_sock_and_buskin", eternal = true}
+
   },
   deck = {
 	type = 'Challenge Deck'
   },
-  button_colour = G.C.GREEN,
+  button_colour = G.C.FILTER,
   rules = {
 	custom = {
-		{id = "no_shop_jokers"}
+		{id = "alllocked"},
+		{id = "halfbase"}
 	},
 	modifiers = {
-		{id = "joker_slots", value = 2},
+		{id = "joker_slots", value = 5},
 	}
   },
   restrictions = {
-	banned_cards = {{id = "p_buffoon_normal_1", type = "booster"}, {id = "p_buffoon_normal_2", type = "booster"}, {id = "p_buffoon_jumbo_1", type = "booster"}, {id = "p_buffoon_mega_1", type = "booster"}, {id = "c_soul"}, {id = "j_riff_raff"}, {id = "c_wraith"}, {id = "c_judgement"}},
+	banned_cards = {{id = "c_fams_sum-eternal"}, {id = "p_buffoon_normal_1", type = "booster"}, {id = "p_buffoon_normal_2", type = "booster"}, {id = "p_buffoon_jumbo_1", type = "booster"}, {id = "p_buffoon_mega_1", type = "booster"}, {id = "c_soul"}, {id = "j_riff_raff"}, {id = "c_wraith"}, {id = "c_judgement"}},
 	banned_tags = {{id = "tag_negative"}, {id = "tag_fams_GB"}, {id = "tag_fams_cts"}, {id = "tag_buffoon"}, {id = "tag_uncommon"}, {id = "tag_rare"}, {id = "tag_negative"}, {id = "tag_holo"}, {id = "tag_polychrome"}},
 	banned_other = {}
   },
-  consumeables = {},
+  consumeables = {{id = "c_fams_m-table"}},
   vouchers = {},
 }
 

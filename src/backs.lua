@@ -158,6 +158,7 @@ SMODS.Back {
 end
 }
 
+--[[
 SMODS.Back {
     key = "heartdeck",
     loc_txt = {
@@ -187,6 +188,7 @@ SMODS.Back {
     end
 end
 }
+]]
 
 SMODS.Back {
     key = "astrodeck",

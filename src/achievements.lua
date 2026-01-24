@@ -15,6 +15,38 @@ SMODS.Achievement{
 }
 
 SMODS.Achievement{
+    key = "eng",
+    loc_txt = {
+        name = "A BIT of math",
+        description = {
+            'Discover "Four Bit Binary"'
+        }
+    },
+    atlas = "gold",
+    pos = { x = 0, y = 0 },
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        return G.GAME.current_round.current_hand.handname == "Four Bit Binary"
+    end,
+}
+
+SMODS.Achievement{
+    key = "slam",
+    loc_txt = {
+        name = "COME ON AND SLAM",
+        description = {
+            'AND WELCOME TO THE JAM'
+        }
+    },
+    atlas = "bronze",
+    pos = { x = 0, y = 0 },
+    hidden_text = true,
+    unlock_condition = function(self, args)
+        return G.GAME.last_tarot_planet == "c_fams_basketball"
+    end,
+}
+
+SMODS.Achievement{
     key = "raw",
     loc_txt = {
         name = "IT'S FUCKIN RAW!",
@@ -28,6 +60,23 @@ SMODS.Achievement{
     hidden_name = false,
     unlock_condition = function(self, args)
         return G.GAME.gordon_secret == true
+    end,
+}
+
+SMODS.Achievement{
+    key = "titleall",
+    loc_txt = {
+        name = "Sightseeing",
+        description = {
+            'View all title screen types in one session'
+        }
+    },
+    atlas = "silver",
+    pos = { x = 0, y = 0 },
+    hidden_text = true,
+    hidden_name = false,
+    unlock_condition = function(self, args)
+        return get_current_profile().viewer == true
     end,
 }
 
@@ -56,7 +105,7 @@ SMODS.Achievement{
             'Get jumpscared :)'
         }
     },
-    atlas = "silver",
+    atlas = "bronze",
     pos = { x = 0, y = 0 },
     hidden_text = true,
     hidden_name = true,
@@ -113,6 +162,23 @@ SMODS.Achievement{
     hidden_name = false,
     unlock_condition = function(self, args)
         return G and G.GAME and G.GAME.stake == 19 and getAnte() == G.GAME.win_ante + 1
+    end,
+}
+
+SMODS.Achievement{
+    key = "finaledlc",
+    loc_txt = {
+        name = "The end (...again)",
+        description = {
+            'Complete "To the edge of the universe"'
+        }
+    },
+    atlas = "gold",
+    pos = { x = 0, y = 0 },
+    hidden_text = true,
+    hidden_name = false,
+    unlock_condition = function(self, args)
+        return get_current_profile().end_win == true
     end,
 }
 
