@@ -46,6 +46,8 @@ local LOSE_QUOTES_FAMS_BOSS_BLINDS = {
   bad = { ":D", "Screw you :D" },
   Pootis = { "Sandvich is life", "Sandvich is GOD!!!!", "I've yet to meet one that can outsmart bullet" },
   EarlBoss = { "BARK! BORF! BYORK!", "*Distant food munching*" },
+  disco = { "Dance and Dance all you want! You'll never catch the crowd!" },
+  addition = { "Need to meet your ABS of the situation" },
   trueend = { "..." },
 }
 
@@ -62,6 +64,8 @@ local LOSE_BLIND_VISUALS = {
   bl_fams_bad = { atlas = 'fams_bossBlinds', scale = 1.8 },
   bl_fams_Pootis = { atlas = 'fams_bossBlinds', scale = 1.8 },
   bl_fams_EarlBoss = { atlas = 'fams_bossBlinds', scale = 1.8 },
+  bl_fams_disco = { atlas = 'fams_bossBlinds', scale = 1.8 },
+  bl_fams_addition = { atlas = 'fams_bossBlinds', scale = 1.8 },
   bl_fams_trueend = { atlas = 'fams_bossBlinds', scale = 1.8 },
 }
 
