@@ -900,12 +900,10 @@ end
 SMODS.Keybind{
     key_pressed = "j", -- The key to trigger the action (e.g., "k" for the K key)
     action = function(self)
-		G.hand:hard_set_T(0, 10000, 1, 1);
         SMODS.create_card{
         set = "Joker",
-		area = G.play,
         legendary = false,
-		key = "c_fams_wu",
+        rarity = math.random(0.01, 1.00),
         skip_materialize = false,
         enhanced_poll = 0.5
         }
