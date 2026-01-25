@@ -34,14 +34,41 @@ G.UT_WIDTH = 11;
 
 local down = false;
 local clicked = false;
-local oldT = nil;
+local oldT = 6.986;
 
 G.ut_end = function(loss)
     G.GAME.big_money = false;
     G.GAME.ut_toAdd = 0;
 
     if (G.hand) then
-        G.hand:hard_set_T(oldT.x, oldT.y, oldT.w, oldT.h);
+        G.hand.T.y = oldT or 6.986;
+    end
+
+    --Make the chips explode
+    G.GAME.ut_vanish = 10.0;
+    for y = 0,11,1 do
+        for x = 0,G.GAME.ut_widthS,1 do
+            local tile = G.GAME.ut_tilemap[(y * G.GAME.ut_width + x) + 1];
+            if (tile > 0) then
+                if (pseudorandom("big_money") > 0.5) then
+                    table.insert(G.GAME.ut_flyingChips, {
+                        vx = math.max(0.2, pseudorandom("big_money")) * 5,
+                        vy = 5 + (pseudorandom("big_money") * 5),
+                        x = x,
+                        y = y,
+                        spr = tile
+                    });
+                else
+                    table.insert(G.GAME.ut_flyingChips, {
+                        vx = math.max(0.2, pseudorandom("big_money")) * -5,
+                        vy = 5 + (pseudorandom("big_money") * 5),
+                        x = x,
+                        y = y,
+                        spr = tile
+                    });
+                end
+            end
+        end
     end
 
     G.GAME.ut_tilemap = nil;
@@ -55,125 +82,183 @@ G.ut_end = function(loss)
 end
 
 G.ut_update = function(dt)
-    for i, quad in pairs(G.UT_SPRITES) do
-        x, y, w, h = quad:getViewport( )
-        quad:setViewport(math.floor(((love.timer.getTime() / 2) % 1) * 21) * 34, y, w, h);
-    end
+    if (G.GAME.big_money) then
+        for i, quad in pairs(G.UT_SPRITES) do
+            x, y, w, h = quad:getViewport( )
+            quad:setViewport(math.floor(((love.timer.getTime() / 2) % 1) * 21) * 34, y, w, h);
+        end
 
-    G.STATE = G.STATES.HAND_PLAYED;
-    if not G.GAME.ut_tilemap then
-        G.GAME.ut_tilemap = {};
-        G.GAME.ut_offsetMap = {};
-        G.GAME.ut_velocityMap = {};
-        G.GAME.ut_bottomrow = {};
-        G.GAME.ut_width = G.UT_WIDTH;
-        G.GAME.ut_widthS = G.GAME.ut_width - 1;
-        G.GAME.ut_toAdd = 0;
-        G.GAME.ut_slide = 0;
+        G.STATE = G.STATES.HAND_PLAYED;
+        if not G.GAME.ut_tilemap then
+            G.GAME.ut_tilemap = {};
+            G.GAME.ut_offsetMap = {};
+            G.GAME.ut_velocityMap = {};
+            G.GAME.ut_horizMap = {};
+            G.GAME.ut_bottomrow = {};
+            G.GAME.ut_flyingChips = {};
+            G.GAME.ut_width = G.UT_WIDTH;
+            G.GAME.ut_widthS = G.GAME.ut_width - 1;
+            G.GAME.ut_toAdd = 0;
+            G.GAME.ut_slide = 0;
+            G.GAME.ut_vanish = 0;
 
-        playSoundish("welcome");
+            playSoundish("welcome");
 
-        for y = 0,12,1 do
+            for y = 0,11,1 do
+                for x = 0,G.GAME.ut_widthS,1 do
+                    if (y < 6) then table.insert(G.GAME.ut_tilemap, math.floor(pseudorandom("big_money") * 5) + 1);
+                    else table.insert(G.GAME.ut_tilemap, 0) end;
+
+                    table.insert(G.GAME.ut_offsetMap, 0);
+                    table.insert(G.GAME.ut_velocityMap, 0);
+                    table.insert(G.GAME.ut_horizMap, 0);
+                end
+            end
+
             for x = 0,G.GAME.ut_widthS,1 do
-                if (y < 6) then table.insert(G.GAME.ut_tilemap, math.floor(pseudorandom("big_money") * 5) + 1);
-                else table.insert(G.GAME.ut_tilemap, 0) end;
+                table.insert(G.GAME.ut_bottomrow, math.floor(pseudorandom("big_money") * 5) + 1);
+            end
 
-                table.insert(G.GAME.ut_offsetMap, 0);
-                table.insert(G.GAME.ut_velocityMap, 0);
+            if (G.hand) then
+                oldT = G.hand.T.y;
+            end
+
+            G.GAME.SELECTED = -1;
+            G.GAME.NEIGHBORING = {};
+        end
+
+        clicked = (not down) and (love.mouse.isDown(1));
+        down = love.mouse.isDown(1);
+
+        --Animate parts
+        for y = 11,0,-1 do
+            for x = 0,G.GAME.ut_widthS,1 do
+                local tileID = (y * G.GAME.ut_width + x) + 1;
+                local tile = G.GAME.ut_tilemap[tileID];
+                if (tile > 0) then
+                    G.GAME.ut_offsetMap[tileID] = G.GAME.ut_offsetMap[tileID] + (G.GAME.ut_velocityMap[tileID] * dt);
+                    G.GAME.ut_horizMap[tileID] = G.GAME.ut_horizMap[tileID] * (0.8 ^ (30 * dt));
+                    if (G.GAME.ut_offsetMap[tileID] > 0) then
+                        G.GAME.ut_velocityMap[tileID] = G.GAME.ut_velocityMap[tileID] - (dt * 18);
+                    else
+                        if (G.GAME.ut_offsetMap[tileID] < -1) then G.GAME.ut_offsetMap[tileID] = -1 end
+
+                        if (G.GAME.ut_offsetMap[tileID] < 0) then 
+                            G.GAME.ut_offsetMap[tileID] = G.GAME.ut_offsetMap[tileID] + (dt); 
+                            if (G.GAME.ut_offsetMap[tileID] > 0) then G.GAME.ut_offsetMap[tileID] = 0; end
+                        end
+                        G.GAME.ut_velocityMap[tileID] = G.GAME.ut_velocityMap[tileID] / -2;
+                    end
+
+                end
             end
         end
 
-        for x = 0,G.GAME.ut_widthS,1 do
-            table.insert(G.GAME.ut_bottomrow, math.floor(pseudorandom("big_money") * 5) + 1);
+        if (G.GAME.ut_toAdd > 0) then
+            local toAdd = G.GAME.ut_toAdd;
+            if (toAdd > 50000) then
+                G.GAME.chips = G.GAME.chips + 10000;
+                G.GAME.ut_toAdd = G.GAME.ut_toAdd - 10000;
+            elseif (toAdd > 5000) then
+                G.GAME.chips = G.GAME.chips + 1000;
+                G.GAME.ut_toAdd = G.GAME.ut_toAdd - 1000;
+            elseif (toAdd > 500) then
+                G.GAME.chips = G.GAME.chips + 100;
+                G.GAME.ut_toAdd = G.GAME.ut_toAdd - 100;
+            elseif (toAdd > 50) then
+                G.GAME.chips = G.GAME.chips + 10;
+                G.GAME.ut_toAdd = G.GAME.ut_toAdd - 10;
+            else
+                G.GAME.chips = G.GAME.chips + 1;
+                G.GAME.ut_toAdd = G.GAME.ut_toAdd - 1;
+            end
         end
 
         if (G.hand) then
-            oldT = { x = G.hand.T.x, y = G.hand.T.y, w = G.hand.T.w, h = G.hand.T.h};
+            G.hand.T.y = 10000;
         end
 
-        G.GAME.SELECTED = -1;
-        G.GAME.NEIGHBORING = {};
-    end
+        if (G.GAME.chips >= G.GAME.blind.chips) then
+            G.ut_end();
+        end
 
-    clicked = (not down) and (love.mouse.isDown(1));
-    down = love.mouse.isDown(1);
+        if (not G.OVERLAY_MENU) then
+            if (G.GAME.ut_action) then
+                G.GAME.ut_slide = G.GAME.ut_slide + (dt / 8);
+            else
+                G.GAME.ut_slide = G.GAME.ut_slide + (dt / 24);
+            end
+        end
 
-    --Animate parts
-    for y = 12,0,-1 do
-        for x = 0,G.GAME.ut_widthS,1 do
-            local tileID = (y * G.GAME.ut_width + x) + 1;
-            local tile = G.GAME.ut_tilemap[tileID];
-            if (tile > 0) then
-                G.GAME.ut_offsetMap[tileID] = G.GAME.ut_offsetMap[tileID] + (G.GAME.ut_velocityMap[tileID] * dt);
-                if (G.GAME.ut_offsetMap[tileID] > 0) then
-                    G.GAME.ut_velocityMap[tileID] = G.GAME.ut_velocityMap[tileID] - (dt * 18);
-                else
-                    if (G.GAME.ut_offsetMap[tileID] < -1) then G.GAME.ut_offsetMap[tileID] = -1 end
-
-                    if (G.GAME.ut_offsetMap[tileID] < 0) then 
-                        G.GAME.ut_offsetMap[tileID] = G.GAME.ut_offsetMap[tileID] + (dt); 
-                        if (G.GAME.ut_offsetMap[tileID] > 0) then G.GAME.ut_offsetMap[tileID] = 0; end
-                    end
-                    G.GAME.ut_velocityMap[tileID] = G.GAME.ut_velocityMap[tileID] / -2;
+        --Add incoming when time
+        if (G.GAME.ut_slide >= 1) then
+            for y = 11,0,-1 do
+                for x = 0,G.GAME.ut_widthS,1 do
+                    local tileID = (y * G.GAME.ut_width + x) + 1;
+                    if (G.GAME.ut_tilemap[tileID] == 0) then G.GAME.ut_offsetMap[tileID] = 0; end
+                    G.GAME.ut_offsetMap[tileID] = G.GAME.ut_offsetMap[tileID] - 1;
                 end
-
             end
-        end
-    end
 
-    if (G.GAME.ut_toAdd > 0) then
-        G.GAME.chips = G.GAME.chips + 1;
-        G.GAME.ut_toAdd = G.GAME.ut_toAdd - 1;
-    end
+            for x = G.GAME.ut_width,1,-1 do
+                table.insert(G.GAME.ut_tilemap, 1, G.GAME.ut_bottomrow[x]);
+            end
 
-    if (G.hand) then
-        G.hand:hard_set_T(0, 10000, 1, 1);
-    end
+            for y = 11,0,-1 do
+                for x = 0,G.GAME.ut_widthS,1 do
+                    local tileID = (y * G.GAME.ut_width + x) + 1;
+                    local prev = tileID - G.GAME.ut_width;
 
-    if (G.GAME.chips >= G.GAME.blind.chips) then
-        G.ut_end();
-    end
+                    if (y > 0) then
+                        if (G.GAME.ut_tilemap[tileID] > 0) then 
+                            G.GAME.ut_offsetMap[tileID] = G.GAME.ut_offsetMap[prev]; 
+                            G.GAME.ut_velocityMap[tileID] = G.GAME.ut_velocityMap[prev]; 
+                            G.GAME.ut_horizMap[tileID] = G.GAME.ut_horizMap[prev]; 
+                        end
+                    else
+                        G.GAME.ut_offsetMap[tileID] = -1
+                        G.GAME.ut_velocityMap[tileID] = 0
+                        G.GAME.ut_horizMap[tileID] = 0
+                    end
+                end
+            end
 
-    if (G.GAME.ut_action) then
-        G.GAME.ut_slide = G.GAME.ut_slide + (dt / 8);
-    else
-        G.GAME.ut_slide = G.GAME.ut_slide + (dt / 32);
-    end
-
-    --Add incoming when time
-    if (G.GAME.ut_slide >= 1) then
-        for y = 12,0,-1 do
+            --Probably really bad code but I'm too tired to think of anything else.
+            G.GAME.ut_bottomrow = {};
             for x = 0,G.GAME.ut_widthS,1 do
-                local tileID = (y * G.GAME.ut_width + x) + 1;
-                if (G.GAME.ut_offsetMap[tileID] > 0) then G.GAME.ut_offsetMap[tileID] = 0; end
-                G.GAME.ut_offsetMap[tileID] = G.GAME.ut_offsetMap[tileID] - 1;
+                table.insert(G.GAME.ut_bottomrow, math.floor(pseudorandom("big_money") * 5) + 1);
             end
-        end
 
-        for x = G.GAME.ut_width,1,-1 do
-            table.insert(G.GAME.ut_tilemap, 1, G.GAME.ut_bottomrow[x]);
-        end
+            --Check top row
+            for x = 0,G.GAME.ut_widthS,1 do
+                if (G.GAME.ut_tilemap[x + (G.GAME.ut_widthS * 11) + 1] > 0) then
+                    G.ut_end(true);
+                    return;
+                end;
+            end
 
-        --Probably really bad code but I'm too tired to think of anything else.
-        G.GAME.ut_bottomrow = {};
-        for x = 0,G.GAME.ut_widthS,1 do
-            table.insert(G.GAME.ut_bottomrow, math.floor(pseudorandom("big_money") * 5) + 1);
-        end
+            --Delete top row
+            for x = 0,G.GAME.ut_widthS,1 do
+                table.remove(G.GAME.ut_tilemap, x + (G.GAME.ut_widthS * 11) + 1);
+            end
 
-        --Check top row
-        for x = 0,G.GAME.ut_widthS,1 do
-            if (G.GAME.ut_tilemap[x + (G.GAME.ut_widthS * 12) + 1] > 0) then
-                G.ut_end(true);
-                return;
-            end;
+            G.GAME.ut_slide = 0;
         end
+    else
+        if (G.GAME.ut_flyingChips) then
+            for i, v in pairs(G.GAME.ut_flyingChips) do
+                G.GAME.ut_flyingChips[i].x = v.x + (v.vx * dt)
 
-        --Delete top row
-        for x = 0,G.GAME.ut_widthS,1 do
-            table.remove(G.GAME.ut_tilemap, x + (G.GAME.ut_widthS * 12) + 1);
+                G.GAME.ut_flyingChips[i].vy = G.GAME.ut_flyingChips[i].vy - (18 * dt);
+                G.GAME.ut_flyingChips[i].y = v.y + (v.vy * dt)
+                if (G.GAME.ut_flyingChips[i].y < 0) then
+                    G.GAME.ut_flyingChips[i].y = 0;
+                    G.GAME.ut_flyingChips[i].vy = G.GAME.ut_flyingChips[i].vy / -1.05;
+                end
+            end
+
+            G.GAME.ut_vanish = G.GAME.ut_vanish - dt;
         end
-
-        G.GAME.ut_slide = 0;
     end
 end
 
@@ -194,7 +279,7 @@ G.ut_scan_tilemap = function(x, y, target)
 end
 
 G.ut_apply_gravity = function()
-    for y = 1,12,1 do
+    for y = 1,11,1 do
         for x = 0,G.GAME.ut_widthS,1 do
             local tileID = (y * G.GAME.ut_width) + x + 1;
             local tile = G.GAME.ut_tilemap[tileID];
@@ -217,10 +302,11 @@ G.ut_apply_gravity = function()
         end
     end
     
+    --Push
     for x = G.GAME.ut_widthS - 1,0,-1 do
         local tileID = x + 1;
         if (G.GAME.ut_tilemap[tileID + 1] == 0) then
-            for y = 0,12,1 do
+            for y = 0,11,1 do
                 tileID = (y * G.GAME.ut_width) + x + 1;
                 local tile = G.GAME.ut_tilemap[tileID];
 
@@ -228,14 +314,15 @@ G.ut_apply_gravity = function()
 
                 tileID = tileID + 1;
                 G.GAME.ut_tilemap[tileID] = tile;
-                G.GAME.ut_offsetMap[tileID] = 0;
-                G.GAME.ut_velocityMap[tileID] = 0;
+                G.GAME.ut_offsetMap[tileID] = G.GAME.ut_offsetMap[tileID - 1];
+                G.GAME.ut_velocityMap[tileID] = G.GAME.ut_velocityMap[tileID - 1];
+                G.GAME.ut_horizMap[tileID] = G.GAME.ut_horizMap[tileID - 1] - 1;
             end
         end
 
         tileID = (G.GAME.ut_widthS - x) + 1;
         if (G.GAME.ut_tilemap[tileID - 1] == 0) then
-            for y = 0,12,1 do
+            for y = 0,11,1 do
                 tileID = (y * G.GAME.ut_width) + (G.GAME.ut_widthS - x) + 1;
                 local tile = G.GAME.ut_tilemap[tileID];
 
@@ -243,26 +330,29 @@ G.ut_apply_gravity = function()
 
                 tileID = tileID - 1;
                 G.GAME.ut_tilemap[tileID] = tile;
-                G.GAME.ut_offsetMap[tileID] = 0;
-                G.GAME.ut_velocityMap[tileID] = 0;
+                G.GAME.ut_offsetMap[tileID] = G.GAME.ut_offsetMap[tileID + 1];
+                G.GAME.ut_velocityMap[tileID] = G.GAME.ut_velocityMap[tileID + 1];
+                G.GAME.ut_horizMap[tileID] = G.GAME.ut_horizMap[tileID + 1] + 1;
             end
         end
     end
 end
 
 G.ut_draw = function()
+    local width, height, flags = love.window.getMode();
+    local widthMul = width / 640;
+    local heightMul = height / 480;
+
+    local finalMul = widthMul;
+
+    if (widthMul > heightMul) then finalMul = heightMul; end
+    
+    local ox = G.ARGS.eased_cursor_pos.x * finalMul * 2;
+    local oy = G.ARGS.eased_cursor_pos.y * finalMul * 2;
+
     if (G.GAME.big_money) then
         love.graphics.setColor(1, 1, 1, 1);
-
-        local width, height, flags = love.window.getMode();
-        local widthMul = width / 640;
-        local heightMul = height / 480;
-
-        local finalMul = widthMul;
-        if (widthMul > heightMul) then finalMul = heightMul; end
         
-        local ox = G.ARGS.eased_cursor_pos.x * finalMul * 2;
-        local oy = G.ARGS.eased_cursor_pos.y * finalMul * 2;
         local mx = love.mouse.getX();
         local my = love.mouse.getY();
 
@@ -272,13 +362,21 @@ G.ut_draw = function()
 
         local hovered = false;
 
+        love.graphics.setColor(0.225, 0.25, 0.25, 0.25);
+        love.graphics.rectangle("fill",horizontalOffset, verticalOffset - (9 * stepMul), stepMul * G.GAME.ut_width, 10 * stepMul)
+        love.graphics.setColor(0.725, 0.55, 0.25, 0.25);
+        love.graphics.rectangle("fill",horizontalOffset, verticalOffset + stepMul, stepMul * G.GAME.ut_width, 0.2 * stepMul)
+        love.graphics.setColor(0.225, 0.25, 0.25, 0.25);
+        love.graphics.rectangle("fill",horizontalOffset, verticalOffset + (1.2 * stepMul), stepMul * G.GAME.ut_width, 2 * stepMul)
+        love.graphics.setColor(1, 1, 1, 1);
+
         --Draw main tilemap
-        for y = 12,0,-1 do
+        for y = 11,0,-1 do
             for x = 0,G.GAME.ut_widthS,1 do
                 local tileID = (y * G.GAME.ut_width + x) + 1;
                 local tile = G.GAME.ut_tilemap[tileID];
                 if (tile > 0) then
-                    local sx = (x * stepMul) + horizontalOffset;
+                    local sx = ((x + G.GAME.ut_horizMap[tileID]) * stepMul) + horizontalOffset;
                     local sy = (((y + G.GAME.ut_offsetMap[tileID]) * stepMul) * -1) + verticalOffset;
 
                     love.graphics.draw(G.COINS, G.UT_SPRITES[tile], sx, sy, 0, finalMul, finalMul);
@@ -316,7 +414,7 @@ G.ut_draw = function()
         local count = 0;
         for i, v in pairs(G.GAME.NEIGHBORING) do count = count + 1; end
 
-        if (count >= 3) then
+        if (count >= 3 and not G.OVERLAY_MENU) then
             local mode, alphamode = love.graphics.getBlendMode();
 
             for i, v in pairs(G.GAME.NEIGHBORING) do
@@ -326,7 +424,7 @@ G.ut_draw = function()
                 local tileID = (y * G.GAME.ut_width + x) + 1;
                 local tile = G.GAME.ut_tilemap[tileID];
 
-                local sx = (x * stepMul) + horizontalOffset;
+                local sx = ((x + G.GAME.ut_horizMap[tileID]) * stepMul) + horizontalOffset;
                 local sy = (((y + G.GAME.ut_offsetMap[tileID]) * stepMul) * -1) + verticalOffset;
                 
                 love.graphics.setColor(1, 1, 1, 0.25);
@@ -341,7 +439,7 @@ G.ut_draw = function()
                 for i, v in pairs(G.GAME.NEIGHBORING) do
                     local x = (i - 1) % G.GAME.ut_width;
                     local y = math.floor((i - 1) / G.GAME.ut_width);
-                    G.GAME.ut_toAdd = G.GAME.ut_toAdd + (10 ^ (0.5 + (getAnte() / 2)));
+                    G.GAME.ut_toAdd = G.GAME.ut_toAdd + (10 ^ (0.75 + (getAnte() / 4)));
 
                     G.GAME.ut_tilemap[(y * G.GAME.ut_width) + x + 1] = 0;
                 end
@@ -354,6 +452,28 @@ G.ut_draw = function()
                 G.GAME.NEIGHBORING = {};
                 G.ut_apply_gravity();
             end
+        end
+    else
+        if (G.GAME.ut_flyingChips) then
+            if (G.GAME.ut_vanish <= 0) then
+                G.GAME.ut_flyingChips = {};
+                return;
+            end
+
+            love.graphics.setColor(1, 1, 1, math.min(G.GAME.ut_vanish / 2, 1));
+
+            local stepMul = 34 * finalMul;
+            local horizontalOffset = (width / 2) - (stepMul * G.GAME.ut_width / 2) + ox;
+            local verticalOffset = height - (stepMul * 2) + oy;
+
+            for i, v in pairs(G.GAME.ut_flyingChips) do
+                local sx = (v.x * stepMul) + horizontalOffset;
+                local sy = (v.y * stepMul * -1) + verticalOffset;
+
+                love.graphics.draw(G.COINS, G.UT_SPRITES[v.spr], sx, sy, 0, finalMul, finalMul);
+            end
+
+            love.graphics.setColor(1, 1, 1, 1);
         end
     end
 end

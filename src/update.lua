@@ -16,7 +16,7 @@ G.fams_update = function(dt)
 
     --Stop us from appearing in the intro
     if (G.STATE == 13) then return end;
-	if (G.GAME.big_money) then G.ut_update(dt); end
+	G.ut_update(dt);
 	
 	-- locking up the intro text
 	startupframe = 300

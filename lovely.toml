@@ -33,8 +33,8 @@ times = 1
 #Big Money
 [[patches]]
 [patches.pattern]
-target = "main.lua"
-pattern = "G:draw()"
+target = "game.lua"
+pattern = "if not G.debug_UI_toggle then"
 position = "after"
 payload = '''
 if (G.fams_draw) then
