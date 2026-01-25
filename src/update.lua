@@ -429,6 +429,10 @@ G.fams_update = function(dt)
 		--]]
 	end
 
+	if G.GAME.pseudorandom.seed == "BOOBIES" then
+		showFloatingText("I want your seed.", HEX('ffffff'), 0.3, { x = 0, y = -0.1}, "funny")
+	end
+
 	if G.STATE and G.STATE < 9 and G.STATE ~= 11 then
 		showFloatingText("BPM: " .. tostring(BPM), G.C.WHITE, 0.29, { x = 4.55, y = 3.1 }, "bpmcounter")
 		showFloatingText(

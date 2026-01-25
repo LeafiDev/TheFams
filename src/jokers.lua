@@ -1646,7 +1646,7 @@ SMODS.Joker {
 			local mult = self.config.gain
 			return { xmult = self.config.gain }
 		end
-		if context.joker_main and context.end_of_round then
+		if context.end_of_round and context.main_eval then
 			self.config.gain = self.config.gain - 0.5
 			if self.config.gain < 1 then
 				SMODS.destroy_cards(card, nil, nil, true)
@@ -1819,7 +1819,209 @@ SMODS.Joker {
 	end
 }
 
+SMODS.Joker {
+	key = 'bear5', 
+	atlas = 'jokers',
+	pos = { x = 4, y = 4 },
+	soul_pos = { x = 5, y = 4 },
+	loc_txt = {
+		name = 'BEAR5',
+		text = {
+			"Each time a {C:attention}5{} is scored, Destroy that card and gain {C:chips}+35{} chips", "{C:inactive]Currently:{} {C:blue}+#1#{}",
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { self.config.chips } }
+	end,
+	pools = {
 
+    },
+	config = { chips = 0 }, 
+	rarity = 3,
+	cost = 1,
+
+	calculate = function(self, card, context)
+		if context.before and not context.blueprint then
+            for i = 1, #context.scoring_hand do
+                local played_card = context.scoring_hand[i]
+				print(played_card.base.value)
+                if played_card.base.value == '5' then
+                    G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.1 * G.SPEEDFACTOR,
+					func = function()
+						SMODS.destroy_cards(played_card, nil, nil, true)
+						self.config.chips = (self.config.chips or 0) + 35
+                        card:juice_up()
+						return true
+					end
+					}))
+                    
+                end
+            end
+        end
+
+		if context.joker_main then 
+			return { chips = (self.config.chips) }
+		end
+	end,
+
+	set_sprites = function(self, card, front)
+
+	end,
+
+	update = function(self, card, dt)
+		
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Bear", {0, 0, 1, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'george',
+	atlas = 'jokers',
+	pos = { x = 6, y = 4 },
+	loc_txt = {
+		name = "Put the boss blind down mister krupp, Or we'll disable you",
+		text = {
+			"{C:green}#1# in 4{} chance to disable the {C:filter}next boss blind.{}"
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { G.GAME.probabilities.normal } }
+	end,
+	pools = {
+
+    },
+	config = {}, 
+	rarity = 3,
+	cost = 5,
+
+	calculate = function(self, card, context)
+		if context.setting_blind then 
+			if (pseudorandom('george') * 4) >= 4 - G.GAME.probabilities.normal and isBoss() then
+				G.GAME.blind:disable()
+				return { message = "Disabled" }
+			end
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Ring", {1, 0, 0, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'theodore',
+	atlas = 'jokers',
+	pos = { x = 7, y = 4 },
+	loc_txt = {
+		name = "Theodore Peterson",
+		text = {
+			"On {C:filter}blind start{}, Destroys the most-left joker and gives it's sell value back as dollars", "{C:inactive}can destroy itself{}",
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = {  } }
+	end,
+	pools = {
+
+    },
+	config = {}, 
+	rarity = 2,
+	cost = 3,
+
+	calculate = function(self, card, context)
+		if context.setting_blind then 
+			if G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
+				local target_joker = G.jokers.cards[1]
+				local sell_value = target_joker.config and target_joker.config.center and target_joker.config.center.sell_value or 0
+				SMODS.destroy_cards(target_joker, nil, nil, true)
+				return { dollars = sell_value, message = "me when I fucking get you" }
+			end
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Neighbour", {1, 1, 0, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'skinwalkerdog',
+	atlas = 'jokers',
+	pos = { x = 8, y = 4 },
+	loc_txt = {
+		name = "Skinwalker Dog",
+		text = {
+			"Gives {C:money}10${} for each remaining hand",
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = {  } }
+	end,
+	pools = {
+
+    },
+	config = {}, 
+	rarity = 4,
+	cost = 10,
+
+	calculate = function(self, card, context)
+		if context.joker_main then 
+			return { dollars = 10 * handsLeft()}
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("DAWG?", {0.7, 0.4, 0.1, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'asses',
+	atlas = 'jokers',
+	pos = { x = 9, y = 4 },
+	loc_txt = {
+		name = "4 of asses",
+		text = {
+			"If hand scores 4 aces, Give {X:mult,C:white}8X{} mult",
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = {  } }
+	end,
+	pools = {
+
+    },
+	config = { asses = 0 }, 
+	rarity = 3,
+	cost = 5,
+
+	calculate = function(self, card, context)
+		if context.before and not context.blueprint then
+			self.config.asses = 0
+            for i = 1, #context.scoring_hand do
+                local played_card = context.scoring_hand[i]
+                if played_card.base.value == 'Ace' then
+                    self.config.asses = self.config.asses + 1
+                end
+            end
+        end
+
+		if context.joker_main then 
+			if self.config.asses == 4 then
+				return { xmult = 8 }
+			end
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Skeleton", {0, 0, 0.5, 1}, G.C.WHITE, 1.2)
+	end
+}
 
 --[[
 --Some of these will crash the game, let's stop that.
