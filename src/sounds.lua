@@ -180,12 +180,23 @@ SMODS.Sound {
 }
 
 SMODS.Sound {
-  key = "music_quiet",
+  key = "music_bigmoney_action",
   pitch = 1,
-  path = "shush.ogg",
+  path = "music_bigmoney_action.ogg",
   select_music_track = function(self)
-    if G.GAME.dr_boss then
-      return 999
+    if G.GAME.big_money and G.GAME.ut_action then
+      return 999999
+    end
+  end
+}
+
+SMODS.Sound {
+  key = "music_bigmoney_strategy",
+  pitch = 1,
+  path = "music_bigmoney_strategy.ogg",
+  select_music_track = function(self)
+    if G.GAME.big_money and not G.GAME.ut_action then
+      return 999999
     end
   end
 }

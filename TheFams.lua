@@ -1867,4 +1867,4 @@ new_arbituary_font = function(path, size, filtering)
 end
 
 assert(SMODS.load_file('src/draw.lua'))()
-assert(SMODS.load_file('src/deltarune.lua'))()
+assert(SMODS.load_file('src/bigmoney.lua'))()

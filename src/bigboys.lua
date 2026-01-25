@@ -299,6 +299,50 @@ end,
 }
 
 SMODS.Blind {
+    key = "the_dollar",
+	atlas = "bossBlinds",
+    pos = { x = 0, y = 12 },
+    loc_txt = {
+        name = "The Dollar",
+        text = {"Find groups of 3 or more."}
+    },
+    boss = ({ min = 1 }),
+    dollars = 4,
+    mult = 1,
+    boss_colour = HEX('3a914f'), 
+    set_blind = function(self)
+    G.GAME.big_money = true;
+    G.GAME.ut_action = false;
+    return false 
+end,
+    get_loc_debuff_text = function(self)
+        return "Find groups of 3 or more!"
+    end
+}
+
+SMODS.Blind {
+    key = "the_money",
+	atlas = "bossBlinds",
+    pos = { x = 0, y = 13 },
+    loc_txt = {
+        name = "The Money",
+        text = {"Earn some Big Money (TM)"}
+    },
+    boss = { showdown = true },
+    dollars = 12,
+    mult = 2,
+    boss_colour = HEX('bd9447'),
+    set_blind = function(self)
+    G.GAME.big_money = true;
+    G.GAME.ut_action = true;
+    return false 
+end,
+    get_loc_debuff_text = function(self)
+        return "Find groups of 3 or more!"
+    end
+}
+
+SMODS.Blind {
     key = "trueend",
 	atlas = "bossBlinds",
     pos = { x = 0, y = 11 },

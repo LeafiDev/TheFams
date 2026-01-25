@@ -1524,14 +1524,7 @@ end
 
 	update = function(self, card, dt)
 		if self.config.paused == false then
-		if love.timer.getTime() % 0.6 > 0.1 then
-			card.children.center.sprite_pos = { x = 1, y = 0 };
-		end
-		if love.timer.getTime() % 0.6 > 0.2 then
-			card.children.center.sprite_pos = { x = 2, y = 0 };
-		end
-		if love.timer.getTime() % 0.6 > 0.3 then
-			card.children.center.sprite_pos = { x = 3, y = 0 };
+			card.children.center.sprite_pos = { x = math.floor((love.timer.getTime() % 0.6) * 10), y = 0 };
 		end
 		if love.timer.getTime() % 0.6 > 0.4 then
 			card.children.center.sprite_pos = { x = 4, y = 0 };

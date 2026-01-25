@@ -47,6 +47,8 @@ local LOSE_QUOTES_FAMS_BOSS_BLINDS = {
   Pootis = { "Sandvich is life", "Sandvich is GOD!!!!", "I've yet to meet one that can outsmart bullet" },
   EarlBoss = { "BARK! BORF! BYORK!", "*Distant food munching*" },
   trueend = { "..." },
+  the_dollar = { "Started as a winner, ended as a pauper." },
+  the_money = { "You ain't no Fat Cat! Go earn that million somewhere else!" },
 }
 
 
@@ -63,6 +65,8 @@ local LOSE_BLIND_VISUALS = {
   bl_fams_Pootis = { atlas = 'fams_bossBlinds', scale = 1.8 },
   bl_fams_EarlBoss = { atlas = 'fams_bossBlinds', scale = 1.8 },
   bl_fams_trueend = { atlas = 'fams_bossBlinds', scale = 1.8 },
+  bl_fams_the_dollar = { atlas = 'fams_bossBlinds', scale = 1.8 },
+  bl_fams_the_money = { atlas = 'fams_bossBlinds', scale = 1.8 },
 }
 
 
