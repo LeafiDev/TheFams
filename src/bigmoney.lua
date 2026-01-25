@@ -405,7 +405,7 @@ G.ut_draw = function()
         end
 
         if (not hovered) then
-            G.GAME.selected = -1;
+            G.GAME.SELECTED = -1;
             G.GAME.NEIGHBORING = {};
         end
 
