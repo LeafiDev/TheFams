@@ -216,6 +216,38 @@ G.ut_apply_gravity = function()
             end
         end
     end
+    
+    for x = G.GAME.ut_widthS - 1,0,-1 do
+        local tileID = x + 1;
+        if (G.GAME.ut_tilemap[tileID + 1] == 0) then
+            for y = 0,12,1 do
+                tileID = (y * G.GAME.ut_width) + x + 1;
+                local tile = G.GAME.ut_tilemap[tileID];
+
+                G.GAME.ut_tilemap[tileID] = 0;
+
+                tileID = tileID + 1;
+                G.GAME.ut_tilemap[tileID] = tile;
+                G.GAME.ut_offsetMap[tileID] = 0;
+                G.GAME.ut_velocityMap[tileID] = 0;
+            end
+        end
+
+        tileID = (G.GAME.ut_widthS - x) + 1;
+        if (G.GAME.ut_tilemap[tileID - 1] == 0) then
+            for y = 0,12,1 do
+                tileID = (y * G.GAME.ut_width) + (G.GAME.ut_widthS - x) + 1;
+                local tile = G.GAME.ut_tilemap[tileID];
+
+                G.GAME.ut_tilemap[tileID] = 0;
+
+                tileID = tileID - 1;
+                G.GAME.ut_tilemap[tileID] = tile;
+                G.GAME.ut_offsetMap[tileID] = 0;
+                G.GAME.ut_velocityMap[tileID] = 0;
+            end
+        end
+    end
 end
 
 G.ut_draw = function()
