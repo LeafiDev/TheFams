@@ -1526,13 +1526,6 @@ end
 		if self.config.paused == false then
 			card.children.center.sprite_pos = { x = math.floor((love.timer.getTime() % 0.6) * 10), y = 0 };
 		end
-		if love.timer.getTime() % 0.6 > 0.4 then
-			card.children.center.sprite_pos = { x = 4, y = 0 };
-		end
-		if love.timer.getTime() % 0.6 > 0.5 then
-			card.children.center.sprite_pos = { x = 5, y = 0 };
-		end
-	end
 	end,
 
 	set_card_type_badge = function(self, card, badges)
