@@ -301,7 +301,7 @@ end,
 SMODS.Blind {
     key = "the_dollar",
 	atlas = "bossBlinds",
-    pos = { x = 0, y = 12 },
+    pos = { x = 0, y = 13 },
     loc_txt = {
         name = "The Dollar",
         text = {"Find groups of 3 or more."}
@@ -323,7 +323,7 @@ end,
 SMODS.Blind {
     key = "the_money",
 	atlas = "bossBlinds",
-    pos = { x = 0, y = 13 },
+    pos = { x = 0, y = 14 },
     loc_txt = {
         name = "The Money",
         text = {"Earn some Big Money (TM)"}
