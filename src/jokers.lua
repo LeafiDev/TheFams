@@ -1818,7 +1818,7 @@ SMODS.Joker {
 	pos = { x = 4, y = 4 },
 	soul_pos = { x = 5, y = 4 },
 	loc_txt = {
-		name = 'BEAR5',
+		name = 'BEAR 5',
 		text = {
 			"Each time a {C:attention}5{} is scored, Destroy that card and gain {C:chips}+35{} chips", "{C:inactive]Currently:{} {C:blue}+#1#{}",
 		}
@@ -1837,7 +1837,6 @@ SMODS.Joker {
 		if context.before and not context.blueprint then
             for i = 1, #context.scoring_hand do
                 local played_card = context.scoring_hand[i]
-				print(played_card.base.value)
                 if played_card.base.value == '5' then
                     G.E_MANAGER:add_event(Event({
 					trigger = "after",
