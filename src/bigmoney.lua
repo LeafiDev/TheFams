@@ -1,10 +1,11 @@
 G.UT_COINS = new_arbituary_image("drut/coins.png");
 G.UT_SPRITES = {
-    love.graphics.newQuad(0, 0, 34, 34, 714, 170),
-    love.graphics.newQuad(0, 34, 34, 34, 714, 170),
-    love.graphics.newQuad(0, 68, 34, 34, 714, 170),
-    love.graphics.newQuad(0, 102, 34, 34, 714, 170),
-    love.graphics.newQuad(0, 136, 34, 34, 714, 170),
+    love.graphics.newQuad(0, 0, 34, 34, 714, 204),
+    love.graphics.newQuad(0, 34, 34, 34, 714, 204),
+    love.graphics.newQuad(0, 68, 34, 34, 714, 204),
+    love.graphics.newQuad(0, 102, 34, 34, 714, 204),
+    love.graphics.newQuad(0, 136, 34, 34, 714, 204),
+    love.graphics.newQuad(0, 170, 34, 34, 714, 204),
 }
 G.UT_MONEYBAGS = new_arbituary_image("drut/MrMoneybags.png");
 G.UT_MONEYQUAD = {
@@ -85,6 +86,7 @@ G.ut_end = function(loss)
     end
 
     G.GAME.ut_tilemap = nil;
+    G.GAME.ut_colors = nil;
 
     if (loss) then 
         playSoundish("wakeup");
@@ -114,11 +116,12 @@ G.ut_update = function(dt)
             G.GAME.ut_horizMap = {};
             G.GAME.ut_bottomrow = {};
             G.GAME.ut_flyingChips = {};
-            G.GAME.ut_width = G.UT_WIDTH;
+            G.GAME.ut_width = G.GAME.ut_width or G.UT_WIDTH;
             G.GAME.ut_widthS = G.GAME.ut_width - 1;
             G.GAME.ut_toAdd = 0;
             G.GAME.ut_slide = 0;
             G.GAME.ut_vanish = 10;
+            G.GAME.ut_colors = G.GAME.ut_colors or 5;
 
             G.GAME.ut_MB_X = 0;
             G.GAME.ut_MB_Y = 20;
@@ -129,7 +132,7 @@ G.ut_update = function(dt)
 
             for y = 0,11,1 do
                 for x = 0,G.GAME.ut_widthS,1 do
-                    if (y < 6) then table.insert(G.GAME.ut_tilemap, math.floor(pseudorandom("big_money") * 5) + 1);
+                    if (y < 6) then table.insert(G.GAME.ut_tilemap, math.floor(pseudorandom("big_money") * G.GAME.ut_colors) + 1);
                     else table.insert(G.GAME.ut_tilemap, 0) end;
 
                     table.insert(G.GAME.ut_offsetMap, 0);
@@ -139,7 +142,7 @@ G.ut_update = function(dt)
             end
 
             for x = 0,G.GAME.ut_widthS,1 do
-                table.insert(G.GAME.ut_bottomrow, math.floor(pseudorandom("big_money") * 5) + 1);
+                table.insert(G.GAME.ut_bottomrow, math.floor(pseudorandom("big_money") * G.GAME.ut_colors) + 1);
             end
 
             if (G.hand) then
@@ -249,7 +252,7 @@ G.ut_update = function(dt)
             --Probably really bad code but I'm too tired to think of anything else.
             G.GAME.ut_bottomrow = {};
             for x = 0,G.GAME.ut_widthS,1 do
-                table.insert(G.GAME.ut_bottomrow, math.floor(pseudorandom("big_money") * 5) + 1);
+                table.insert(G.GAME.ut_bottomrow, math.floor(pseudorandom("big_money") * G.GAME.ut_colors) + 1);
             end
 
             --Check top row

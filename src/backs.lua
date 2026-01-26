@@ -172,6 +172,13 @@ SMODS.Back {
     calculate = function(self, back, context)
         if context.setting_blind then
             G.GAME.big_money = true;
+            if (not (getcurrentBlind() == "Small Blind" or getcurrentBlind() == "Big Blind")) then
+                G.GAME.ut_action = true;
+                G.GAME.ut_colors = 6;
+                G.GAME.ut_width = 13;
+            elseif (getcurrentBlind() == "Small Blind") then
+                G.GAME.ut_colors = 4;
+            end
         end
     end
 }
