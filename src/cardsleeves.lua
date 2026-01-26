@@ -12,10 +12,21 @@ CardSleeves.Sleeve {
     },
 	apply = function(self, back)
     if G and G.GAME then
-        local jokers = {"j_fams_wouldyourather"}
-        for i = 1, #jokers do
-            add_joker_by_key(jokers[i], false)
-        end
+
+        G.E_MANAGER:add_event(Event({
+            trigger = "immediate",
+            func = function()
+            SMODS.add_card  {
+            set = "Joker",
+            area = G.jokers,
+            legendary = false,            
+            key = "j_fams_wouldyourather",
+            skip_materialize = false,     
+            }
+            G.GAME.dollars = 20
+            return true
+            end
+        }))
     end
 end
 }
@@ -33,11 +44,20 @@ CardSleeves.Sleeve {
     },
 	apply = function(self, back)
     if G and G.GAME then
-        G.GAME.dollars = 20
-        local jokers = {"j_fams_earl"}
-        for i = 1, #jokers do
-            add_joker_by_key(jokers[i], false)
-        end
+        G.E_MANAGER:add_event(Event({
+            trigger = "immediate",
+            func = function()
+            SMODS.add_card  {
+            set = "Joker",
+            area = G.jokers,
+            legendary = false,            
+            key = "j_fams_earl",
+            skip_materialize = false,     
+            }
+            G.GAME.dollars = 20
+            return true
+            end
+        }))
     end
 end
 }
