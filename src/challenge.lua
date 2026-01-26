@@ -1208,7 +1208,7 @@ SMODS.Challenge {
   consumeables = {},
   vouchers = {},
   unlocked = function(self)
-
+	return true
   end
 }
 
@@ -1841,6 +1841,6 @@ SMODS.Challenge {
   consumeables = {},
   vouchers = {},
   unlocked = function(self)
-	return false
+	return true
   end
 }
