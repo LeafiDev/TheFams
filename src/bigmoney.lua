@@ -1,10 +1,16 @@
-G.COINS = new_arbituary_image("drut/coins.png");
+G.UT_COINS = new_arbituary_image("drut/coins.png");
 G.UT_SPRITES = {
     love.graphics.newQuad(0, 0, 34, 34, 714, 170),
     love.graphics.newQuad(0, 34, 34, 34, 714, 170),
     love.graphics.newQuad(0, 68, 34, 34, 714, 170),
     love.graphics.newQuad(0, 102, 34, 34, 714, 170),
     love.graphics.newQuad(0, 136, 34, 34, 714, 170),
+}
+G.UT_MONEYBAGS = new_arbituary_image("drut/MrMoneybags.png");
+G.UT_MONEYQUAD = {
+    love.graphics.newQuad(0, 0, 184, 136, 552, 136);
+    love.graphics.newQuad(184, 0, 184, 136, 552, 136);
+    love.graphics.newQuad(368, 0, 184, 136, 552, 136);
 }
 
 G.UT_SOUNDS = {
@@ -20,6 +26,12 @@ G.UT_SOUNDS = {
     tone7 = new_arbituary_sound("drut/sounds/tone7.ogg", true),
     tone8 = new_arbituary_sound("drut/sounds/tone8.ogg", true),
     tone9 = new_arbituary_sound("drut/sounds/tone9.ogg", true),
+    compliment1 = new_arbituary_sound("drut/sounds/awesome.ogg", true),
+    compliment2 = new_arbituary_sound("drut/sounds/megamoney.ogg", true),
+    compliment3 = new_arbituary_sound("drut/sounds/goodjob.ogg", true),
+    clearcoins1 = new_arbituary_sound("drut/sounds/clearcoins.ogg", true),
+    clearcoins2 = new_arbituary_sound("drut/sounds/clearcoins2.ogg", true),
+    clearcoins3 = new_arbituary_sound("drut/sounds/clearcoins3.ogg", true),
 }
 
 function playSoundish(soundName)
@@ -46,6 +58,7 @@ G.ut_end = function(loss)
 
     --Make the chips explode
     G.GAME.ut_vanish = 10.0;
+    playSoundish("clearcoins".. ((math.floor(pseudorandom("big_money")) * 3) + 1));
     for y = 0,11,1 do
         for x = 0,G.GAME.ut_widthS,1 do
             local tile = G.GAME.ut_tilemap[(y * G.GAME.ut_width + x) + 1];
@@ -73,8 +86,13 @@ G.ut_end = function(loss)
 
     G.GAME.ut_tilemap = nil;
 
-    if (loss) then playSoundish("wakeup");
-    else playSoundish("loveit"); end
+    if (loss) then 
+        playSoundish("wakeup");
+        G.GAME.ut_MB_SP = 0.7;
+    else 
+        playSoundish("loveit");
+        G.GAME.ut_MB_SP = 2.6; 
+    end
     
     G.STATE = G.STATES.HAND_PLAYED
     G.STATE_COMPLETE = true
@@ -100,9 +118,14 @@ G.ut_update = function(dt)
             G.GAME.ut_widthS = G.GAME.ut_width - 1;
             G.GAME.ut_toAdd = 0;
             G.GAME.ut_slide = 0;
-            G.GAME.ut_vanish = 0;
+            G.GAME.ut_vanish = 10;
+
+            G.GAME.ut_MB_X = 0;
+            G.GAME.ut_MB_Y = 20;
+            G.GAME.ut_MB_SPR = 1;
 
             playSoundish("welcome");
+            G.GAME.ut_MB_SP = 2.65;
 
             for y = 0,11,1 do
                 for x = 0,G.GAME.ut_widthS,1 do
@@ -244,6 +267,15 @@ G.ut_update = function(dt)
 
             G.GAME.ut_slide = 0;
         end
+
+        G.GAME.ut_MB_X = G.GAME.ut_MB_X + (G.GAME.ut_width + 2 - G.GAME.ut_MB_X) * (1 - (0.9 ^ (30 * dt)));
+        G.GAME.ut_MB_Y = G.GAME.ut_MB_Y + (7 - G.GAME.ut_MB_Y) * (1 - (0.8 ^ (30 * dt)));
+
+        G.GAME.ut_MB_SPR = (math.floor(G.GAME.ut_MB_SP * 8) % 3) + 1;
+        if (G.GAME.ut_MB_SP > 0 ) then 
+            G.GAME.ut_MB_SP = G.GAME.ut_MB_SP - dt;
+            if (G.GAME.ut_MB_SP < 0) then G.GAME.ut_MB_SP = 0; end
+        end
     else
         if (G.GAME.ut_flyingChips) then
             for i, v in pairs(G.GAME.ut_flyingChips) do
@@ -258,6 +290,22 @@ G.ut_update = function(dt)
             end
 
             G.GAME.ut_vanish = G.GAME.ut_vanish - dt;
+            if (G.STATE == G.STATES.ROUND_EVAL) then
+                G.GAME.ut_MB_X = G.GAME.ut_MB_X + ((G.GAME.ut_width / 2) - 1.5 - G.GAME.ut_MB_X) * (1 - (0.9 ^ (30 * dt)));
+                G.GAME.ut_MB_Y = G.GAME.ut_MB_Y + (11 - G.GAME.ut_MB_Y) * (1 - (0.8 ^ (30 * dt)));
+            elseif (G.STATE == G.STATES.GAME_OVER) then
+                G.GAME.ut_MB_X = G.GAME.ut_MB_X + (G.GAME.ut_width - G.GAME.ut_MB_X) * (1 - (0.9 ^ (30 * dt)));
+                G.GAME.ut_MB_Y = G.GAME.ut_MB_Y + (8 - G.GAME.ut_MB_Y) * (1 - (0.8 ^ (30 * dt)));
+            else
+                G.GAME.ut_MB_X = G.GAME.ut_MB_X + ((G.GAME.ut_width / 2) - G.GAME.ut_MB_X) * (1 - (0.9 ^ (30 * dt)));
+                G.GAME.ut_MB_Y = G.GAME.ut_MB_Y + (20 - G.GAME.ut_MB_Y) * (1 - (0.8 ^ (30 * dt)));
+            end
+
+            G.GAME.ut_MB_SPR = (math.floor(G.GAME.ut_MB_SP * 8) % 3) + 1;
+            if (G.GAME.ut_MB_SP > 0 ) then 
+                G.GAME.ut_MB_SP = G.GAME.ut_MB_SP - dt;
+                if (G.GAME.ut_MB_SP < 0) then G.GAME.ut_MB_SP = 0; end
+            end
         end
     end
 end
@@ -379,7 +427,7 @@ G.ut_draw = function()
                     local sx = ((x + G.GAME.ut_horizMap[tileID]) * stepMul) + horizontalOffset;
                     local sy = (((y + G.GAME.ut_offsetMap[tileID]) * stepMul) * -1) + verticalOffset;
 
-                    love.graphics.draw(G.COINS, G.UT_SPRITES[tile], sx, sy, 0, finalMul, finalMul);
+                    love.graphics.draw(G.UT_COINS, G.UT_SPRITES[tile], sx, sy, 0, finalMul, finalMul);
                     if (mx > sx and mx < sx + stepMul) and (my > sy and my < sy + stepMul) then
                         hovered = true;
                         if (G.GAME.SELECTED ~= tileID) then
@@ -400,7 +448,7 @@ G.ut_draw = function()
                 local sx = (x * stepMul) + horizontalOffset;
                 local sy = verticalOffset - (G.GAME.ut_slide * stepMul) + (stepMul * 2);
 
-                love.graphics.draw(G.COINS, G.UT_SPRITES[tile], sx, sy, 0, finalMul, finalMul);
+                love.graphics.draw(G.UT_COINS, G.UT_SPRITES[tile], sx, sy, 0, finalMul, finalMul);
             end
         end
 
@@ -429,7 +477,7 @@ G.ut_draw = function()
                 
                 love.graphics.setColor(1, 1, 1, 0.25);
                 love.graphics.setBlendMode("add", "premultiplied")
-                love.graphics.draw(G.COINS, G.UT_SPRITES[tile], sx, sy, 0, finalMul, finalMul);
+                love.graphics.draw(G.UT_COINS, G.UT_SPRITES[tile], sx, sy, 0, finalMul, finalMul);
                 love.graphics.setColor(1, 1, 1, 1);
             end
 
@@ -447,6 +495,10 @@ G.ut_draw = function()
                 if not (G.GAME.ut_action) then G.GAME.ut_slide = G.GAME.ut_slide + 0.25; end
 
                 playSoundish("tone".. math.min(count - 2, 9));
+                if (count >= 7) then
+                    playSoundish("compliment".. ((math.floor(pseudorandom("big_money") * 3)) + 1));
+                    G.GAME.ut_MB_SP = 0.7; 
+                end
 
                 G.GAME.SELECTED = -1;
                 G.GAME.NEIGHBORING = {};
@@ -470,10 +522,22 @@ G.ut_draw = function()
                 local sx = (v.x * stepMul) + horizontalOffset;
                 local sy = (v.y * stepMul * -1) + verticalOffset;
 
-                love.graphics.draw(G.COINS, G.UT_SPRITES[v.spr], sx, sy, 0, finalMul, finalMul);
+                love.graphics.draw(G.UT_COINS, G.UT_SPRITES[v.spr], sx, sy, 0, finalMul, finalMul);
             end
 
             love.graphics.setColor(1, 1, 1, 1);
         end
+    end
+
+    if (G.GAME.ut_flyingChips) then
+        love.graphics.setColor(1, 1, 1, math.min(G.GAME.ut_vanish / 2, 1));
+
+        local stepMul = 34 * finalMul;
+        local horizontalOffset = (width / 2) - (stepMul * G.GAME.ut_width / 2) + ox;
+        local verticalOffset = height - (stepMul * 2) + oy;
+
+        love.graphics.draw(G.UT_MONEYBAGS, G.UT_MONEYQUAD[G.GAME.ut_MB_SPR], (G.GAME.ut_MB_X * stepMul) + horizontalOffset, (G.GAME.ut_MB_Y * stepMul * -1) + verticalOffset, 0, finalMul, finalMul);
+    
+        love.graphics.setColor(1, 1, 1, 1);
     end
 end

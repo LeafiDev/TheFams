@@ -159,37 +159,22 @@ SMODS.Back {
 end
 }
 
---[[
 SMODS.Back {
-    key = "heartdeck",
+    key = "bigmoney",
     loc_txt = {
-        name = "Heart Deck",
+        name = "The Big One",
         text = {
-			"start with {C:attention}The Soul{}"
+			"Earn some {C:attention}Big Money (TM){}."
         }
     },
     atlas = "backs",
     pos = {x = 5, y = 0},
-    apply = function(self, back)
-    if G and G.GAME then
-        
-
-    G.E_MANAGER:add_event(Event({
-            trigger = "immediate",
-            func = function()
-                SMODS.add_card  {
-                set = "Joker",                
-                legendary = false,            
-                key = "j_fams_dr_soul",
-                skip_materialize = false,     
-                }
-                return true
-            end
-        }))
+    calculate = function(self, back, context)
+        if context.setting_blind then
+            G.GAME.big_money = true;
+        end
     end
-end
 }
-]]
 
 SMODS.Back {
     key = "astrodeck",
