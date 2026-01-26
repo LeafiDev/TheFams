@@ -1,4 +1,7 @@
 return {
+    tooltips = {
+        -- unused
+    },
     misc = {
         v_text = {
             ch_c_timer = {
@@ -85,8 +88,74 @@ return {
             ch_c_beat1 = {
                 "Time signature reduced to {C:attention}3{}",
             },
-            ch_c_beat2 = {
-                "all cards debuffed only on beat {C:attention}4{}",
+            ch_c_flavor1 = {
+                "Get the couple together again!",
+            },
+            ch_c_dlcend1 = {
+                "{E:1}Just {C:attention}you{} and {C:fams}the fams{} to the end of reality{}",
+            },
+            ch_c_goodluck = {
+                "{E:1}Good Luck{}",
+            },
+            ch_c_finaledlc = {
+                "{C:edition,E:2}Winning Ante up to 38{}",
+            },
+            ch_c_epi = {
+                "{C:red,E:2,S:1.3}Epilepsy Warning for this challenge{}",
+            },
+            ch_c_evil = {
+                "{E:4,S:1.5}I <3 Gambling!{}",
+            },
+            ch_c_findjim = {
+                "{E:1,S:1.5}Find Jimbo!{}"
+            },
+            ch_c_lap2 = {
+                "{E:1,S:1.5}Impressive 600 seconds from dog trials!{}"
+            },
+            ch_c_lap22 = {
+                "{C:red,E:2,}Now do it in 300.{}"
+            },
+            ch_c_money1 = {
+                "Make {C:attention}300${}"
+            },
+            ch_c_weight = {
+                "If {C:money}Ante{} is below a joker {C:money}sell value{} it is {C:red}debuffed{}"
+            },
+            ch_c_weight2 = {
+                "{C:inactive}max of 7{}"
+            },
+            ch_c_vision = {
+                "Only the {C:attention}first{} and {C:attention}last{} cards are faced up"
+            },
+            ch_c_vision2 = {
+                "{C:inactive}Dragging cards to the first and last slot will reveal them{}"
+            },
+            ch_c_vision3 = {
+                "{C:inactive}Jokers are faced down{}"
+            },
+            ch_c_vision4 = {
+                "{C:attention}Highlighting a joker reveals what it is{}"
+            },
+            ch_c_nodrag = {
+                "Jokers {C:red}cannot{} be repositioned."
+            },
+            ch_c_twopaironly = {
+                "{C:inactive}Dynamically adds based on total in collection ("..#allnonbosses().."{C:inactive}){}"
+            },
+            ch_c_allclear = {
+                "Defeat all {C:filter,E:2}non-final bosses{}"
+            },
+            ch_c_investstart = {
+                "Start with an {C:attention}Investment{} Tag"
+            },
+            ch_c_bamount = {
+                "{C:inactive}Dynamically adds based on total in collection ("..#allnonbosses().."{C:inactive}){}"
+            },
+            ch_c_alllocked = {
+                "All jokers are {C:red}locked{}"
+            },
+            ch_c_halfbase = {
+                "{C:red}0.5x{} chip base"
             },
         },
     },

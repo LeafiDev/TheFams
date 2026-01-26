@@ -1,0 +1,14 @@
+{
+    "id": "Fams",
+    "name": "The Fams",
+    "author": ["LeafiDev & More"],
+    "description": "A mod of shitpost ideas that me and friends have had both good and or bad.",
+    "prefix": "fams",
+    "main_file": "TheFams.lua",
+    "config_file": "config.lua",
+    "badge_colour": "7a4a10",
+    "dependencies": [
+        "Steamodded (==1.0.0~)"
+    ],
+    "version": "3.0.0"
+}

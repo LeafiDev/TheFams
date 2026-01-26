@@ -1,7 +1,18 @@
+titlelistloc = {
+    [0] = "Random",
+    [1] = "Pikmin",
+    [2] = "Divorce",
+    [3] = "Would You Rather",
+    [4] = "Dear Federal Agents",
+    [5] = "Ritz",
+    [6] = "Fancy",
+    [7] = "Mini-screen",
+    [8] = "FL Studio",
+    [9] = "Stars",
+    [10] = "Glitch",
+}
+
+
 return {
-	["music"] = {
-		["option_1"] = 50,
-		["option_2"] = 3,
-		["option_3"] = false,
-	}
+	["setting_1"] = false
 }
