@@ -201,6 +201,17 @@ SMODS.Sound {
   end
 }
 
+SMODS.Sound {
+  key = "music_bigmoney_puzzle",
+  pitch = 1,
+  path = "music_bigmoney_puzzle.ogg",
+  select_music_track = function(self)
+    if G.GAME.selected_back and G.GAME.selected_back.name == "b_fams_bigmoney" and not G.GAME.big_money then
+      return 999999
+    end
+  end
+}
+
 
 SMODS.Sound {
   key = "Don",
