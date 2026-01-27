@@ -169,6 +169,9 @@ SMODS.Back {
     },
     atlas = "backs",
     pos = {x = 5, y = 0},
+    apply = function(self, back)
+        G.GAME.big_money_rate = 10;
+    end,
     calculate = function(self, back, context)
         if context.setting_blind then
             G.GAME.big_money = true;

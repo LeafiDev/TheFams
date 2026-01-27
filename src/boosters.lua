@@ -122,6 +122,25 @@ end
 }
 
 SMODS.Booster {
+    key = "money",
+    loc_txt = {
+    name = "Money Maker Pack",
+    group_name = "Money Pack",
+    text = { "Select {C:attention}1{} of {C:attention}2{}",
+	"{X:green,C:white}Money{} {X:green,C:white}Makers{}" } 
+	},
+    atlas = "boosters", -- or your custom atlas key
+    pos = { x = 5, y = 0 },
+	draw_hand = false,
+    cost = 4,
+    weight = 1.0,
+    config = { extra = 2, choose = 1 },
+	create_card = function(self, card, i)
+        return { set = "big_money", area = G.pack_cards, skip_materialize = true, soulable = false, key_append = "fams" }
+    end
+}
+
+SMODS.Booster {
     key = "Candle",
     loc_txt = {
     name = "Candle Pack",

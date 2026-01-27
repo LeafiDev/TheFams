@@ -41,7 +41,7 @@ G.fams_update = function(dt)
 		G.GAME.credits_rate = 0
 		G.GAME.gimmicks_rate = 0
 		G.GAME["mini-joker_rate"] = 0.9
-		G.GAME["dawgcards_rate"] = 0.08
+		G.GAME["dawgcards_rate"] = 0.
 		G.GAME["geometry_rate"] = 0.05
 	end
 

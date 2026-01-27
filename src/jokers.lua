@@ -2015,6 +2015,134 @@ SMODS.Joker {
 	end
 }
 
+SMODS.Joker {
+	key = 'badBusiness', 
+	atlas = 'jokers',
+	pos = { x = 0, y = 5 },
+	loc_txt = {
+		name = 'Bad Business', 
+		text = {
+			"In {C:attention}Big Money (TM){} mode remove one blind type.",
+			"Otherwise {X:mult,C:white}X1.5{} mult."
+		}
+	},
+	pools = {
+        ["big_money"] = true,
+		["Jokers"] = true
+    },
+	config = {}, 
+	rarity = 1, 
+	cost = 5, 
+
+	calculate = function(self, card, context)
+		if context.joker_main then
+			return {message = "cha-ching!", xmult = 1.5}
+		elseif context.big_money_start then
+			G.GAME.ut_colors = math.max(1, math.min((G.GAME.ut_colors or 5) - 1, 10));
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+		badges[#badges+1] = create_badge("Big Money Maker", {0.125, 0.5, 0, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'rushHour', 
+	atlas = 'jokers',
+	pos = { x = 3, y = 5 },
+	loc_txt = {
+		name = 'Rush Hour', 
+		text = {
+			"In {C:attention}Big Money (TM){} mode add one blind type.",
+			"Otherwise {X:mult,C:white}X3{} mult."
+		}
+	},
+	pools = {
+        ["big_money"] = true,
+		["Jokers"] = true
+    },
+	config = {}, 
+	rarity = 1, 
+	cost = 5, 
+
+	calculate = function(self, card, context)
+		if context.joker_main then
+			return {message = "WOAH!", xmult = 3}
+		elseif context.big_money_start then
+			G.GAME.ut_colors = math.max(1, math.min((G.GAME.ut_colors or 5) + 1, 10));
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+		badges[#badges+1] = create_badge("Big Money Maker", {0.125, 0.5, 0, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'capGains', 
+	atlas = 'jokers',
+	pos = { x = 1, y = 5 },
+	loc_txt = {
+		name = 'Capital Gains', 
+		text = {
+			"In {C:attention}Big Money (TM){} mode {X:chips,C:white}X2{} chips.",
+			"Otherwise {C:chips}+50{} chips."
+		}
+	},
+	pools = {
+        ["big_money"] = true,
+		["Jokers"] = true
+    },
+	config = {}, 
+	rarity = 1, 
+	cost = 5, 
+
+	calculate = function(self, card, context)
+		if context.joker_main then
+			return {message = "Wowza!", chips = 50};
+		elseif context.big_money_pre_addition then
+			return { xmult = 2 };
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+		badges[#badges+1] = create_badge("Big Money Maker", {0.125, 0.5, 0, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'largeMarket', 
+	atlas = 'jokers',
+	pos = { x = 2, y = 5 },
+	loc_txt = {
+		name = 'Larger Market', 
+		text = {
+			"In {C:attention}Big Money (TM){} mode add one lane to the board.",
+			"Otherwise {X:chips,C:white}X2{} chips."
+		}
+	},
+	pools = {
+        ["big_money"] = true,
+		["Jokers"] = true
+    },
+	config = {}, 
+	rarity = 1, 
+	cost = 5, 
+
+	calculate = function(self, card, context)
+		if context.joker_main then
+			return {message = "Expand!", xchips = 2};
+		elseif context.big_money_start then
+			G.GAME.ut_width = math.min((G.GAME.ut_width or G.UT_WIDTH) + 1, 14);
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+		badges[#badges+1] = create_badge("Big Money Maker", {0.125, 0.5, 0, 1}, G.C.WHITE, 1.2)
+	end
+}
+
 --[[
 --Some of these will crash the game, let's stop that.
 local everything_blacklist = {
