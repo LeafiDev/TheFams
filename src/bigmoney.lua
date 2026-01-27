@@ -145,6 +145,7 @@ G.ut_run_jokers = function(context)
     for i, joker in pairs(G.jokers.cards) do
         if (joker.config.center.calculate) then
             local output = (joker.config.center:calculate(joker, context) or {});
+            if (type(output) ~= "table") then output = {}; end;
 
             if (output.chips) then
                 final.chips = final.chips + output.chips

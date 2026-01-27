@@ -37,7 +37,7 @@ calculate = function(self, card, context)
 			return { dollars = calculate_div_dollars(2, 0, 10), xmult = 0.5 * force_number(G.GAME.dollars, 1), message = "Munch", sound = "fams_dogeat" }
 		end
 	   	end
-	   return 0
+	   
 end
 }
 
@@ -111,7 +111,7 @@ calculate = function(self, card, context)
 			return { dollars = calculate_div_dollars(2, 0, 5), chips = 5 * force_number(G.GAME.dollars, 1), message = "Munch", sound = "fams_dogeat" }
 		end
 	   	end
-	   return 0
+	   
 end
 }
 
@@ -284,7 +284,7 @@ SMODS.Joker {
 		if context.end_of_round and context.cardarea == G.jokers then
 			return { dollars = 0.01 }
 		end
-		return 0
+		
 	end,
 	set_card_type_badge = function(self, card, badges)
 
@@ -309,7 +309,7 @@ SMODS.Joker {
 		if context.end_of_round and context.cardarea == G.jokers then
 			return { dollars = 0.05 }
 		end
-		return 0
+		
 	end,
 	set_card_type_badge = function(self, card, badges)
 
@@ -334,7 +334,7 @@ SMODS.Joker {
 		if context.end_of_round and context.cardarea == G.jokers then
 			return { dollars = 0.10 }
 		end
-		return 0
+		
 	end,
 	set_card_type_badge = function(self, card, badges)
 
@@ -359,7 +359,7 @@ SMODS.Joker {
 		if context.end_of_round and context.cardarea == G.jokers then
 			return { dollars = 0.25 }
 		end
-		return 0
+		
 	end,
 set_card_type_badge = function(self, card, badges)
 
@@ -384,7 +384,7 @@ SMODS.Joker {
 		if context.end_of_round and context.cardarea == G.jokers then
 			return { dollars = 1 }
 		end
-		return 0
+		
 	end,
 	set_card_type_badge = function(self, card, badges)
 
@@ -418,7 +418,7 @@ SMODS.Joker {
 		if context.joker_main then
 			return { xmult = musicpower }
 		end
-		return 0
+		
 	end,
 	set_card_type_badge = function(self, card, badges)
 
@@ -455,14 +455,14 @@ calculate = function(self, card, context)
 			G.GAME.ritz_round = G.GAME.ritz_round + handsLeft()
 			return {message = "+"..handsLeft(), repetitions = 1}
 		end
-		return 0
+		
 	end
 	if context.final_scoring_step then
 		G.GAME.ritz_cracker_incremented_this_round = false
 		G.GAME.chips = G.GAME.chips + G.GAME.ritz_crackers
 		return {message = "+"..G.GAME.ritz_crackers, repetitions = 1}
 	end
-	return 0
+	
 end,
 	set_card_type_badge = function(self, card, badges)
 		badges[#badges+1] = create_badge("Food", {1, 0.8, 0.6, 1}, G.C.WHITE, 1.2)
@@ -511,7 +511,7 @@ SMODS.Joker {
  			extra.coke_mult = (extra.coke_mult or 5) - 1
 			if extra.coke_mult == 0 then extra.coke_mult = 1 else return { xmult = extra.coke_mult or 5, message = "-1" } end
 		end
- 		return 0
+ 		
 	end,
 
 	set_card_type_badge = function(self, card, badges)
@@ -540,7 +540,7 @@ SMODS.Joker {
 		if context.setting_blind then
 			love.system.openURL("https://pbs.twimg.com/media/GB7qCDnbYAAKPPe.jpg:large")
 			SMODS.destroy_cards(card, nil, nil, true)
-		return 0
+		
 	end
 end
 }
@@ -569,7 +569,7 @@ calculate = function(self, card, context)
 		card:juice_up()
 		wyr()
 	end
-	return 0
+	
 end,
 	
 }
@@ -1431,7 +1431,7 @@ SMODS.Joker {
 			end
 		end
 
-		return 0;
+		;
 	end,
 	set_card_type_badge = function(self, card, badges)
 	badges[#badges+1] = create_badge("Heart", {1, 0, 0, 1}, G.C.BLACK, 1.2)
@@ -2217,7 +2217,7 @@ SMODS.Joker {
 				--end
 			end
 		end
-		return 0;
+		;
 	end,
 }
 ]]
