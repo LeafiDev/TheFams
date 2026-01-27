@@ -266,6 +266,7 @@ G.ut_update = function(dt)
             end
         end
 
+        G.GAME.ut_toAdd = force_number(G.GAME.ut_toAdd)
         if (G.GAME.ut_toAdd > 0) then
             local toAdd = G.GAME.ut_toAdd;
             if (toAdd > 50000) then
