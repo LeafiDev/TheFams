@@ -36,13 +36,14 @@ G.fams_update = function(dt)
 
 	--Fix for talisman blowing up
 	if G.GAME then
-		G.GAME.dr_boss = G.GAME.dr_boss or false;
-		G.GAME.pikmin_rate = 0
-		G.GAME.credits_rate = 0
-		G.GAME.gimmicks_rate = 0
-		G.GAME["mini-joker_rate"] = 0.9
-		G.GAME["dawgcards_rate"] = 0.
+		G.GAME.pikmin_rate = G.GAME.pikmin_rate or 0
+		G.GAME.credits_rate = G.GAME.credits_rate or 0
+		G.GAME.gimmicks_rate = G.GAME.gimmicks_rate or 0
+		G.GAME["mini-joker_rate"] = G.GAME["mini-joker_rate"] or 0.9
+		G.GAME["dawgcards_rate"] = G.GAME["dawgcards_rate"] or 0.
 		G.GAME["geometry_rate"] = 0.05
+		G.GAME["Candle_rate"] = G.GAME["Candle_rate"] or 0.5
+		G.GAME["big_money_rate"] = G.GAME["big_money_rate"] or 1.0
 	end
 
 	if G and G.jokers and G.jokers.cards then
