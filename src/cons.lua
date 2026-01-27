@@ -1629,6 +1629,22 @@ SMODS.ConsumableType{
 }
 
 SMODS.ConsumableType{
+    key = "big_money",
+    primary_colour = {0.125, 0.5, 0, 1},
+    secondary_colour = {0.125, 0.5, 0, 1},
+    loc_txt = {
+        name = "Big Money Makers",
+        collection = "Big Money Makers",
+        undiscovered = {
+            name = "???",
+            text = {"This Gimmick has not been discovered yet."},
+        },
+    },
+    collection_rows = { 4 },
+    shop_rate = 0.5,
+}
+
+SMODS.ConsumableType{
     key = "mini-joker",
     primary_colour = {1, 0.298, 0.251, 1},
     secondary_colour = {0.663, 0.169, 0.137, 1},

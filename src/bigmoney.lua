@@ -1,12 +1,46 @@
 G.UT_COINS = new_arbituary_image("drut/coins.png");
 G.UT_SPRITES = {
-    love.graphics.newQuad(0, 0, 34, 34, 714, 204),
-    love.graphics.newQuad(0, 34, 34, 34, 714, 204),
-    love.graphics.newQuad(0, 68, 34, 34, 714, 204),
-    love.graphics.newQuad(0, 102, 34, 34, 714, 204),
-    love.graphics.newQuad(0, 136, 34, 34, 714, 204),
-    love.graphics.newQuad(0, 170, 34, 34, 714, 204),
+    love.graphics.newQuad(0, 0, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 2, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 3, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 4, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 5, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 6, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 7, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 8, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 9, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 10, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 11, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 12, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 13, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 14, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 15, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 16, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 17, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 18, 34, 34, 714, 680),
+    love.graphics.newQuad(0, 34 * 19, 34, 34, 714, 680),
 }
+
+G.UT_EXPLOSION = new_arbituary_image("drut/explosion.png");
+G.UT_EXPLOSION_FRAMES = {
+    love.graphics.newQuad(0, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 2, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 3, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 4, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 5, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 6, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 7, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 8, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 9, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 10, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 11, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 12, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 13, 0, 45, 91, 675, 91),
+    love.graphics.newQuad(45 * 14, 0, 45, 91, 675, 91),
+}
+
 G.UT_MONEYBAGS = new_arbituary_image("drut/MrMoneybags.png");
 G.UT_MONEYQUAD = {
     love.graphics.newQuad(0, 0, 184, 136, 552, 136);
@@ -28,11 +62,12 @@ G.UT_SOUNDS = {
     tone8 = new_arbituary_sound("drut/sounds/tone8.ogg", true),
     tone9 = new_arbituary_sound("drut/sounds/tone9.ogg", true),
     compliment1 = new_arbituary_sound("drut/sounds/awesome.ogg", true),
-    compliment2 = new_arbituary_sound("drut/sounds/megamoney.ogg", true),
-    compliment3 = new_arbituary_sound("drut/sounds/goodjob.ogg", true),
+    compliment2 = new_arbituary_sound("drut/sounds/goodjob.ogg", true),
+    megamoney = new_arbituary_sound("drut/sounds/megamoney.ogg", true),
     clearcoins1 = new_arbituary_sound("drut/sounds/clearcoins.ogg", true),
     clearcoins2 = new_arbituary_sound("drut/sounds/clearcoins2.ogg", true),
     clearcoins3 = new_arbituary_sound("drut/sounds/clearcoins3.ogg", true),
+    explode = new_arbituary_sound("drut/sounds/explode.ogg", true),
 }
 
 function playSoundish(soundName)
@@ -101,6 +136,46 @@ G.ut_end = function(loss)
     end_round()
 end
 
+G.ut_run_jokers = function(context)
+    local final = {
+        chips = 0,
+        mult = 1
+    }
+
+    for i, joker in pairs(G.jokers.cards) do
+        if (joker.config.center.calculate) then
+            local output = (joker.config.center:calculate(joker, context) or {});
+
+            if (output.chips) then
+                final.chips = final.chips + output.chips
+            end
+
+            if (output.xchips) then
+                final.chips = final.chips * output.xchips
+            end
+
+            if (output.mult) then
+                final.mult = final.mult + output.mult
+            end
+
+            if (output.xmult) then
+                final.mult = final.mult * output.xmult
+            end
+        end
+    end
+
+    return final;
+end
+
+G.ut_fill_bottom_row = function()
+    --Probably really bad code but I'm too tired to think of anything else.
+    G.GAME.ut_bottomrow = {};
+    for x = 0,G.GAME.ut_widthS,1 do
+        if (pseudorandom("big_money") > 0.5) then table.insert(G.GAME.ut_bottomrow, G.GAME.ut_tilemap[x + 1]);
+        else table.insert(G.GAME.ut_bottomrow, math.floor(pseudorandom("big_money") * G.GAME.ut_colors) + 1); end
+    end
+end
+
 G.ut_update = function(dt)
     if (G.GAME.big_money) then
         for i, quad in pairs(G.UT_SPRITES) do
@@ -110,18 +185,23 @@ G.ut_update = function(dt)
 
         G.STATE = G.STATES.HAND_PLAYED;
         if not G.GAME.ut_tilemap then
+            G.ut_run_jokers({
+                big_money_start = true
+            })
+
             G.GAME.ut_tilemap = {};
             G.GAME.ut_offsetMap = {};
             G.GAME.ut_velocityMap = {};
             G.GAME.ut_horizMap = {};
             G.GAME.ut_bottomrow = {};
             G.GAME.ut_flyingChips = {};
-            G.GAME.ut_width = G.GAME.ut_width or G.UT_WIDTH;
+            G.GAME.ut_explosions = {};
+            G.GAME.ut_width = math.min(G.GAME.ut_width or G.UT_WIDTH, 14);
             G.GAME.ut_widthS = G.GAME.ut_width - 1;
             G.GAME.ut_toAdd = 0;
             G.GAME.ut_slide = 0;
             G.GAME.ut_vanish = 10;
-            G.GAME.ut_colors = G.GAME.ut_colors or 5;
+            G.GAME.ut_colors = math.max(1, math.min(G.GAME.ut_colors or 5, 10));
 
             G.GAME.ut_MB_X = 0;
             G.GAME.ut_MB_Y = 20;
@@ -141,9 +221,7 @@ G.ut_update = function(dt)
                 end
             end
 
-            for x = 0,G.GAME.ut_widthS,1 do
-                table.insert(G.GAME.ut_bottomrow, math.floor(pseudorandom("big_money") * G.GAME.ut_colors) + 1);
-            end
+            G.ut_fill_bottom_row();
 
             if (G.hand) then
                 oldT = G.hand.T.y;
@@ -177,6 +255,14 @@ G.ut_update = function(dt)
                     end
 
                 end
+            end
+        end
+
+        --Animate explosions
+        for i = #G.GAME.ut_explosions, 1, -1 do
+            G.GAME.ut_explosions[i].spr = G.GAME.ut_explosions[i].spr + (dt * 15);
+            if (G.GAME.ut_explosions[i].spr >= 16) then
+                table.remove(G.GAME.ut_explosions, i);
             end
         end
 
@@ -249,11 +335,7 @@ G.ut_update = function(dt)
                 end
             end
 
-            --Probably really bad code but I'm too tired to think of anything else.
-            G.GAME.ut_bottomrow = {};
-            for x = 0,G.GAME.ut_widthS,1 do
-                table.insert(G.GAME.ut_bottomrow, math.floor(pseudorandom("big_money") * G.GAME.ut_colors) + 1);
-            end
+            G.ut_fill_bottom_row()
 
             --Check top row
             for x = 0,G.GAME.ut_widthS,1 do
@@ -319,13 +401,18 @@ G.ut_scan_tilemap = function(x, y, target)
     if (x < 0 or x > G.GAME.ut_widthS) or (y < 0 or y > G.GAME.ut_widthS) then return; end
 
     local tile = G.GAME.ut_tilemap[tileID];
-    if (tile > 0) and (tile == target) then
-        G.GAME.NEIGHBORING[tileID] = true;
+    if (tile > 0) then
+        tile = ((tile - 1) % 10) + 1
+        if (tile == target) then
+            if (G.GAME.ut_tilemap[tileID] > 10) then G.GAME.ut_has_bag = true; end
 
-        G.ut_scan_tilemap(x - 1, y, target);
-        G.ut_scan_tilemap(x + 1, y, target);
-        G.ut_scan_tilemap(x, y - 1, target);
-        G.ut_scan_tilemap(x, y + 1, target);
+            G.GAME.NEIGHBORING[tileID] = true;
+
+            G.ut_scan_tilemap(x - 1, y, target);
+            G.ut_scan_tilemap(x + 1, y, target);
+            G.ut_scan_tilemap(x, y - 1, target);
+            G.ut_scan_tilemap(x, y + 1, target);
+        end
     end
 end
 
@@ -435,6 +522,8 @@ G.ut_draw = function()
                         hovered = true;
                         if (G.GAME.SELECTED ~= tileID) then
                             G.GAME.NEIGHBORING = {};
+                            G.GAME.ut_tile_type = ((tile - 1) % 10) + 1;
+                            G.GAME.ut_has_bag = false;
                             G.ut_scan_tilemap(x, y, tile);
                         end
                         G.GAME.SELECTED = tileID;
@@ -487,20 +576,51 @@ G.ut_draw = function()
             love.graphics.setBlendMode(mode, alphamode);
 
             if (clicked) then
-                for i, v in pairs(G.GAME.NEIGHBORING) do
-                    local x = (i - 1) % G.GAME.ut_width;
-                    local y = math.floor((i - 1) / G.GAME.ut_width);
-                    G.GAME.ut_toAdd = G.GAME.ut_toAdd + (10 ^ (0.75 + (getAnte() / 4)));
+                if (G.GAME.ut_has_bag) then
+                    playSoundish("explode");
+                    for i, v in pairs(G.GAME.ut_tilemap) do
+                        if (((v - 1) % 10) + 1) == G.GAME.ut_tile_type then
+                            G.GAME.ut_tilemap[i] = 0;
+                            --#$#! it.
+                            table.insert(G.GAME.ut_explosions, {
+                                x = i % G.GAME.ut_width,
+                                y = math.floor(i / G.GAME.ut_width),
+                                spr = 1
+                            })
+                        end
+                    end
+                else
+                    local calc = 0;
 
-                    G.GAME.ut_tilemap[(y * G.GAME.ut_width) + x + 1] = 0;
-                end
+                    for i, v in pairs(G.GAME.NEIGHBORING) do
+                        local x = (i - 1) % G.GAME.ut_width;
+                        local y = math.floor((i - 1) / G.GAME.ut_width);
+                        calc = calc + ((10 + math.floor(G.GAME.dollars / 10)) ^ (0.833333333 + (getAnte() / 6)));
 
-                if not (G.GAME.ut_action) then G.GAME.ut_slide = G.GAME.ut_slide + 0.25; end
+                        G.GAME.ut_tilemap[(y * G.GAME.ut_width) + x + 1] = 0;
+                    end
 
-                playSoundish("tone".. math.min(count - 2, 9));
-                if (count >= 7) then
-                    playSoundish("compliment".. ((math.floor(pseudorandom("big_money") * 3)) + 1));
-                    G.GAME.ut_MB_SP = 0.7; 
+                    local results = G.ut_run_jokers({
+                        big_money_pre_addition = true
+                    })
+
+                    calc = (calc + results.chips) * results.mult;
+
+                    G.GAME.ut_toAdd = G.GAME.ut_toAdd + calc;
+
+                    if not (G.GAME.ut_action) then G.GAME.ut_slide = G.GAME.ut_slide + 0.25; end
+
+                    playSoundish("tone".. math.min(count - 2, 9));
+                    if (count > 5) then
+                        if (count > 7) then
+                            playSoundish("megamoney");
+                            G.GAME.ut_tilemap[(G.GAME.ut_width * 10) + math.floor((pseudorandom("big_money") * G.GAME.ut_width)) + 1] = G.GAME.ut_tile_type + 10;
+                            G.ut_apply_gravity();
+                        else
+                            playSoundish("compliment".. ((math.floor(pseudorandom("big_money") * 2)) + 1));
+                        end
+                        G.GAME.ut_MB_SP = 0.7; 
+                    end
                 end
 
                 G.GAME.SELECTED = -1;
@@ -542,5 +662,24 @@ G.ut_draw = function()
         love.graphics.draw(G.UT_MONEYBAGS, G.UT_MONEYQUAD[G.GAME.ut_MB_SPR], (G.GAME.ut_MB_X * stepMul) + horizontalOffset, (G.GAME.ut_MB_Y * stepMul * -1) + verticalOffset, 0, finalMul, finalMul);
     
         love.graphics.setColor(1, 1, 1, 1);
+    end
+
+    if (G.GAME.ut_explosions) then
+        local mode, alphamode = love.graphics.getBlendMode();
+        love.graphics.setColor(1, 1, 1, 1);
+
+        local stepMul = 34 * finalMul;
+        local horizontalOffset = (width / 2) - (stepMul * G.GAME.ut_width / 2) + ox;
+        local verticalOffset = height - (stepMul * 2) + oy;
+
+        for i, v in pairs(G.GAME.ut_explosions) do
+            local sx = (v.x * stepMul) + horizontalOffset;
+            local sy = ((v.y * stepMul) * -1) + verticalOffset;
+            
+            love.graphics.setBlendMode("add", "premultiplied")
+            love.graphics.draw(G.UT_EXPLOSION, G.UT_EXPLOSION_FRAMES[math.floor(v.spr)], sx, sy, 0, finalMul, finalMul);
+        end
+
+        love.graphics.setBlendMode(mode, alphamode);
     end
 end
