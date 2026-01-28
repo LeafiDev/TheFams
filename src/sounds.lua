@@ -419,6 +419,13 @@ SMODS.Sound {
 }
 
 SMODS.Sound {
+  key = "boobs",
+  pitch = 1,
+  volume = 1,
+  path = "boobs.ogg",
+}
+
+SMODS.Sound {
   key = "music_jimb",
   pitch = 1,
   path = "music_jimb.ogg",
@@ -507,6 +514,32 @@ SMODS.Sound {
 		musicPower(1)
 		setBPM(40)
 		return 99999999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_skinwalker",
+  pitch = 0.7,
+  path = "music_skinwalker.ogg",
+  select_music_track = function(self)
+	if G.skinwalker == true then
+
+		return 99999999999999999999999999999999999999999999
+	end
+  end
+}
+
+SMODS.Sound {
+  key = "music_leftthatin2025",
+  pitch = 0.7,
+  path = "music_wind.ogg",
+  select_music_track = function(self)
+	if G.GAME.rodent == true then
+		musicPower(0) 
+		setBPM(0)
+    G.PITCH_MOD = 0.1
+    setrunBG({ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, 0.01)
 	end
   end
 }

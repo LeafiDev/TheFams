@@ -899,6 +899,7 @@ end
 SMODS.Keybind{
     key_pressed = "j", -- The key to trigger the action (e.g., "k" for the K key)
     action = function(self)
+		--[[
 		G.hand:hard_set_T(0, 10000, 1, 1);
         SMODS.create_card{
         set = "Joker",
@@ -908,6 +909,7 @@ SMODS.Keybind{
         skip_materialize = false,
         enhanced_poll = 0.5
         }
+		]]
     end,
 }
 

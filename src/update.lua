@@ -514,6 +514,10 @@ G.fams_update = function(dt)
 	if isChallenge("workshop") then
 		setrunBG({ 0, 0, 1, 1 }, { 0, 0, 1, 1 }, 1)
 	end
+	
+	if G.skinwalker then
+		setrunBG({ 0, 0, 0, 0 }, { 0, 0, 0, 0 }, 1)
+	end
 
 	if isChallenge("SPAWN") and G.STATE ~= 10 then
 		setrunBG({ 0, 0, 0, 1 }, { getAnte() / 8, 0, 0, 1 }, 1)
@@ -600,5 +604,21 @@ G.fams_update = function(dt)
 	else
 	end
 	last_checked_ante = ante
+
+	if G.GAME.current_round.current_hand.handname == "Shut the fuck up" and G.STATE == 2 then
+		G.GAME.rodent = true
+	end
+
+	if isMainMenu() == true and title_variant == 13 then
+		G.skinwalker = true
+		get_current_profile().skinwalker = true
+	else
+		G.skinwalker = false
+	end
+
+	if G.GAME.rodent == true and G.GAME and getAnte() == GetWinningAnte() then
+		ForceLoss()
+		G.GAME.rodent = false
+	end
 
 end

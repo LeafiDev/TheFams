@@ -55,7 +55,7 @@ SMODS.Booster {
     weight = 0.5,
     config = { extra = 5, choose = 3 }, -- 3 cards, choose 1
     create_card = function(self, card, i)
-    local allowed_jokers = { "j_fams_bigboobs", "j_fams_halo", "j_fams_spawn", "j_fams_smurf", "j_fams_penny", "j_fams_nickel", "j_fams_dime", "j_fams_quarter", "j_fams_doller" } -- Add your joker keys here
+    local allowed_jokers = {"j_fams_bigboobs", "j_fams_niceboobs", "j_fams_halo", "j_fams_spawn", "j_fams_smurf", "j_fams_penny", "j_fams_nickel", "j_fams_dime", "j_fams_quarter", "j_fams_doller" } -- Add your joker keys here
     local joker_key = allowed_jokers[math.random(#allowed_jokers)]
     return {
         set = "Joker",

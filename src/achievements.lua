@@ -166,6 +166,23 @@ SMODS.Achievement{
 }
 
 SMODS.Achievement{
+    key = "sight",
+    loc_txt = {
+        name = "First Sighting",
+        description = {
+            'First Entity: Skinwalker Dog'
+        }
+    },
+    atlas = "skinwalker",
+    pos = { x = 0, y = 0 },
+    hidden_text = false,
+    hidden_name = false,
+    unlock_condition = function(self, args)
+        return G.skinwalker == true
+    end,
+}
+
+SMODS.Achievement{
     key = "finaledlc",
     loc_txt = {
         name = "The end (...again)",

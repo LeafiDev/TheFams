@@ -38,6 +38,13 @@ SMODS.Atlas {
 }
 
 SMODS.Atlas {
+    key = "skinwalker",
+    path = "icond.png",
+    px = 34,
+    py = 34
+}
+
+SMODS.Atlas {
     key = "balatro",
     path = "balatro.png",
     px = 450,
@@ -161,6 +168,17 @@ SMODS.Atlas {
 SMODS.Atlas {
     key = "balatro15",
     path = "balatro15.png",
+    px = 450,
+    py = 216,
+    prefix_config = {
+        key = { mod = false },   -- disables mod prefix for 'key'
+        atlas = false            -- disables all prefixes for 'atlas'
+    }
+}
+
+SMODS.Atlas {
+    key = "balatro16",
+    path = "balatro16.png",
     px = 450,
     py = 216,
     prefix_config = {

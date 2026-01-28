@@ -8,13 +8,13 @@ Game.main_menu = function(self, change_context)
         title_screen_randomized = true
     else
         math.randomseed(os.time())
-        title_variant = math.random(1, 12)
+        title_variant = math.random(1, 13)
     end
 
     -- Mark this title_variant as viewed (no duplicates)
     if not viewed_title_screens[title_variant] then
         viewed_title_screens[title_variant] = true
-        if #viewed_title_screens == 12 then
+        if #viewed_title_screens == 13 then
             -- All title screens have been viewed
             get_current_profile().viewer = true
         end
@@ -32,6 +32,7 @@ Game.main_menu = function(self, change_context)
         [10] = {atlas = "balatro12", pos = {x = 0, y = 0}}, 
         [11] = {atlas = "balatro14", pos = {x = 0, y = 0}}, 
         [12] = {atlas = "balatro15", pos = {x = 0, y = 0}}, 
+        [13] = {atlas = "balatro16", pos = {x = 0, y = 0}}, 
     }
     
     local selected_logo = title_logos[title_variant] or title_logos[1]
@@ -117,6 +118,9 @@ Game.main_menu = function(self, change_context)
                     {
                         {key = "j_burglar", x = 0, y = 0},
                         {key = "c_fams_m-burg", x = 0, y = 0},
+                    },
+                    {
+                        {key = "j_fams_skinwalkerdog", x = 0, y = 0},
                     }
                 }
                 

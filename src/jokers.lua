@@ -1948,18 +1948,23 @@ SMODS.Joker {
 	loc_txt = {
 		name = "Skinwalker Dog",
 		text = {
-			"Gives {C:money}10${} for each remaining hand",
+			"Gives {C:money}10${} for each remaining hand", "{C:inactive,E:1}#1#{}"
 		}
 	},
 	loc_vars = function(self, info_queue, card)
-		return { vars = {  } }
+		if pseudorandom('skinwalkerdog') * 10 < 1 then
+			return { vars = { "...Find in title screen...",  } }
+		else
+			return { vars = { "..."} }
+		end
 	end,
 	pools = {
-
+		['stupid'] = true,
     },
 	config = {}, 
 	rarity = 4,
 	cost = 10,
+	discovered = true,
 
 	calculate = function(self, card, context)
 		if context.joker_main then 
@@ -2013,6 +2018,212 @@ SMODS.Joker {
 	set_card_type_badge = function(self, card, badges)
 	badges[#badges+1] = create_badge("Skeleton", {0, 0, 0.5, 1}, G.C.WHITE, 1.2)
 	end
+}
+
+SMODS.Joker {
+	key = 'niceboobs',
+	atlas = 'jokers',
+	pos = { x = 5, y = 5 },
+	loc_txt = {
+		name = "NICE BOOBS",
+		text = {
+			"{C:inactive}Will say boobs. :){}",
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = {  } }
+	end,
+	pools = {
+
+    },
+	config = { }, 
+	rarity = 1,
+	cost = 1,
+
+	calculate = function(self, card, context)
+		if context.joker_main then 
+			return { sound = "fams_boobs", message = "BOOBS!" }
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Nil's Fine Card", {0.5, 0, 0.5, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'cat',
+	atlas = 'jokers',
+	pos = { x = 6, y = 5 },
+	loc_txt = {
+		name = "Knife cat",
+		text = {
+			"{C:inactive}Armed and dangerous{}", "stabs one random playing card and destroys it,", "afterwards {C:green}#1# in 4{} chance to give {C:money}15${}"
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { G.GAME.probabilities.normal } }
+	end,
+	pools = {
+
+    },
+	config = {  }, 
+	rarity = 2,
+	cost = 3,
+
+	calculate = function(self, card, context)
+		if context.joker_main then 
+			target = pseudorandom('cat') * #G.play.cards + 1
+			SMODS.destroy_cards(G.play.cards[math.floor(target)], nil, nil, true)
+			if pseudorandom('cat') * 4 <= G.GAME.probabilities.normal then
+				return { dollars = 15}
+			else
+				return { dollars = 0 }
+			end
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("Cat", {0.5, 0.3, 0, 1}, G.C.WHITE, 1.2)
+	end
+}
+
+SMODS.Joker {
+	key = 'pirate',
+	atlas = 'jokers',
+	pos = { x = 7, y = 5 },
+	loc_txt = {
+		name = "The Roach",
+		text = {
+			"{C:green}1 in 2{} chance to give {X:mult,C:white}X2{} mult or {X:mult,C:white}-X2{} mult"
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { G.GAME.probabilities.normal } }
+	end,
+	pools = {
+
+    },
+	config = {  }, 
+	rarity = 1,
+	cost = 1,
+
+	calculate = function(self, card, context)
+		if context.joker_main then 
+			if pseudorandom('cat') * 2 <= G.GAME.probabilities.normal then
+				return { xmult = 2}
+			else
+				return { xmult = -2 }
+			end
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge('Pirate Software', {0.7, 0, 0.0, 1}, G.C.WHITE, 1.2)
+	badges[#badges+1] = create_badge('"Programmer"', {0.7, 0, 0.0, 1}, G.C.WHITE, 1)
+	end
+}
+
+SMODS.Joker {
+	key = 'shower',
+	atlas = 'jokers',
+	pos = { x = 8, y = 5 },
+	loc_txt = {
+		name = "Showerhead",
+		text = {
+			"On {C:money}Blind Start{}", "applies a random enhancement to all cards in hand",
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = {  } }
+	end,
+	pools = {
+
+    },
+	config = { active = true }, 
+	rarity = 3,
+	cost = 3,
+
+	calculate = function(self, card, context)
+		if context.hand_drawn then 
+			if self.config.active == true then
+				for i = 1, #G.hand.cards do
+                    G.E_MANAGER:add_event(Event({
+					trigger = "immediate",
+					func = function()
+						self.config.active = false
+
+                        local enhancements = {'m_bonus', 'm_mult', 'm_wild', 'm_glass', 'm_steel', 'm_stone', 'm_gold', 'm_lucky', 'm_fams_par'}
+                        
+                        local random_enhancement = enhancements[math.random(#enhancements)]
+                        
+                        G.hand.cards[i]:set_ability(G.P_CENTERS[random_enhancement])
+                        G.hand.cards[i]:juice_up()
+						return true
+					end
+					}))
+                end
+				return { message = "Modified" }
+			end
+		end
+		if context.round_eval then
+			self.config.active = true
+			return { message = "Reset" }
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge('Showerhead', {0.7, 0.7, 0.7, 1}, G.C.WHITE, 1.2)
+	badges[#badges+1] = create_badge('Funky', {0.7, 0.7, 0.7, 1}, G.C.WHITE, 0.6)
+	end
+}
+
+SMODS.Joker {
+	key = 'evilevil',
+	loc_txt = {
+		name = 'Sebastian Wolff',
+		text = {
+			"{C:inactive}Isn't this guy fired?{}",
+		}
+	},
+	config = {},
+	rarity = 1,
+	cost = 1,
+	atlas = 'jokers',
+	pos = { x = 9, y = 5 },
+	calculate = function(self, card, context)
+		if context.joker_main then
+			for i = 1, #G.deck.cards do
+                    G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.3 * G.SPEEDFACTOR,
+					func = function()
+						play_sound("tarot1", 1, 1)
+						SMODS.destroy_cards(G.deck.cards[i], nil, nil, true)
+						return true
+					end
+				}))
+            end
+			for i = 1, #G.hand.cards do
+                    G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 1 * G.SPEEDFACTOR,
+					func = function()
+						play_sound("tarot1", 1, 1)
+						SMODS.destroy_cards(G.hand.cards[i], nil, nil, true)
+						return true
+					end
+				}))
+            end
+			return {
+				message = ">:)",
+				colour = G.C.BLACK
+            }
+		end
+	end,
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge("EVIL WOLF", {1, 0, 0, 1}, G.C.WHITE, 1.2)
+end,
 }
 
 SMODS.Joker {

@@ -53,9 +53,9 @@ SMODS.PokerHand {
 SMODS.PokerHand {
     key = 'binary',
     mult = 12,
-    chips = 480,
-    l_mult = 12,
-    l_chips = 480,
+    chips = 270,
+    l_mult = 16,
+    l_chips = 160,
     example = {
         { 'H_1', true },
         { 'C_2', true },
@@ -148,5 +148,93 @@ SMODS.PokerHand {
         end
         
         return {}
+    end
+}
+
+SMODS.PokerHand {
+    key = 'nice',
+    mult = 6,
+    chips = 9,
+    l_mult = 0,
+    l_chips = 0,
+    order_offset = -8,
+    example = {
+        { 'D_6', true },
+        { 'H_9', true },
+        { 'S_4', false },
+        { 'D_8', false },
+        { 'H_5', false }
+    },
+    loc_txt = {
+        name = 'Nice',
+        description = {
+            'A hand that contains',
+            '6 and 9',
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        local has6 = false
+        local has9 = false
+        local scorevalid = {}
+        if hand then
+            for _, c in ipairs(hand) do
+                if c.base.nominal == 6 then 
+                has6 = true 
+                table.insert(scorevalid, c)
+                end
+                if c.base.nominal == 9 then 
+                has9 = true 
+                table.insert(scorevalid, c)
+                end
+            end
+        end
+        if has6 and has9 and #G.hand.highlighted == 2 then
+            return {scorevalid}
+        end
+    end
+}
+
+SMODS.PokerHand {
+    key = 'kys',
+    mult = -999,
+    chips = -999,
+    l_mult = -999,
+    l_chips = -999,
+    order_offset = -7,
+    example = {
+        { 'H_6', true },
+        { 'C_7', true },
+        { 'S_4', false },
+        { 'D_8', false },
+        { 'H_5', false }
+    },
+    loc_txt = {
+        name = 'Shut the fuck up',
+        description = {
+            'A hand that contains',
+            '6 and 7 alone (shut the fuck up)',
+        }
+    },
+    visible = false,
+    evaluate = function(parts, hand)
+        local has6 = false
+        local has7 = false
+        local scorevalid = {}
+        if hand then
+            for _, c in ipairs(hand) do
+                if c.base.nominal == 6 then 
+                has6 = true 
+                table.insert(scorevalid, c)
+                end
+                if c.base.nominal == 7 then 
+                has7 = true 
+                table.insert(scorevalid, c)
+                end
+            end
+        end
+        if has6 and has7 and #G.hand.highlighted == 2 then
+            return {scorevalid}
+        end
     end
 }
