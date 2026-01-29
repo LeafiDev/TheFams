@@ -37,6 +37,9 @@ function G.UIDEF.params()
   rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.5}, nodes={{n=G.UIT.O, config={object = DynaText({string = {""}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 1, maxw = 6})}}}}
 
   if G and G.GAME and G.GAME.starting_params and next(G.GAME.starting_params) then
+    if isChallenge("BR") then
+       rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Boss Rush Progress "..tostring(G.GAME.antes_done.."/"..#allnonbosses())}, colours = {G.C.WHITE}, hover = true, shadow = true, scale = 0.5, maxw = 6})}}}}
+    end
     rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Bankrupt Threshold: "..tostring(G.GAME.bankrupt_at)}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 0.5, maxw = 6})}}}}
     rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Ante Scale: "..tostring(G.GAME.starting_params.ante_scaling)}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 0.5, maxw = 6})}}}}
     rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Vouchers Available: "..tostring(G.GAME.starting_params.vouchers_in_shop)}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 0.5, maxw = 6})}}}}
@@ -47,7 +50,7 @@ function G.UIDEF.params()
     rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Edition Rate: "..tostring(G.GAME.edition_rate)}, colours = {G.C.WHITE}, hover = true, shadow = true, scale = 0.5, maxw = 6})}}}}
     rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Endless Mode: "..tostring(G.GAME.won)}, colours = {G.C.WHITE}, hover = true, shadow = true, scale = 0.5, maxw = 6})}}}}
   else
-    rows[#rows+1] = {n=G.UIT.R, config={align = 'cm', padding = 0.04}, nodes={{n=G.UIT.T, config={text = 'No starting parameters, Restart run!', scale = 0.7, colour = G.C.RED}}}}
+    rows[#rows+1] = {n=G.UIT.R, config={align = 'cm', padding = 0.04}, nodes={{n=G.UIT.T, config={text = 'No starting parameters?', scale = 0.7, colour = G.C.RED}}}}
   end
 
   return {n=G.UIT.ROOT, config={align = 'cm', colour = G.C.CLEAR, padding = 0.2}, nodes = rows}

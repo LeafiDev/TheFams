@@ -1793,15 +1793,16 @@ SMODS.Challenge {
 	custom = {
 		{id = "allclear"},
 		{id = "investstart"},
-		{id = "bamount"}
+		{id = "bamount"},
+		{id = "progressindicator"}
 	},
 	modifiers = {
 		
 	}
   },
   restrictions = {
-	banned_cards = {{id = "j_chicot"}},
-	banned_tags = {},
+	banned_cards = {{id = "j_chicot"}, {id = "j_fams_kitchgun"}},
+	banned_tags = {{id = "tag_fams_up"}, {id = "tag_fams_down"}},
 	banned_other = {}
   },
   consumeables = {},

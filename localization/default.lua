@@ -157,6 +157,9 @@ return {
             ch_c_halfbase = {
                 "{C:red}0.5x{} chip base"
             },
+            ch_c_progressindicator = {
+                "{C:filter}Progress is located in run info{}"
+            },
         },
     },
 }

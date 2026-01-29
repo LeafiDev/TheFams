@@ -219,11 +219,24 @@ G.fams_update = function(dt)
 
 	-- checks jokers as a clever way to see if tags work
 	if isChallenge("BR") and G and G.GAME and G.jokers and G.jokers.cards then
+		if G.GAME.round_resets.ante > 0 and G.GAME.boss_rush_reset == false then
+			G.GAME.round_resets.ante = 0
+			G.GAME.boss_rush_reset = true
+			G.GAME.antes_done = (G.GAME.antes_done or -1) + 1
+			if G.GAME.antes_done >= #allnonbosses() then
+			if G.GAME.won == false then
+			win_game()
+			end
+			end
+			print(G.GAME.antes_done)
+		else
+			G.GAME.boss_rush_reset = false
+		end
 		if G.GAME.boss_rush_trigger == nil then
 			G.GAME.boss_rush_trigger = true
 			G.E_MANAGER:add_event(Event({
                 func = function()
-					G.GAME.starting_params.ante_scaling = 0.5
+					G.GAME.starting_params.ante_scaling = 1
                     add_tag(Tag('tag_investment'))
                     play_sound('generic1', 0.9 + math.random() * 0.1, 0.8)
                     play_sound('holo1', 1.2 + math.random() * 0.1, 0.4)

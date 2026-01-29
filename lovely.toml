@@ -64,7 +64,7 @@ payload = '''
     G.GAME.blind_on_deck = 'Boss'
     SetWinningAnte(#allnonbosses())
         G.GAME.round_resets.blind_states = {Small = 'Upcoming', Big = 'Upcoming', Boss = 'Select'}
-        local t = {n=G.UIT.ROOT, config = {align = 'tm',minw = width, r = 0.15, colour = G.C.CLEAR}, nodes={
+        local t = {n=G.UIT.ROOT, config = {align = 'tm',minw = width, r = 0.15, colour = G.C.CLEAR}, nodes={  
         {n=G.UIT.R, config={align = "cm", padding = 0.5}, nodes={
         G.GAME.round_resets.blind_states['Boss'] ~= 'Hide' and {n=G.UIT.O, config={align = "cm", object = G.blind_select_opts.boss}} or nil,
         }}
