@@ -827,12 +827,13 @@ SMODS.Joker {
 	config = {}, 
 	rarity = 1,
 	cost = 0, 
+	eternal_compat = false,
 
 calculate = function(self, card, context)
     if context.joker_main then
 		if card.ability.times then
 			card.ability.times = card.ability.times + 1
-			if card.ability.times >= 3 and not isEternal(card) then
+			if card.ability.times >= 3 then
 				destroycard(card)
 			end
 		else
@@ -2227,6 +2228,44 @@ end,
 }
 
 SMODS.Joker {
+	key = 'JD',
+	atlas = 'jokers',
+	pos = { x = 2, y = 6 },
+	loc_txt = {
+		name = "Jack Daniels",
+		text = {
+			"On {C:attention}Blind Start{} multiply mult by the already existing amount.",
+			"Currently: {X:mult,C:white}#1#X{}"
+		}
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { self.config.thatmult } }
+	end,
+	pools = {
+
+    },
+	config = { thatmult = 2  }, 
+	rarity = 4,
+	cost = 10,
+
+	calculate = function(self, card, context)
+		if context.setting_blind then
+			self.config.thatmult = self.config.thatmult * self.config.thatmult
+			return { message = "X"..tostring(self.config.thatmult), }
+		end
+
+		if context.joker_main then
+			return { xmult = self.config.thatmult }
+		end
+	end,
+
+	set_card_type_badge = function(self, card, badges)
+	badges[#badges+1] = create_badge('BEER', {1, 0.859, 0.62, 1}, G.C.BLACK, 1.2)
+	badges[#badges+1] = create_badge('Drink', {1, 0.859, 0.62, 1}, G.C.BLACK, 1)
+	end
+}
+
+SMODS.Joker {
 	key = 'badBusiness', 
 	atlas = 'jokers',
 	pos = { x = 0, y = 5 },
@@ -2241,7 +2280,7 @@ SMODS.Joker {
         ["big_money"] = true,
 		["Jokers"] = true
     },
-	config = {}, 
+	config = { no_collection = true}, 
 	rarity = 1, 
 	cost = 5, 
 
@@ -2273,7 +2312,7 @@ SMODS.Joker {
         ["big_money"] = true,
 		["Jokers"] = true
     },
-	config = {}, 
+	config = { no_collection = true},
 	rarity = 1, 
 	cost = 5, 
 
@@ -2305,7 +2344,7 @@ SMODS.Joker {
         ["big_money"] = true,
 		["Jokers"] = true
     },
-	config = {}, 
+	config = { no_collection = true},
 	rarity = 1, 
 	cost = 5, 
 
@@ -2337,7 +2376,7 @@ SMODS.Joker {
         ["big_money"] = true,
 		["Jokers"] = true
     },
-	config = {}, 
+	config = { no_collection = true}, 
 	rarity = 1, 
 	cost = 5, 
 

@@ -1778,39 +1778,6 @@ SMODS.Challenge {
 }
 
 SMODS.Challenge {
-  key = 'BR',
-  loc_txt = {
-	name = "Boss Rush",
-  },
-  jokers = {
-	
-  },
-  deck = {
-	type = 'Challenge Deck'
-  },
-  button_colour = G.C.EDITION,
-  rules = {
-	custom = {
-		{id = "allclear"},
-		{id = "investstart"},
-		{id = "bamount"},
-		{id = "progressindicator"}
-	},
-	modifiers = {
-		
-	}
-  },
-  restrictions = {
-	banned_cards = {{id = "j_chicot"}, {id = "j_fams_kitchgun"}},
-	banned_tags = {{id = "tag_fams_up"}, {id = "tag_fams_down"}},
-	banned_other = {}
-  },
-  consumeables = {},
-  vouchers = {},
-
-}
-
-SMODS.Challenge {
   key = 'dlcend',
   loc_txt = {
 	name = "To the edge of the universe",
@@ -1825,6 +1792,7 @@ SMODS.Challenge {
   rules = {
 	custom = {
 		{id = "epi"},
+		{id = "check"},
 		{id = "finaledlc"},
 		{id = "goodluck"},
 	},
@@ -1835,7 +1803,7 @@ SMODS.Challenge {
 	}
   },
   restrictions = {
-	banned_cards = {{id = "c_fams_m-dice-evil"}},
+	banned_cards = {{id = "c_fams_m-dice-evil"}, {id = "j_fams_kitchgun"},  {id = "j_fams_JD"}},
 	banned_tags = {{id = "tag_fams_up"}},
 	banned_other = {}
   },

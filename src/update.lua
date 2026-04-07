@@ -14,6 +14,10 @@ G.fams_update = function(dt)
 		showFloatingText("That mod is called...", G.C.WHITE, 1, { x = 0, y = 3.1 }, "intro1")
 	end
 
+	if startupframe > 0 then
+		showFloatingText("Mod is a bit unstable. Play with caution!", G.C.ATTENTION, 0.5, { x = 0, y = 10.5 }, "warn")
+	end
+
     --Stop us from appearing in the intro
     if (G.STATE == 13) then return end;
 	G.ut_update(dt);
@@ -58,6 +62,7 @@ G.fams_update = function(dt)
 	end
 	end
 
+
 	-- dlcend stuff
 	if isChallenge("dlcend") then 
 		SetWinningAnte(38)
@@ -73,6 +78,10 @@ G.fams_update = function(dt)
 				end
 				::continue::
 			end
+		end
+
+		if triggeronce == false then
+			setAnte(get_current_profile().dlcendcheckpoint or 1)
 		end
 	end
 
@@ -278,6 +287,103 @@ G.fams_update = function(dt)
 		SetWinningAnte(5)
 	end
 
+	if isChallenge("dlcend") and getAnte() % 5 == 0 and not isMainMenu() and G and G.jokers and G.jokers.cards then
+		get_current_profile().dlcendcheckpoint = getAnte()
+		get_current_profile().dlcendjokers = {}
+		for _, joker in ipairs(G.jokers.cards) do
+			local joker_data = {
+				key = joker.config.center.key,
+			}
+			if joker.edition then joker_data.edition = joker.edition end
+			if joker.seal then joker_data.seal = joker.seal end
+			if joker.sticker then joker_data.sticker = joker.sticker end
+			if joker.ability then joker_data.ability = joker.ability end
+			if joker.config and joker.config.center and joker.config.center.config then joker_data.center_config = joker.config.center.config end
+			table.insert(get_current_profile().dlcendjokers, joker_data)
+		end
+		-- Save consumables
+		get_current_profile().dlcendconsumables = {}
+		if G.consumeables and G.consumeables.cards then
+			for _, consumable in ipairs(G.consumeables.cards) do
+				local consumable_data = {
+					key = consumable.config.center.key,
+				}
+				if consumable.edition then consumable_data.edition = consumable.edition end
+				table.insert(get_current_profile().dlcendconsumables, consumable_data)
+			end
+		end
+		-- Save hand type levels
+		get_current_profile().dlcendhandlevels = {}
+		if G.GAME and G.GAME.hands then
+			for hand_name, hand_data in pairs(G.GAME.hands) do
+				if hand_data.level then
+					get_current_profile().dlcendhandlevels[hand_name] = hand_data.level
+				end
+			end
+		end
+	end
+
+	if isChallenge("dlcend") and getRoundNumber() == 0 and not isMainMenu() and G and G.jokers and G.jokers.cards then
+		delay(0.5)
+		G.GAME.round = G.GAME.round + 1
+		setAnte(get_current_profile().dlcendcheckpoint or 1)
+		if G.jokers.cards and get_current_profile().dlcendjokers then
+			for _, joker_data in ipairs(get_current_profile().dlcendjokers) do
+				local card_config = {
+					set = "Joker",
+					key = joker_data.key,
+					area = G.jokers
+				}
+				if joker_data.edition then card_config.edition = joker_data.edition end
+				if joker_data.seal then card_config.seal = joker_data.seal end
+				if joker_data.sticker then card_config.sticker = joker_data.sticker end
+				SMODS.add_card(card_config)
+				-- Restore ability and center config after card creation if they exist
+				local new_card = G.jokers.cards[#G.jokers.cards]
+				if new_card then
+					if joker_data.ability and new_card.ability then
+						new_card.ability = joker_data.ability
+					end
+					if joker_data.center_config and new_card.config and new_card.config.center then
+						new_card.config.center.config = joker_data.center_config
+					end
+				end
+			end
+		end
+		-- Restore consumables
+		if G.consumeables and get_current_profile().dlcendconsumables then
+			for _, consumable_data in ipairs(get_current_profile().dlcendconsumables) do
+				local card_config = {
+					set = "Consumeables",
+					key = consumable_data.key,
+					area = G.consumeables
+				}
+				if consumable_data.edition then card_config.edition = consumable_data.edition end
+				SMODS.add_card(card_config)
+			end
+		end
+		-- Restore vouchers
+		if G.GAME and get_current_profile().dlcendvouchers then
+			for _, voucher_key in ipairs(get_current_profile().dlcendvouchers) do
+				add_voucher(voucher_key)
+			end
+		end
+		-- Restore hand type levels
+		if G.GAME and G.GAME.hands and get_current_profile().dlcendhandlevels then
+			for hand_name, level in pairs(get_current_profile().dlcendhandlevels) do
+				if G.GAME.hands[hand_name] then
+					G.GAME.hands[hand_name].level = level
+				end
+			end
+		end
+	end
+
+	if isChallenge("dlcend") and G and G.GAME and getAnte() > 99 then
+		get_current_profile().dlcendcheckpoint = 1
+		get_current_profile().dlcendjokers = {}
+		get_current_profile().dlcendconsumables = {}
+		get_current_profile().dlcendhandlevels = {}
+	end
 
 
 	if G.STATE == G.STATES.WIN then

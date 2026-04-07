@@ -170,7 +170,7 @@ SMODS.Achievement{
     loc_txt = {
         name = "First Sighting",
         description = {
-            'First Entity: Skinwalker Dog'
+            'Skinwalker Dog'
         }
     },
     atlas = "skinwalker",

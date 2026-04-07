@@ -282,6 +282,9 @@ function create_UIBox_game_over()
                   {n=G.UIT.O, config={object = DynaText({string = {localize('ph_game_over')}, colours = {G.C.RED}, shadow = true, float = true, scale = 1.8, pop_in = 0.6, maxw = 6.5})}},
                 }},
 
+                {n=G.UIT.R, config={align = "cm", padding = 0.04}, nodes={
+                  {n=G.UIT.O, config={object = DynaText({string = "Seed: "..tostring(G.GAME.pseudorandom.seed), colours = {G.C.L_BLACK}, shadow = true, float = true, scale = 0.3, serif = true})}},
+                }},
 
                 {n=G.UIT.R, config={align = "cm", scale = 1, minw = 0.2, minh = 0.2, r = 15, padding = 0.1}, nodes={
                   {n=G.UIT.O, config={padding = 0, id = 'blind_killer', object = blind_animation, scale = 2}},
@@ -295,7 +298,7 @@ function create_UIBox_game_over()
 
                 {n=G.UIT.R, config={align = "cm", padding = 0.12}, nodes={
                   {n=G.UIT.C, config={align = "cm", padding = 0.10}, nodes={
-                    UIBox_button({id = "from_game_over", button = 'notify_then_setup_run', label = {localize('b_start_new_run')}, colour = G.C.RED, scale = 0.7, minw = 5.5, minh = 0.6, focus_args = {nav = 'wide', snap_to = true}}),
+                    UIBox_button({id = "from_game_over", button = 'notify_then_setup_run', label = {localize('b_start_new_run')}, colour = G.C.RED, scale = 0.7, minw = 5.5, minh = 0.5, focus_args = {nav = 'wide', snap_to = true}}),
                     UIBox_button({button = 'go_to_menu', label = {localize('b_main_menu')}, colour = G.C.BLACK, scale = 0.6, minw = 5.5, minh = 0.5, focus_args = {nav = 'wide'}}),
                   }},
                 }},

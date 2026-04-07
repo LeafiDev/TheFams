@@ -160,6 +160,9 @@ return {
             ch_c_progressindicator = {
                 "{C:filter}Progress is located in run info{}"
             },
+            ch_c_check = {
+                "{C:purple,E:1}your profile permanently gains a checkpoint every 5 antes{}"
+            },
         },
     },
 }

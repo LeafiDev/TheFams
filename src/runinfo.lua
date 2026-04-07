@@ -1,3 +1,19 @@
+function reroll_seed_callback()
+  if G and G.GAME and G.GAME.pseudorandom then
+    local chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    local seed = ""
+    for i = 1, 8 do
+      local idx = math.random(1, #chars)
+      seed = seed .. chars:sub(idx, idx)
+    end
+    G.GAME.pseudorandom.seed = seed
+  end
+end
+
+G.FUNCS.reroll_seed = function(e)
+  reroll_seed_callback()
+end
+
 function G.UIDEF.run_info()
   return create_UIBox_generic_options({contents ={create_tabs(
     {tabs = {
@@ -34,11 +50,13 @@ end
 function G.UIDEF.params()
   local rows = {}
   rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Global Game Parameters"}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 1, maxw = 6})}}}}
-  rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.5}, nodes={{n=G.UIT.O, config={object = DynaText({string = {""}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 1, maxw = 6})}}}}
-
+  rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.5}, nodes={{n=G.UIT.C, config={button='reroll_seed', colour=G.C.GREEN, minw=2, minh=0.6, align='cm'}, nodes={{n=G.UIT.T, config={text='Reroll Seed', scale=0.5, colour=G.C.WHITE}}}}}}
   if G and G.GAME and G.GAME.starting_params and next(G.GAME.starting_params) then
     if isChallenge("BR") then
        rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Boss Rush Progress "..tostring(G.GAME.antes_done.."/"..#allnonbosses())}, colours = {G.C.WHITE}, hover = true, shadow = true, scale = 0.5, maxw = 6})}}}}
+    end
+    if isChallenge("dlcend") then
+       rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Profile's Last Checkpoint: "..tostring(get_current_profile().dlcendcheckpoint)}, colours = {G.C.WHITE}, hover = true, shadow = true, scale = 0.5, maxw = 6})}}}}
     end
     rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Bankrupt Threshold: "..tostring(G.GAME.bankrupt_at)}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 0.5, maxw = 6})}}}}
     rows[#rows+1] = {n=G.UIT.R, config={align='cm', padding=0.02}, nodes={{n=G.UIT.O, config={object = DynaText({string = {"Ante Scale: "..tostring(G.GAME.starting_params.ante_scaling)}, hover = true, colours = {G.C.WHITE}, shadow = true, scale = 0.5, maxw = 6})}}}}

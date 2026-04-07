@@ -1608,7 +1608,7 @@ SMODS.ConsumableType{
             text = {"This card has not been discovered yet."},
         },
     },
-    collection_rows = {4, 4},
+    collection_rows = {8},
     shop_rate = 0,
 }
 
