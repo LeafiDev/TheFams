@@ -1,3 +1,56 @@
+-- add SongTracker
+
+
+G.songtracker_data = {
+    current_music = nil,
+    position = 0,
+    duration = 0,
+    is_playing = false,
+}
+
+function G.songtracker_update(dt)
+    if not G.SOUND_MANAGER then return end
+    
+    -- Initialize channels once
+    if not G.SOUND_MANAGER._channels_init then
+        G.SOUND_MANAGER.track_info_query = love.thread.getChannel('track_info_query')
+        G.SOUND_MANAGER.track_info_response = love.thread.getChannel('track_info_response')
+        G.SOUND_MANAGER._channels_init = true
+    end
+    
+    -- Query for track info every frame
+    G.SOUND_MANAGER.track_info_query:push({})
+    local response = G.SOUND_MANAGER.track_info_response:pop()
+    
+    if response and response.is_playing then
+        G.songtracker_data.current_music = response.track_key
+        G.songtracker_data.duration = response.duration or 0
+        G.songtracker_data.is_playing = true
+        G.songtracker_data.position = response.position or 0
+    else
+        G.songtracker_data.is_playing = false
+    end
+end
+
+function G.get_song_position()
+    return G.songtracker_data.position
+end
+
+function G.get_song_duration()
+    return G.songtracker_data.duration
+end
+
+function G.get_song_is_playing()
+    return G.songtracker_data.is_playing
+end
+
+function G.get_song_progress()
+    return G.songtracker_data.duration > 0 and (G.songtracker_data.position / G.songtracker_data.duration) or 0
+end
+
+
+-- old shit below
+
 -- insert colors
 function CreateColor(key, hex)
 	if type(hex) == "string" then
@@ -725,10 +778,9 @@ prev_BPM_tick_time = BPM_tick_start_time
 do
 	local prev_beat = 0
 	getBPMTick = function()
-		local now = (love and love.timer and love.timer.getTime and love.timer.getTime() or os.clock())
-		local t = now - BPM_tick_start_time
+		local song_position = G.get_song_position() or 0
 		local beats_per_second = BPM / 60
-		local beat = math.floor(t * beats_per_second)
+		local beat = math.floor(song_position * beats_per_second)
 		local mod_beat = (beat % getBPMMax()) + 1
 
 		tick_once = false

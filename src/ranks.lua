@@ -11,17 +11,3 @@ SMODS.Rank {
   strength_effect = { fixed = 1 },
   straight_edge = true,
 }
-
-SMODS.Rank {
-  key = 'twelve',
-  card_key = '12',
-  lc_atlas = "rank12", hc_atlas = "hcrank12",
-  pos = {x = 0},
-  nominal = 12,
-  loc_txt = {name = '12'},
-  shorthand = '12',
-  face = false,
-  next = {},
-  strength_effect = { fixed = 12 },
-  straight_edge = true,
-}

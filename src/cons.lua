@@ -908,55 +908,6 @@ end,
 }
 
 SMODS.Consumable {
-    key = "m-darkface",
-    set = "mini-joker",
-    loc_txt = {
-        name = "Face in the dark",
-        text = {"If played card is a {C:attention}face{} card,", "Change the card to a random {C:attention}enhancement.{}"}
-    },
-    atlas = "miniJokers", 
-    pos = { x = 1, y = 3 },
-    cost = 4,
-    config = { gain = 0 },
-    pools = {
-        ["mini-joker"] = true
-    },
-
-    calculate = function(self, card, context)
-
-    if context.before and not context.blueprint then
-            for i = 1, #context.scoring_hand do
-                local played_card = context.scoring_hand[i]
-                if played_card and played_card.config.center.set == 'Default' and not played_card.config.center.enhancement then
-                    G.E_MANAGER:add_event(Event({
-					trigger = "after",
-					delay = 0.1 * G.SPEEDFACTOR,
-					func = function()
-                        -- List of available enhancements
-                        local enhancements = {'m_bonus', 'm_mult', 'm_wild', 'm_glass', 'm_steel', 'm_stone', 'm_gold', 'm_lucky', 'm_fams_par'}
-                        
-                        -- Pick a random enhancement
-                        local random_enhancement = enhancements[math.random(#enhancements)]
-                        
-                        -- Apply the enhancement
-                        played_card:set_ability(G.P_CENTERS[random_enhancement])
-                        played_card:juice_up()
-						return true
-					end
-					}))
-                    
-                end
-            end
-        end
-
-    end,
-    
-	can_use = function(self, card)
-    return false
-	end
-}
-
-SMODS.Consumable {
     key = "m-table",
     set = "mini-joker",
     loc_txt = {

@@ -2,6 +2,106 @@
 version = "1.0.0"
 priority = 0
 
+# Update global music timer in game loop
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = "G:update(dt)"
+position = "after"
+payload = '''
+-- SongTracker: Update tracking from audio thread
+if (G.songtracker_update) then
+    G.songtracker_update(dt)
+end
+'''
+match_indent = true
+times = 1
+
+# Add channels for querying track info
+[[patches]]
+[patches.pattern]
+target = "engine/sound_manager.lua"
+pattern = "LOAD_CHANNEL = love.thread.getChannel('load_channel')"
+position = "after"
+payload = '''
+TRACK_INFO_QUERY = love.thread.getChannel('track_info_query')
+TRACK_INFO_RESPONSE = love.thread.getChannel('track_info_response')'''
+match_indent = true
+times = 1
+
+# Add track info query handler in audio thread
+[[patches]]
+[patches.pattern]
+target = "engine/sound_manager.lua"
+pattern = "while true do\n    --Monitor the channel for any new requests\n    local request = CHANNEL:demand() -- Value from channel"
+position = "after"
+payload = '''
+    
+    -- Handle track info queries
+    local track_query = TRACK_INFO_QUERY:pop()
+    if track_query then
+        local best_track = nil
+        local best_volume = -1
+        
+        -- Find highest-volume music track
+        for key, sources in pairs(SOURCES) do
+            if string.find(key, 'music') and sources[1] and sources[1].sound then
+                local s = sources[1].sound
+                if s:isPlaying() then
+                    local vol = s:getVolume()
+                    if vol > best_volume then
+                        best_volume = vol
+                        best_track = {key = key, sound = s}
+                    end
+                end
+            end
+        end
+        
+        if best_track then
+            local s = best_track.sound
+            local channels = 0
+            local chan_ok, chan_result = pcall(function() return s:getChannels() end)
+            if chan_ok then channels = chan_result end
+            
+            -- Get actual playback position via tell() which works on stereo
+            local tell_pos = s:tell()
+            local duration = s:getDuration()
+            
+            -- Initialize per-track loop tracking
+            if not SONGTRACKER_LOOP_STATE then SONGTRACKER_LOOP_STATE = {} end
+            if not SONGTRACKER_LOOP_STATE[best_track.key] then
+                SONGTRACKER_LOOP_STATE[best_track.key] = {last_tell = 0, loop_offset = 0}
+            end
+            
+            local state = SONGTRACKER_LOOP_STATE[best_track.key]
+            
+            -- Detect loop: when tell() drops below previous value, track looped
+            if tell_pos < state.last_tell then
+                state.loop_offset = state.loop_offset + duration
+            end
+            
+            -- Adjust position: actual_elapsed = tell_pos + cumulative_loop_offset
+            local adjusted_position = tell_pos + state.loop_offset
+            
+            state.last_tell = tell_pos
+            
+            TRACK_INFO_RESPONSE:push({
+                track_key = best_track.key,
+                duration = duration,
+                position = adjusted_position,
+                volume = s:getVolume(),
+                pitch = s:getPitch(),
+                channels = channels,
+                source_type = tostring(s:getType()),
+                is_playing = true
+            })
+        else
+            TRACK_INFO_RESPONSE:push({is_playing = false})
+        end
+    end'''
+match_indent = true
+times = 1
+
 #A less strange update
 [[patches]]
 [patches.pattern]

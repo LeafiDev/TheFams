@@ -641,7 +641,7 @@ SMODS.Sound {
   path = "music_yourlimit.ogg",
   select_music_track = function(self)
 	if isChallenge("dlcend") and getAnte() >= 100 then
-  setrunBG({ 0.85, 0.55, 0.25, 0 }, { 0.85, 0.55, 0.25, 1 }, sine(0.1, 0.04))
+  setrunBG({ 0.85, 0.55, 0.25, 0 }, { 0.85, 0.55, 0.25, 1 }, 0.5)
 	musicPower(100)
 	setBPM(130)
 	return 9999
