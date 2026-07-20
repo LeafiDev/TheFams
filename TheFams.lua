@@ -1,5 +1,7 @@
 -- add SongTracker
 
+fams_loaded = true
+
 
 G.songtracker_data = {
     current_music = nil,
