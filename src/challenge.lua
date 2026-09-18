@@ -1,3 +1,5 @@
+if not yogi_loaded then
+
 munching1 = {0, 0, 0.2, 1 }
 munching2 = {0.15, 0, 0.4, 1 }
 munching3 = {0.4, 0, 0.6, 1 }
@@ -1813,3 +1815,5 @@ SMODS.Challenge {
 	return true
   end
 }
+
+end

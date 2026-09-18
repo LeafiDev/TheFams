@@ -1,0 +1,7 @@
+{
+    "name": "THE FAMS",
+    "version_number": "3.2.1",
+    "website_url": "",
+    "description": "A mod of shitpost ideas that me and friends have had both good and or bad.",
+    "dependencies": ["just_frostice482-Amulet-3.6.0"]
+}
